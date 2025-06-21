@@ -18,7 +18,6 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api/hello", (req, res) => {
-    console.log("Hello");
     res.status(200).json({ message: "Fetched using GET: /api/hello" });
     return;
 });
