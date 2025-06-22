@@ -1,19 +1,17 @@
-import { useState } from 'react'
-import './App.css'
+//import css
+import "./App.css";
 
+//import Components
+import Form from "./components/Form/Form";
+
+//export function
 function App() {
-  const [message, setMessage] = useState(null)
-  const handleClick = async () => {
-      const response = await fetch('http://localhost:3000/api/hello')
-      const data = await response.json()
-      setMessage(data.message)
-  }
-  return (
-    <>
-      <button onClick={handleClick}>GET: /api/hello</button>
-      {message && <p>{message}</p>}
-    </>
-  )
+    return (
+        <>
+            <Form /> {/*render the form component*/}
+        </>
+    );
 }
 
-export default App
+//export the App render
+export default App;

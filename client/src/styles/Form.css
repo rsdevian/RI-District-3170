@@ -1,0 +1,24 @@
+.flex {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.item-center {
+    align-items: center;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.w-300px {
+    width:300px;
+}
+
+.message {
+    background: 'red',
+    color: 'green',
+    padding: 10px;
+    border-radius: 5px;
+}
