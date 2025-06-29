@@ -1,5 +1,5 @@
 //import modules
-import React from "react";
+import { useState } from "react";
 
 //import styles
 import "../../styles/Form.css";
@@ -10,12 +10,12 @@ import { URL } from "../../constants/url.js";
 //import render function
 function Form() {
     //states
-    const [message, setMessage] = React.useState(null);
-    const [file, setFile] = React.useState(null);
-    const [getFiles, setGetFiles] = React.useState(null);
+    const [message, setMessage] = useState(null);
+    const [file, setFile] = useState(null);
+    const [fetchedFiles, setFetchedFiles] = useState(null);
 
     //functions
-    const handleUpload = async () => {
+    async function handleUpload() {
         //Function to handle the Upload Files
 
         try {
@@ -31,15 +31,17 @@ function Form() {
 
             //check if the response is ok and set the response message
             const data = await response.json();
+
+            //set message
             setMessage(data.message);
         } catch (error) {
             //log the errors
             console.error("Error Uploading the file: ", error);
             setMessage("Error Uploading the file");
         }
-    };
+    }
 
-    const handleViewAll = async () => {
+    async function handleViewAll() {
         // Function to handle the view all button click
 
         try {
@@ -49,14 +51,40 @@ function Form() {
             });
             //check if the response is ok and set the files & response data
             const data = await response.json();
-            setGetFiles(data.files);
+
+            //setting all the fetched files
+            setFetchedFiles(data.files);
+
+            //set message
             setMessage(data.message);
         } catch (error) {
             //log the errors
             console.error("Error getting the files: ", error);
             setMessage("Error getting the files");
         }
-    };
+    }
+
+    async function handleDeleteAll() {
+        //function to delete all the files in server
+        try {
+            //send request to server to delete all the files
+            const response = await fetch(`${URL}/api/file/deleteall`, {
+                method: "DELETE",
+            });
+
+            //check if the response is ok
+            const data = await response.json();
+
+            //set the response message
+            setMessage(data.message);
+
+            //set the files to null
+            setFetchedFiles(null);
+        } catch (error) {
+            console.log("Error Deleting the files: ", error);
+            setMessage("Error Deleting the files");
+        }
+    }
 
     return (
         <>
@@ -80,9 +108,14 @@ function Form() {
                     View All Files
                 </button>
 
+                {/*Delete All Button to delete all files*/}
+                <button onClick={handleDeleteAll} className='w-300px'>
+                    Delete All Files
+                </button>
+
                 {/*Render the name of all the fetched files*/}
-                {getFiles &&
-                    getFiles.map((file, index) => {
+                {fetchedFiles &&
+                    fetchedFiles.map((file, index) => {
                         return <div key={index}>{file}</div>;
                     })}
 

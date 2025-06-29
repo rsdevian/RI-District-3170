@@ -1,0 +1,15 @@
+.footer-align {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
+
+.button-align {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}

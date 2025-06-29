@@ -28,6 +28,7 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+//connect to db
 connectDB().then(() => {
     //listener
     app.listen(PORT, () => {
@@ -36,7 +37,7 @@ connectDB().then(() => {
 });
 
 //routers
-app.use("/api/file", fileRouter); //pdf router
+app.use("/api/file", fileRouter); //file router
 app.use("/api/user", userRouter); //user router
 
 //health check

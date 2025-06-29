@@ -23,9 +23,9 @@ function storage() {
         //set file name
         filename: (req, file, cb) => {
             const uniqueName =
+                file.originalname.slice(0, -4) +
+                "_" +
                 Date.now() +
-                "-" +
-                Math.round(Math.random() * 1e9) +
                 path.extname(file.originalname);
 
             //set file name
@@ -38,7 +38,7 @@ function storage() {
 function upload() {
     return multer({
         //set storage engine
-        storage: storage,
+        storage: storage(),
 
         //set file limit & filter
         limite: { fileSize: 1024 * 1024 * 50 }, // 50mb
