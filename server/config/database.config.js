@@ -6,7 +6,7 @@ import { config } from "dotenv";
 config();
 
 //connection to database
-const connectDB = async () => {
+async function connectDB() {
     try {
         if (!process.env.MONGODB_URI) {
             throw new Error("MONGODB_URI is not defined");
@@ -18,7 +18,7 @@ const connectDB = async () => {
         console.error(`Error: ${error.message}`);
         process.exit(1);
     }
-};
+}
 
 //close connection when app is terminated
 process.on("SIGINT", async () => {
@@ -30,19 +30,6 @@ process.on("SIGINT", async () => {
         console.error("Error during graceful shutdown:", error);
         process.exit(1);
     }
-});
-
-//connection events
-mongoose.connection.on("connected", () => {
-    console.log("Mongoose connected to MongoDB");
-});
-
-mongoose.connection.on("error", (err) => {
-    console.error("Mongoose connection error:", err);
-});
-
-mongoose.connection.on("disconnected", () => {
-    console.log("Mongoose disconnected from MongoDB");
 });
 
 //export the function

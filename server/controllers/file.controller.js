@@ -4,7 +4,7 @@ import path from "path";
 
 //import loggers
 import { requestLog } from "../logs/request.logger.js";
-const fileUpload = async (req, res) => {
+async function fileUpload(req, res) {
     //log resquest info
     requestLog(req);
 
@@ -40,9 +40,9 @@ const fileUpload = async (req, res) => {
             error: true,
         });
     }
-};
+}
 
-const getFiles = async (req, res) => {
+async function getFiles(req, res) {
     //log resquest info
     requestLog(req);
 
@@ -99,7 +99,7 @@ const getFiles = async (req, res) => {
         console.error("Error Getting all files: ", error);
         res.status(500).json({ message: "Error getting all files" });
     }
-};
+}
 
 //export controllers
 export { fileUpload, getFiles };
