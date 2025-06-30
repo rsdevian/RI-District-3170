@@ -67,13 +67,13 @@ function Login() {
                 localStorage.setItem("token", data.token);
                 localStorage.setItem("name", data.exisitingUser.name);
                 localStorage.setItem("email", data.exisitingUser.email);
+                navigate("/account");
             }
 
             //setting the response message
             setMessage(data.message);
 
             //navigating to the account page
-            navigate("/account");
         } catch (error) {
             //logging the login error
             console.log("Error Loggin in: ", error);
