@@ -1,5 +1,6 @@
 //import modules
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
 
 //import css
 import "./App.css";
@@ -19,31 +20,33 @@ import About from "./components/About/About";
 function App() {
     return (
         <>
-            {/* configurations of the routers and routes */}
-            <Router>
-                {/* render the fixed header component */}
-                <Header />
+            <AuthProvider>
+                {/* configurations of the routers and routes */}
+                <Router>
+                    {/* render the fixed header component */}
+                    <Header />
 
-                <Routes>
-                    {/* render the home component based on the path specified*/}
-                    <Route path='/' element={<Home />} />
+                    <Routes>
+                        {/* render the home component based on the path specified*/}
+                        <Route path='/' element={<Home />} />
 
-                    <Route path='/signup' element={<Signup />} />
+                        <Route path='/signup' element={<Signup />} />
 
-                    <Route path='/login' element={<Login />} />
+                        <Route path='/login' element={<Login />} />
 
-                    <Route path='/form' element={<Form />} />
+                        <Route path='/form' element={<Form />} />
 
-                    <Route path='/account' element={<Account />} />
+                        <Route path='/account' element={<Account />} />
 
-                    <Route path='/contact' element={<Contact />} />
+                        <Route path='/contact' element={<Contact />} />
 
-                    <Route path='/about' element={<About />} />
-                </Routes>
+                        <Route path='/about' element={<About />} />
+                    </Routes>
 
-                {/* render the fixed footer component */}
-                <Footer />
-            </Router>
+                    {/* render the fixed footer component */}
+                    <Footer />
+                </Router>
+            </AuthProvider>
         </>
     );
 }

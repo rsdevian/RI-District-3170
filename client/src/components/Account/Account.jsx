@@ -40,6 +40,7 @@ function Account() {
         localStorage.removeItem("token");
         localStorage.removeItem("name");
         localStorage.removeItem("email");
+        window.dispatchEvent(new Event("authStatusChange"));
 
         //update the logged in status
         setLoggedIn(false);
