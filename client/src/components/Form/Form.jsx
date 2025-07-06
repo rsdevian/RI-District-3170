@@ -1,6 +1,7 @@
 //import modules
 import { useState, useCallback } from "react";
 import { CircularProgress } from "@mui/material";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 //import constants
 import { URL } from "../../constants/url.js";
@@ -10,6 +11,9 @@ import "../../styles/Form.css";
 
 //export function
 function Form() {
+    // Get user data from AuthContext
+    const { user } = useAuth();
+
     //states
     const [message, setMessage] = useState("");
     const [file, setFile] = useState(null);
@@ -36,6 +40,12 @@ function Form() {
 
     // Function to handle file upload
     const handleUpload = useCallback(async () => {
+        // Check if user is authenticated
+        if (!user || !user.email) {
+            setMessage("Please login to upload files");
+            return;
+        }
+
         // Validate file selection
         if (!file) {
             setMessage("Please select a file to upload");
@@ -60,9 +70,11 @@ function Form() {
             setLoading((prev) => ({ ...prev, upload: true }));
             setMessage("");
 
-            // Create form data with the selected file
+            // Create form data with the selected file and user details
             const formData = new FormData();
             formData.append("file", file);
+            formData.append("userEmail", user.email);
+            formData.append("userName", user.name || "");
 
             // Send file upload request to server
             const response = await fetch(`${URL}/api/file/upload`, {
@@ -102,22 +114,34 @@ function Form() {
             setLoading((prev) => ({ ...prev, upload: false }));
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [file, fetchedFiles]);
+    }, [file, fetchedFiles, user]);
 
     // Function to handle viewing all files
     const handleViewAll = useCallback(async () => {
+        // Check if user is authenticated
+        if (!user || !user.email) {
+            setMessage("Please login to view files");
+            return;
+        }
+
         try {
             // Set loading state for view all
             setLoading((prev) => ({ ...prev, viewAll: true }));
             setMessage("");
 
-            // Send request to server to get all files
-            const response = await fetch(`${URL}/api/file/getall`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
+            // Send request to server to get all files for the current user
+            const response = await fetch(
+                `${URL}/api/file/getall?userEmail=${encodeURIComponent(
+                    user.email
+                )}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${user.token}`,
+                    },
+                }
+            );
 
             // Parse response data
             const data = await response.json();
@@ -148,13 +172,19 @@ function Form() {
             // Remove loading state
             setLoading((prev) => ({ ...prev, viewAll: false }));
         }
-    }, []);
+    }, [user]);
 
     // Function to handle deleting all files
     const handleDeleteAll = useCallback(async () => {
+        // Check if user is authenticated
+        if (!user || !user.email) {
+            setMessage("Please login to delete files");
+            return;
+        }
+
         // Confirm deletion with user
         const confirmDelete = window.confirm(
-            "Are you sure you want to delete all files? This action cannot be undone."
+            "Are you sure you want to delete all your files? This action cannot be undone."
         );
 
         if (!confirmDelete) return;
@@ -164,12 +194,14 @@ function Form() {
             setLoading((prev) => ({ ...prev, deleteAll: true }));
             setMessage("");
 
-            // Send request to server to delete all files
+            // Send request to server to delete all files for the current user
             const response = await fetch(`${URL}/api/file/deleteall`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
+                    Authorization: `Bearer ${user.token}`,
                 },
+                body: JSON.stringify({ userEmail: user.email }),
             });
 
             // Parse response data
@@ -194,7 +226,21 @@ function Form() {
             // Remove loading state
             setLoading((prev) => ({ ...prev, deleteAll: false }));
         }
-    }, []);
+    }, [user]);
+
+    // If user is not authenticated, show login message
+    if (!user || !user.email) {
+        return (
+            <div className='form-container'>
+                <div className='form-header'>
+                    <h2>File Management</h2>
+                </div>
+                <div className='message error'>
+                    <b>Please login to access file management features</b>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className='form-container'>
@@ -250,7 +296,7 @@ function Form() {
                                 <span>Loading...</span>
                             </>
                         ) : (
-                            "View All Files"
+                            "View My Files"
                         )}
                     </button>
 
@@ -270,7 +316,7 @@ function Form() {
                                 <span>Deleting...</span>
                             </>
                         ) : (
-                            "Delete All Files"
+                            "Delete All My Files"
                         )}
                     </button>
                 </div>
@@ -279,11 +325,24 @@ function Form() {
             {/* Display fetched files */}
             {fetchedFiles && fetchedFiles.length > 0 && (
                 <div className='files-list'>
-                    <h3>Uploaded Files:</h3>
+                    <h3>My Uploaded Files:</h3>
                     <div className='files-grid'>
-                        {fetchedFiles.map((fileName, index) => (
+                        {fetchedFiles.map((file, index) => (
                             <div key={index} className='file-item'>
-                                <span className='file-name'>{fileName}</span>
+                                <span className='file-name'>
+                                    {typeof file === "string"
+                                        ? file
+                                        : file.fileName}
+                                </span>
+                                {typeof file === "object" &&
+                                    file.uploadDate && (
+                                        <span className='file-date'>
+                                            Uploaded:{" "}
+                                            {new Date(
+                                                file.uploadDate
+                                            ).toLocaleDateString()}
+                                        </span>
+                                    )}
                             </div>
                         ))}
                     </div>
