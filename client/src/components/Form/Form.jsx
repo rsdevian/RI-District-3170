@@ -13,7 +13,7 @@ import "../../styles/Form.css";
 function Form() {
     // Get user data from AuthContext
     const { user } = useAuth();
-
+    console.log(user);
     //states
     const [message, setMessage] = useState("");
     const [file, setFile] = useState(null);
@@ -46,6 +46,12 @@ function Form() {
             return;
         }
 
+        // Check if user has required fields
+        if (!user.id && !user.uid && !user._id && !user.userId) {
+            setMessage("User ID is missing. Please logout and login again.");
+            return;
+        }
+
         // Validate file selection
         if (!file) {
             setMessage("Please select a file to upload");
@@ -74,11 +80,28 @@ function Form() {
             const formData = new FormData();
             formData.append("file", file);
             formData.append("userEmail", user.email);
-            formData.append("userName", user.name || "");
+            formData.append("userName", user.name || user.displayName || "");
+
+            // Try different possible user ID fields
+            const userId = user.id || user.uid || user._id || user.userId;
+            formData.append("userId", userId);
+
+            // Debug log to check what's being sent
+            console.log("Uploading with user data:", {
+                userEmail: user.email,
+                userName: user.name || user.displayName || "",
+                userId: userId,
+                fileSize: file.size,
+                fileName: file.name,
+            });
 
             // Send file upload request to server
             const response = await fetch(`${URL}/api/file/upload`, {
                 method: "POST",
+                headers: {
+                    // Don't set Content-Type for FormData - browser will set it automatically
+                    Authorization: `Bearer ${user.token}`,
+                },
                 body: formData,
             });
 
@@ -102,6 +125,7 @@ function Form() {
                 }
             } else {
                 setMessage(data.message || "Failed to upload file");
+                console.error("Upload failed:", data);
             }
         } catch (error) {
             // Log upload error
@@ -129,11 +153,27 @@ function Form() {
             setLoading((prev) => ({ ...prev, viewAll: true }));
             setMessage("");
 
+            // Get userId for the request
+            const userId = user.id || user.uid || user._id || user.userId;
+
+            if (!userId) {
+                setMessage(
+                    "User ID is missing. Please logout and login again."
+                );
+                return;
+            }
+
+            // Build query parameters - use userId if available, otherwise use email
+            const queryParams = new URLSearchParams();
+            if (userId) {
+                queryParams.append("userId", userId);
+            } else {
+                queryParams.append("userEmail", user.email);
+            }
+
             // Send request to server to get all files for the current user
             const response = await fetch(
-                `${URL}/api/file/getall?userEmail=${encodeURIComponent(
-                    user.email
-                )}`,
+                `${URL}/api/file/getall?${queryParams.toString()}`,
                 {
                     method: "GET",
                     headers: {
@@ -194,6 +234,17 @@ function Form() {
             setLoading((prev) => ({ ...prev, deleteAll: true }));
             setMessage("");
 
+            // Get userId for the request
+            const userId = user.id || user.uid || user._id || user.userId;
+
+            // Prepare request body
+            const requestBody = {};
+            if (userId) {
+                requestBody.userId = userId;
+            } else {
+                requestBody.userEmail = user.email;
+            }
+
             // Send request to server to delete all files for the current user
             const response = await fetch(`${URL}/api/file/deleteall`, {
                 method: "DELETE",
@@ -201,7 +252,7 @@ function Form() {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${user.token}`,
                 },
-                body: JSON.stringify({ userEmail: user.email }),
+                body: JSON.stringify(requestBody),
             });
 
             // Parse response data
@@ -227,6 +278,54 @@ function Form() {
             setLoading((prev) => ({ ...prev, deleteAll: false }));
         }
     }, [user]);
+
+    // Function to handle downloading a file
+    const handleDownload = useCallback(
+        async (fileId, fileName) => {
+            if (!user || !user.email) {
+                setMessage("Please login to download files");
+                return;
+            }
+
+            try {
+                const userId = user.id || user.uid || user._id || user.userId;
+
+                const response = await fetch(
+                    `${URL}/api/file/download/${fileId}?userId=${userId}`,
+                    {
+                        method: "GET",
+                        headers: {
+                            Authorization: `Bearer ${user.token}`,
+                        },
+                    }
+                );
+
+                if (response.ok) {
+                    // Create blob from response
+                    const blob = await response.blob();
+
+                    // Create download link
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = fileName;
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+
+                    setMessage("File downloaded successfully!");
+                } else {
+                    const data = await response.json();
+                    setMessage(data.message || "Failed to download file");
+                }
+            } catch (error) {
+                console.error("Error downloading file:", error);
+                setMessage("Network error while downloading file");
+            }
+        },
+        [user]
+    );
 
     // If user is not authenticated, show login message
     if (!user || !user.email) {
@@ -329,20 +428,49 @@ function Form() {
                     <div className='files-grid'>
                         {fetchedFiles.map((file, index) => (
                             <div key={index} className='file-item'>
-                                <span className='file-name'>
-                                    {typeof file === "string"
-                                        ? file
-                                        : file.fileName}
-                                </span>
-                                {typeof file === "object" &&
-                                    file.uploadDate && (
-                                        <span className='file-date'>
-                                            Uploaded:{" "}
-                                            {new Date(
-                                                file.uploadDate
-                                            ).toLocaleDateString()}
-                                        </span>
+                                <div className='file-info'>
+                                    <span className='file-name'>
+                                        {typeof file === "string"
+                                            ? file
+                                            : file.originalName ||
+                                              file.fileName}
+                                    </span>
+                                    {typeof file === "object" && (
+                                        <>
+                                            {file.uploadDate && (
+                                                <span className='file-date'>
+                                                    Uploaded:{" "}
+                                                    {new Date(
+                                                        file.uploadDate
+                                                    ).toLocaleDateString()}
+                                                </span>
+                                            )}
+                                            {file.fileSize && (
+                                                <span className='file-size'>
+                                                    Size:{" "}
+                                                    {Math.round(
+                                                        file.fileSize / 1024
+                                                    )}{" "}
+                                                    KB
+                                                </span>
+                                            )}
+                                        </>
                                     )}
+                                </div>
+                                {typeof file === "object" && file.id && (
+                                    <button
+                                        onClick={() =>
+                                            handleDownload(
+                                                file.id,
+                                                file.originalName ||
+                                                    file.fileName
+                                            )
+                                        }
+                                        className='download-button'
+                                    >
+                                        Download
+                                    </button>
+                                )}
                             </div>
                         ))}
                     </div>

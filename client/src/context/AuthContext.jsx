@@ -44,10 +44,11 @@ function AuthProvider({ children }) {
             const token = localStorage.getItem("token");
             const name = localStorage.getItem("name");
             const email = localStorage.getItem("email");
+            const userId = localStorage.getItem("userId");
 
             // Check if all required user data exists
             if (token && name && email) {
-                setUser({ token, name, email });
+                setUser({ token, name, email, userId });
                 setLoggedIn(true);
             } else {
                 // Clear any partial data
@@ -71,6 +72,7 @@ function AuthProvider({ children }) {
             localStorage.setItem("token", userData.token);
             localStorage.setItem("name", userData.name);
             localStorage.setItem("email", userData.email);
+            localStorage.setItem("userId", userData._id);
 
             // Update state
             setUser(userData);

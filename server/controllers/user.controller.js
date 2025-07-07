@@ -64,9 +64,15 @@ async function userLogin(req, res) {
         }
 
         //return the token and user information
-        return res
-            .status(200)
-            .json({ token, exisitingUser, message: "Logged in successfully" });
+        return res.status(200).json({
+            token,
+            exisitingUser: {
+                _id: exisitingUser._id,
+                email: exisitingUser.email,
+                name: exisitingUser.name,
+            },
+            message: "Logged in successfully",
+        });
     } catch (error) {
         res.status(500).json({ message: "Error Logging In" });
         console.log("Error Logging In: ", error);

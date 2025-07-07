@@ -107,6 +107,7 @@ function Login() {
                 localStorage.setItem("token", data.token);
                 localStorage.setItem("name", data.exisitingUser.name);
                 localStorage.setItem("email", data.exisitingUser.email);
+                localStorage.setItem("userId", data.exisitingUser._id);
 
                 // Dispatch auth status change event
                 window.dispatchEvent(new Event("authStatusChange"));
