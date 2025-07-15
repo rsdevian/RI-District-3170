@@ -12,8 +12,9 @@ const fileSchema = new mongoose.Schema(
             required: true,
             trim: true,
         },
-        filePath: {
-            type: String,
+        // For GridFS, we store the GridFS file ID instead of file path
+        gridfsFileId: {
+            type: mongoose.Schema.Types.ObjectId,
             required: true,
         },
         fileSize: {
@@ -84,68 +85,69 @@ const fileSchema = new mongoose.Schema(
 fileSchema.index({ userId: 1, isActive: 1 });
 fileSchema.index({ userEmail: 1, isActive: 1 });
 fileSchema.index({ fileHash: 1, userId: 1 });
+fileSchema.index({ gridfsFileId: 1 });
 
 // Static method to find files by user ID
-fileSchema.statics.findByUserId = function(userId) {
+fileSchema.statics.findByUserId = function (userId) {
     return this.find({
         userId: userId,
         isActive: true,
-        status: "completed"
+        status: "completed",
     }).sort({ uploadDate: -1 });
 };
 
 // Static method to find files by user email
-fileSchema.statics.findByUserEmail = function(userEmail) {
+fileSchema.statics.findByUserEmail = function (userEmail) {
     return this.find({
         userEmail: userEmail.toLowerCase(),
         isActive: true,
-        status: "completed"
+        status: "completed",
     }).sort({ uploadDate: -1 });
 };
 
 // Static method to delete all files by user ID (soft delete)
-fileSchema.statics.deleteAllByUserId = function(userId) {
+fileSchema.statics.deleteAllByUserId = function (userId) {
     return this.updateMany(
         {
             userId: userId,
             isActive: true,
-            status: "completed"
+            status: "completed",
         },
         {
             $set: {
                 isActive: false,
-                updatedAt: new Date()
-            }
+                updatedAt: new Date(),
+            },
         }
     );
 };
 
 // Static method to delete all files by user email (soft delete)
-fileSchema.statics.deleteAllByUserEmail = function(userEmail) {
+fileSchema.statics.deleteAllByUserEmail = function (userEmail) {
     return this.updateMany(
         {
             userEmail: userEmail.toLowerCase(),
             isActive: true,
-            status: "completed"
+            status: "completed",
         },
         {
             $set: {
                 isActive: false,
-                updatedAt: new Date()
-            }
+                updatedAt: new Date(),
+            },
         }
     );
 };
 
 // Static method to get user file statistics
-fileSchema.statics.getUserFileStats = function(userId) {
+fileSchema.statics.getUserFileStats = function (userId) {
     return this.aggregate([
         {
             $match: {
                 userId: userId,
                 isActive: true,
-                status: "completed"
-            }
+                status: "completed",
+            },
         },
         {
             $group: {
@@ -154,8 +156,8 @@ fileSchema.statics.getUserFileStats = function(userId) {
                 totalSize: { $sum: "$fileSize" },
                 averageSize: { $avg: "$fileSize" },
                 latestUpload: { $max: "$uploadDate" },
-                oldestUpload: { $min: "$uploadDate" }
-            }
+                oldestUpload: { $min: "$uploadDate" },
+            },
         },
         {
             $project: {
@@ -167,15 +169,19 @@ fileSchema.statics.getUserFileStats = function(userId) {
                 latestUpload: 1,
                 oldestUpload: 1,
                 // Convert bytes to MB for better readability
-                totalSizeMB: { $round: [{ $divide: ["$totalSize", 1048576] }, 2] },
-                averageSizeMB: { $round: [{ $divide: ["$averageSize", 1048576] }, 2] }
-            }
-        }
+                totalSizeMB: {
+                    $round: [{ $divide: ["$totalSize", 1048576] }, 2],
+                },
+                averageSizeMB: {
+                    $round: [{ $divide: ["$averageSize", 1048576] }, 2],
+                },
+            },
+        },
     ]);
 };
 
 // Instance method to get file info
-fileSchema.methods.getFileInfo = function() {
+fileSchema.methods.getFileInfo = function () {
     return {
         id: this._id,
         fileName: this.fileName,
@@ -184,24 +190,27 @@ fileSchema.methods.getFileInfo = function() {
         fileSizeMB: Math.round((this.fileSize / 1048576) * 100) / 100,
         uploadDate: this.uploadDate,
         status: this.status,
+        gridfsFileId: this.gridfsFileId,
         userInfo: {
             userId: this.userId,
             userName: this.userName,
-            userEmail: this.userEmail
-        }
+            userEmail: this.userEmail,
+        },
     };
 };
 
 // Instance method to check if file belongs to user
-fileSchema.methods.belongsToUser = function(userId, userEmail = null) {
+fileSchema.methods.belongsToUser = function (userId, userEmail = null) {
     if (userEmail) {
-        return this.userId === userId || this.userEmail === userEmail.toLowerCase();
+        return (
+            this.userId === userId || this.userEmail === userEmail.toLowerCase()
+        );
     }
     return this.userId === userId;
 };
 
 // Pre-save middleware to ensure email is lowercase
-fileSchema.pre('save', function(next) {
+fileSchema.pre("save", function (next) {
     if (this.userEmail) {
         this.userEmail = this.userEmail.toLowerCase();
     }
@@ -209,20 +218,20 @@ fileSchema.pre('save', function(next) {
 });
 
 // Virtual for file size in MB
-fileSchema.virtual('fileSizeMB').get(function() {
+fileSchema.virtual("fileSizeMB").get(function () {
     return Math.round((this.fileSize / 1048576) * 100) / 100;
 });
 
 // Virtual for age in days
-fileSchema.virtual('ageInDays').get(function() {
+fileSchema.virtual("ageInDays").get(function () {
     const now = new Date();
     const diffTime = Math.abs(now - this.uploadDate);
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 });
 
 // Ensure virtuals are included in JSON output
-fileSchema.set('toJSON', { virtuals: true });
-fileSchema.set('toObject', { virtuals: true });
+fileSchema.set("toJSON", { virtuals: true });
+fileSchema.set("toObject", { virtuals: true });
 
 const File = mongoose.model("File", fileSchema);
 
