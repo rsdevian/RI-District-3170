@@ -120,7 +120,7 @@
     gap: 1rem;
 }
 
-.social-link {
+/* .social-link {
     display: inline-block;
     padding: 0.5rem 1rem;
     background: #667eea;
@@ -129,10 +129,10 @@
     border-radius: 25px;
     font-size: 0.9rem;
     transition: all 0.3s ease;
-}
+} */
 
 .social-link:hover {
-    background: #5a67d8;
+    /* background: #5a67d8; */
     transform: translateY(-2px);
 }
 
@@ -279,6 +279,13 @@
 .map-content p {
     color: #718096;
     margin-bottom: 0.5rem;
+}
+
+.contact-names {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
 }
 
 /* Mobile Responsive Styles */

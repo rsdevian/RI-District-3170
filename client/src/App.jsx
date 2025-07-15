@@ -8,6 +8,8 @@ import { AuthProvider } from "./context/AuthContext";
 import "./App.css";
 
 //import Components
+import District from "./components/District/District";
+import Clubs from "./components/Clubs/Clubs";
 import Home from "./components/Home/Home";
 import Form from "./components/Form/Form";
 import Signup from "./components/Signup/Signup";
@@ -26,6 +28,7 @@ function App() {
                 {/* configurations of the routers and routes */}
                 <Router>
                     {/* render the fixed header component */}
+                    {/* <Logo /> */}
                     <Header />
 
                     <Routes>
@@ -43,6 +46,10 @@ function App() {
                         <Route path='/contact' element={<Contact />} />
 
                         <Route path='/about' element={<About />} />
+
+                        <Route path='/district' element={<District />} />
+
+                        <Route path='/clubs' element={<Clubs />} />
                     </Routes>
 
                     {/* render the fixed footer component */}

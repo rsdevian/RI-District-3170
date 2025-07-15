@@ -43,9 +43,9 @@
     background: #f8f9fa;
 }
 
-.mission-vision-grid {
+.mission-vision-grid-dis {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 1rem;
 }
 
@@ -77,6 +77,13 @@
     font-weight: 700;
     margin-bottom: 1.5rem;
     color: #2d3748;
+}
+
+.close-button {
+    color: #2d3748 !important;
+    background-color: white !important;
+    text-transform: none !important;
+    border: 1px solid black !important;
 }
 
 .mission-card p,

@@ -131,46 +131,57 @@ function Contact() {
                                 </div>
 
                                 <div className='contact-item'>
-                                    <div className='contact-icon'>📞</div>
-                                    <div className='contact-text'>
-                                        <h3>Phone</h3>
-                                        <p>
-                                            +91 98765 43210
-                                            <br />
-                                            +91 87654 32109
-                                        </p>
+                                    <div className='contact-names'>
+                                        <div className='contact-text'>
+                                            <h3>
+                                                PHF Rtn. Rtr. Harsh Paresh
+                                                Shinde
+                                            </h3>
+                                            <p>
+                                                <i>
+                                                    District Rotaract
+                                                    Representative
+                                                </i>
+                                            </p>
+                                            <p>
+                                                <i>RY 2025 2026</i>
+                                            </p>
+                                        </div>
+                                        <div className='contact-text'>
+                                            <p>+91 99026 65574</p>
+                                        </div>
+                                        <div className='contact-text'>
+                                            <p>drrharsh3170@gmail.com</p>
+                                        </div>
                                     </div>
                                 </div>
-
                                 <div className='contact-item'>
-                                    <div className='contact-icon'>✉️</div>
-                                    <div className='contact-text'>
-                                        <h3>Email</h3>
-                                        <p>
-                                            info@yourapp.com
-                                            <br />
-                                            support@yourapp.com
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div className='contact-item'>
-                                    <div className='contact-icon'>🕒</div>
-                                    <div className='contact-text'>
-                                        <h3>Business Hours</h3>
-                                        <p>
-                                            Monday - Friday: 9:00 AM - 6:00 PM
-                                            <br />
-                                            Saturday: 10:00 AM - 4:00 PM
-                                            <br />
-                                            Sunday: Closed
-                                        </p>
+                                    <div className='contact-names'>
+                                        <div className='contact-text'>
+                                            <h3>
+                                                PHF Rtn. Rtr. Harshit Kulkarni
+                                            </h3>
+                                            <p>
+                                                <i>
+                                                    District Rotaract Secretary
+                                                </i>
+                                            </p>
+                                            <p>
+                                                <i>RY 2025 2026</i>
+                                            </p>
+                                        </div>
+                                        <div className='contact-text'>
+                                            <p>+91 89512 86155</p>
+                                        </div>
+                                        <div className='contact-text'>
+                                            <p>drsharshit3170@gmail.com</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
                             {/* Social Media */}
-                            <div className='social-media'>
+                            {/* <div className='social-media'>
                                 <h3>Follow Us</h3>
                                 <div className='social-links'>
                                     <a href='#' className='social-link'>
@@ -186,7 +197,7 @@ function Contact() {
                                         💼 LinkedIn
                                     </a>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
 
                         {/* Contact Form */}

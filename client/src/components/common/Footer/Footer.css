@@ -3,7 +3,7 @@
 .footer-align {
     background: #2d3748;
     color: white;
-    padding: 40px 0 0 0;
+    /* padding: 40px 0 0 0; */
     margin-top: auto; /* This pushes footer to bottom when using flex layout */
     width: 100%;
     /* Removed position: absolute - this was causing layout issues */
@@ -26,7 +26,7 @@
 .footer-title {
     font-size: 1.8rem;
     font-weight: 700;
-    margin-bottom: 1rem;
+    margin: 0.5rem;
     background: linear-gradient(45deg, #667eea, #764ba2);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -42,7 +42,7 @@
 .footer-heading {
     font-size: 1.2rem;
     font-weight: 600;
-    margin-bottom: 1rem;
+    margin: 0.5rem;
     color: #e2e8f0;
 }
 
@@ -82,22 +82,27 @@
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
+    justify-content: center;
+}
+
+.svg {
+    width: 30px;
 }
 
 .social-link {
     color: #a0aec0;
     text-decoration: none;
-    padding: 8px 12px;
-    border: 1px solid #4a5568;
+    /* padding: 8px 12px; */
+    /* border: 1px solid #4a5568; */
     border-radius: 20px;
-    font-size: 0.9rem;
+    /* font-size: 0.9rem; */
     transition: all 0.3s ease;
 }
 
 .social-link:hover {
     color: white;
-    background: #667eea;
-    border-color: #667eea;
+    /* background: #667eea; */
+    /* border-color: #667eea; */
     transform: translateY(-2px);
 }
 
@@ -132,6 +137,13 @@
 
 .footer-bottom-link:hover {
     color: #667eea;
+}
+
+.privacy-links {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
 }
 
 /* Mobile Responsive Styles */

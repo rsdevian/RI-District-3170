@@ -1,13 +1,248 @@
+/* Account.css - Enhanced Account Component Styles */
+
 .account {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    min-height: calc(100vh - 140px);
+    padding: 2rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
 }
 
+/* Not Logged In State */
+.account > a {
+    text-decoration: none;
+    margin: 0.5rem;
+}
+
+.account > a button {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 140px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Sign Up Button */
+.account > a:first-child button {
+    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+    color: white;
+}
+
+.account > a:first-child button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(72, 187, 120, 0.3);
+}
+
+/* Log In Button */
+.account > a:last-child button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.account > a:last-child button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+}
+
+/* Logged In State */
 .accounts-button-align {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    align-items: center;
+    gap: 2rem;
+    background: white;
+    padding: 3rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Welcome Message */
+.accounts-button-align p {
+    font-size: 1.5rem;
+    color: #2d3748;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.accounts-button-align p b {
+    color: #667eea;
+    font-weight: 700;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* User Profile Section */
+.user-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.user-avatar {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+    font-weight: 700;
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.user-detail {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+}
+
+.user-detail .label {
+    font-weight: 600;
+    color: #4a5568;
+}
+
+.user-detail .value {
+    color: #2d3748;
+    font-weight: 500;
+}
+
+/* Action Buttons */
+.account-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+}
+
+.accounts-button-align button,
+.account-actions button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+/* Logout Button */
+.accounts-button-align > button {
+    background: #e53e3e;
+    color: white;
+    box-shadow: 0 4px 15px rgba(229, 62, 62, 0.3);
+}
+
+.accounts-button-align > button:hover {
+    background: #c53030;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(229, 62, 62, 0.4);
+}
+
+/* Secondary Actions */
+.secondary-button {
+    background: transparent;
+    color: #667eea;
+    border: 2px solid #667eea;
+}
+
+.secondary-button:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Enhanced Layout for Logged In State */
+.accounts-button-align {
+    position: relative;
+}
+
+.accounts-button-align::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #667eea, #764ba2, #48bb78);
+    border-radius: 18px;
+    z-index: -1;
+    opacity: 0.1;
+}
+
+/* Quick Stats */
+.account-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+    width: 100%;
+    margin: 1rem 0;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+}
+
+.stat-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: block;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin-top: 0.25rem;
+}
+
+/* Not Logged In Welcome */
+.account:not(.logged-in)::before {
+    content: "Account Access";
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 1rem;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .account {
+        padding: 1.5rem;
+        min-height: calc(100vh - 120px);
+    }
 }

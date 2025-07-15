@@ -16,13 +16,17 @@
     padding: 0 20px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    height: 70px;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
 }
 
 /* Logo Styles */
 .logo {
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
 }
 
 .logo-link {
@@ -51,7 +55,7 @@
     justify-content: center;
 }
 
-.button-align {
+.button-align-header {
     display: flex;
     flex-direction: row;
     gap: 2rem;
@@ -90,6 +94,12 @@
 /* User Actions */
 .user-actions {
     flex-shrink: 0;
+}
+.user-nav-actions {
+    flex-shrink: 0;
+    display: flex;
+    gap: 20px;
+    padding: 10px;
 }
 
 .auth-section {
@@ -265,6 +275,17 @@
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
     z-index: 999;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    cursor: pointer;
+}
+
+.profile:hover {
+    color: #667eea;
 }
 
 /* Responsive Styles */

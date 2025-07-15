@@ -43,9 +43,9 @@
     background: #f8f9fa;
 }
 
-.mission-vision-grid {
+.mission-vision-grid-cl {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 1rem;
 }
 

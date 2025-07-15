@@ -40,6 +40,7 @@ function Account() {
         localStorage.removeItem("token");
         localStorage.removeItem("name");
         localStorage.removeItem("email");
+        localStorage.removeItem("userId");
         window.dispatchEvent(new Event("authStatusChange"));
 
         //update the logged in status
@@ -53,7 +54,7 @@ function Account() {
                 {!loggedIn && (
                     <>
                         <Link to='/signup'>
-                            <button>Sign Up</button>
+                            <button>Add Secretary</button>
                         </Link>
                         <Link to='/login'>
                             <button>Log In</button>
