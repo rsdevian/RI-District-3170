@@ -11,6 +11,8 @@ import {
 import { Link } from "react-router-dom";
 import "./District.css";
 
+import respresentatives from "../../contents/zones.representatives";
+
 function District() {
     const [popupOpen, setPoppupOpen] = useState(false);
     return (
@@ -101,7 +103,50 @@ function District() {
             >
                 <DialogTitle>Dialog Box</DialogTitle>
                 <DialogContent>
-                    <Typography>This is a dialog box</Typography>
+                    <div className='rep-content'>
+                        {respresentatives.map((item, index) => {
+                            return (
+                                <div key={index} className='rep-card'>
+                                    {/* Flag Section */}
+                                    <div className='flag-section'>
+                                        <img
+                                            src={item.flag}
+                                            alt='Zone flag'
+                                            className='flag-image'
+                                            onError={(e) => {
+                                                e.target.style.display = "none";
+                                            }}
+                                        />
+                                    </div>
+
+                                    {/* Name and Club Section - Centered */}
+                                    <div className='name-container'>
+                                        <h3 className='rep-name'>
+                                            {item.name}
+                                        </h3>
+                                        <p className='rep-club'>{item.club}</p>
+                                    </div>
+
+                                    {/* Profile Image Section */}
+
+                                    <div className='profile-section'>
+                                        <img
+                                            src={item.image}
+                                            alt={item.name || "Representative"}
+                                            className='rep-image'
+                                            onError={(e) => {
+                                                e.target.src =
+                                                    "https://via.placeholder.com/100x100/667eea/white?text=" +
+                                                    (item.name
+                                                        ? item.name.charAt(0)
+                                                        : "R");
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
                 </DialogContent>
                 <DialogActions>
                     <Button

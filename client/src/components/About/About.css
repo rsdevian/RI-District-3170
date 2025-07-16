@@ -86,4 +86,38 @@
     color: #718096;
 }
 
+.dialog-title {
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+    margin-bottom: 1.5rem !important;
+    color: #2d3748 !important;
+    border-bottom: 2px solid #2d3748 !important;
+}
+
+.dialog-content {
+    font-size: 1.1rem !important;
+    line-height: 1.7 !important;
+    color: #718096 !important;
+    display: flex;
+    flex-direction: row;
+}
+
+.content {
+    width: 70%;
+}
+
+.img-container {
+    width: 30%;
+}
+
+.img-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.image {
+    border-radius: 50%;
+}
 /* Story Section */
