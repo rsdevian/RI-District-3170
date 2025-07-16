@@ -20,7 +20,11 @@ const PORT = process.env.PORT || 3000;
 //cors
 app.use(
     cors({
-        origin: ["http://localhost:3001", "http://localhost:5173"],
+        origin: [
+            "http://localhost:3001",
+            "http://localhost:5173",
+            "https://docs-hub-dev.vercel.app/",
+        ],
         credentials: true,
     })
 );
