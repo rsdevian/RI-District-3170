@@ -23,7 +23,7 @@ app.use(
         origin: [
             "http://localhost:3001",
             "http://localhost:5173",
-            "https://docs-hub-dev.vercel.app/",
+            "https://docs-hub-dev.vercel.app",
         ],
         credentials: true,
     })
