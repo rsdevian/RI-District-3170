@@ -41,7 +41,7 @@ app.use("/api/file", fileRouter); //file router
 app.use("/api/user", userRouter); //user router
 
 //health check
-app.get("/health", (req, res) => {
+app.get("/api/health", (req, res) => {
     res.status(200).json({
         message: "Server is running",
         success: true,
