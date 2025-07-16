@@ -7,7 +7,7 @@ function Clubs() {
             {/* Hero Section */}
             <section className='about-hero'>
                 <div className='container'>
-                    <h1>About Us</h1>
+                    <h1>Clubs</h1>
                     <p>
                         Empowering businesses with innovative solutions and
                         exceptional service since 2020
