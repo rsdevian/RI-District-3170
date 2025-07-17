@@ -33,7 +33,7 @@ function App() {
 
                     <Routes>
                         {/* render the home component based on the path specified*/}
-                        <Route path='/' element={<Home />} />
+                        <Route exact path='/' element={<Home />} />
 
                         <Route path='/signup' element={<Signup />} />
 
@@ -50,6 +50,8 @@ function App() {
                         <Route path='/district' element={<District />} />
 
                         <Route path='/clubs' element={<Clubs />} />
+
+                        <Route path='*' element={<Home />} />
                     </Routes>
 
                     {/* render the fixed footer component */}
