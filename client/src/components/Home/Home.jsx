@@ -7,7 +7,7 @@ function Home() {
             {/* Hero Section */}
             <section className='hero-section'>
                 <div className='hero-content'>
-                    <h1 className='hero-title'>Welcome to Our Platform</h1>
+                    {/* <h1 className='hero-title'>Welcome to Our Platform</h1>
                     <p className='hero-subtitle'>
                         Discover amazing features and connect with our community
                     </p>
@@ -18,13 +18,13 @@ function Home() {
                         <Link to='/about' className='btn btn-secondary'>
                             Learn More
                         </Link>
-                    </div>
+                    </div> */}
                 </div>
-                <div className='hero-image'>
+                {/* <div className='hero-image'>
                     <div className='hero-placeholder'>
                         <span>Hero Image</span>
                     </div>
-                </div>
+                </div> */}
             </section>
 
             {/* Features Section */}

@@ -7,7 +7,7 @@
     justify-content: center;
     min-height: calc(100vh - 140px);
     padding: 2rem;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    background: linear-gradient(105.9deg, rgb(54, 0, 51), rgb(11, 135, 147));
 }
 
 /* Not Logged In State */
@@ -231,9 +231,9 @@
     content: "Account Access";
     font-size: 2.5rem;
     font-weight: 700;
-    color: #2d3748;
+    color: #fff;
     margin-bottom: 1rem;
-    background: linear-gradient(45deg, #667eea, #764ba2);
+    background: #fff;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;

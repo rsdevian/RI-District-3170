@@ -131,18 +131,14 @@ function About() {
                             <Button
                                 onClick={() => {
                                     setPoppupOpen(true);
-                                    setTitle(
-                                        "District Rotaract Secretary"
-                                    );
+                                    setTitle("District Rotaract Secretary");
                                     setContent(
-                                        about[
-                                            "District Rotaract Secretary"
-                                        ].content
+                                        about["District Rotaract Secretary"]
+                                            .content
                                     );
                                     setImage(
-                                        about[
-                                            "District Rotaract Secretary"
-                                        ].image
+                                        about["District Rotaract Secretary"]
+                                            .image
                                     );
                                 }}
                             >

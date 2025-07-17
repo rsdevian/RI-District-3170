@@ -19,6 +19,9 @@ import Header from "./components/common/Header/Header";
 import Footer from "./components/common/Footer/Footer";
 import Contact from "./components/Contact/Contact";
 import About from "./components/About/About";
+import Council from "./components/Council/Council";
+import Event from "./components/Event/Event";
+import RSAMDIO from "./components/RSAMDIO/RSAMDIO";
 
 //export function
 function App() {
@@ -50,6 +53,12 @@ function App() {
                         <Route path='/district' element={<District />} />
 
                         <Route path='/clubs' element={<Clubs />} />
+
+                        <Route path='/council' element={<Council />} />
+
+                        <Route path='/events' element={<Event />} />
+
+                        <Route path='/rsamdio' element={<RSAMDIO />} />
                     </Routes>
 
                     {/* render the fixed footer component */}
