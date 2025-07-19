@@ -21,7 +21,7 @@
     font-size: 2rem;
     font-weight: 700;
     margin-bottom: 1rem;
-    background: linear-gradient(45deg, #667eea, #764ba2);
+    background: #1976d2;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -40,7 +40,7 @@
 }
 
 .login input:focus {
-    border-color: #667eea;
+    border-color: #1976d2;
     background: white;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
     transform: translateY(-1px);
@@ -75,7 +75,7 @@
 
 /* Primary Login Button */
 .login button:first-of-type {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #1976d2;
     color: white;
     box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
@@ -94,21 +94,21 @@
 }
 
 .login button:first-of-type.loading {
-    background: #667eea;
+    background: #1976d2;
 }
 
 /* Secondary Signup Link Button */
 .login a button,
 .login button:last-of-type {
     background: transparent;
-    color: #667eea;
-    border: 2px solid #667eea;
+    color: #1976d2;
+    border: 2px solid #1976d2;
     text-decoration: none;
 }
 
 .login a button:hover:not(:disabled),
 .login button:last-of-type:hover:not(:disabled) {
-    background: #667eea;
+    background: #1976d2;
     color: white;
     transform: translateY(-2px);
 }
@@ -205,7 +205,7 @@
 
 /* Focus and Accessibility */
 .login button:focus {
-    outline: 2px solid #667eea;
+    outline: 2px solid #1976d2;
     outline-offset: 2px;
 }
 

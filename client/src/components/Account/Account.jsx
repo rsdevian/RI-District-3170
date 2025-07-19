@@ -53,9 +53,9 @@ function Account() {
                 {/*Navigation based on the loggedIn status */}
                 {!loggedIn && (
                     <>
-                        <Link to='/signup'>
+                        {/* <Link to='/signup'>
                             <button>Add Secretary</button>
-                        </Link>
+                        </Link> */}
                         <Link to='/login'>
                             <button>Log In</button>
                         </Link>

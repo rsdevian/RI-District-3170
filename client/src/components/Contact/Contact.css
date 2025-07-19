@@ -13,16 +13,19 @@
 
 /* Hero Section */
 .contact-hero {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-image: url("/assets/images/Home/background.jpg");
+    background-size: cover;
     color: white;
     padding: 80px 0;
     text-align: center;
+    color: #1a365d;
 }
 
 .contact-hero h1 {
     font-size: 3rem;
     font-weight: 700;
     margin-bottom: 1rem;
+    color: #1a365d;
 }
 
 .contact-hero p {
@@ -220,7 +223,7 @@
 }
 
 .btn-submit {
-    background: #667eea;
+    background: #1976d2;
     color: white;
     padding: 15px 30px;
     border: none;
@@ -233,7 +236,7 @@
 }
 
 .btn-submit:hover:not(:disabled) {
-    background: #5a67d8;
+    background: #1976d2;
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
 }
