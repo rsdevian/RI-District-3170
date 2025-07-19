@@ -47,17 +47,17 @@ function Event() {
     return (
         <div className='council-container'>
             {/* Header Section */}
-            <div className='council-header'>
+            {/* <div className='council-header'>
                 <h1>Disctrict Council</h1>
                 <p>
                     Meet the dedicated leaders who guide our organization
                     towards excellence
                 </p>
-            </div>
+            </div> */}
 
             {/* Sub Main - 2nd Row (2 people) */}
             <section className='council-section sub-main-section'>
-                <h2 className='section-title'>Executive Team</h2>
+                <h2 className='section-title'>District Events</h2>
                 <div className='sub-main-member-row2'>
                     {subMainMembers2.map((member) => (
                         <MemberCard
