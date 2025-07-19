@@ -203,7 +203,7 @@ function District() {
                         fontWeight: "bold",
                     }}
                 >
-                    <h2 style={{ margin: "0px" }}>Disctrict - Events</h2>
+                    <h2 style={{ margin: "0px" }}>District - Events</h2>
                 </DialogTitle>
                 <DialogContent>
                     <div className='events-content'>

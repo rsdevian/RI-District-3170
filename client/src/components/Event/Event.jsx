@@ -48,7 +48,7 @@ function Event() {
         <div className='council-container'>
             {/* Header Section */}
             <div className='council-header'>
-                <h1>Disctrict Council</h1>
+                <h1>District Council</h1>
                 <p>
                     Meet the dedicated leaders who guide our organization
                     towards excellence
