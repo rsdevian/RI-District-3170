@@ -131,13 +131,25 @@
 
 .btn-login-header {
     background: white;
-    color: black;
+    color: #667eea;
     border: 1px solid #667eea;
 }
 
-.btn-login-header {
+.btn-login-header:hover {
     background: #667eea;
     color: white;
+    border: 1px solid #667eea;
+}
+
+.btn-logout {
+    background: white;
+    color: #667eea;
+    border: 1px solid #667eea;
+}
+
+.btn-logout:hover {
+    background: white !important;
+    color: black;
     border: 1px solid #667eea;
 }
 
@@ -297,7 +309,7 @@
 }
 
 .profile:hover {
-    color: #667eea;
+    /* color: #667eea; */
 }
 
 /* Responsive Styles */
@@ -374,4 +386,15 @@
 .contact-hero,
 .about-hero {
     margin-top: 0; /* Adjust as needed */
+}
+
+.active {
+    padding: 10px;
+    color: #fff;
+    border-radius: 5px;
+    background: #667eea;
+}
+
+.active:hover {
+    color: #fff;
 }

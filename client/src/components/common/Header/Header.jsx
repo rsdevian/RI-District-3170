@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Person2Icon from "@mui/icons-material/Person2";
 import "./Header.css";
-import Button from "@mui/material/Button";
 
 function Header() {
+    const currentPage = useLocation();
     const [loggedIn, setLoggedIn] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -63,24 +63,71 @@ function Header() {
                     {/* Desktop Navigation */}
                     <nav className='desktop-nav'>
                         <div className='button-align-header'>
-                            <Link to='/' className='nav-link'>
+                            <Link
+                                to='/'
+                                className={`${
+                                    currentPage.pathname !== "/" && "nav-link"
+                                } ${
+                                    currentPage.pathname === "/" ? "active" : ""
+                                }`}
+                            >
                                 Home
                             </Link>
-                            <Link to='/about' className='nav-link'>
+                            <Link
+                                to='/about'
+                                className={`${
+                                    currentPage.pathname !== "/about" &&
+                                    "nav-link"
+                                } ${
+                                    currentPage.pathname === "/about"
+                                        ? "active"
+                                        : ""
+                                }`}
+                            >
                                 About
                             </Link>
-                            <Link to='/district' className='nav-link'>
+                            <Link
+                                to='/district'
+                                className={`${
+                                    currentPage.pathname !== "/district" &&
+                                    "nav-link"
+                                }  ${
+                                    currentPage.pathname === "/district"
+                                        ? "active"
+                                        : ""
+                                }`}
+                            >
                                 District
                             </Link>
-                            <Link to='/clubs' className='nav-link'>
+                            <Link
+                                to='/clubs'
+                                className={`${
+                                    currentPage.pathname !== "/clubs" &&
+                                    "nav-link"
+                                } ${
+                                    currentPage.pathname === "/clubs"
+                                        ? "active"
+                                        : ""
+                                }`}
+                            >
                                 Clubs
                             </Link>
-                            <Link to='/contact' className='nav-link'>
+                            <Link
+                                to='/contact'
+                                className={`${
+                                    currentPage.pathname !== "/contact" &&
+                                    "nav-link"
+                                } ${
+                                    currentPage.pathname === "/contact"
+                                        ? "active"
+                                        : ""
+                                }`}
+                            >
                                 Contact
                             </Link>
                             {/* <Link to='/account' className='nav-link'> */}
-                            {!loggedIn && (
-                                <Link to='/login' className='nav-link'>
+                            {!loggedIn && currentPage.pathname !== "/login" && (
+                                <Link to='/login'>
                                     <button className='profile btn-login-header'>
                                         Secretarial login <Person2Icon />
                                     </button>
@@ -88,14 +135,12 @@ function Header() {
                             )}
 
                             {loggedIn && (
-                                // <Link to='/logout' className='nav-link'>
                                 <button
-                                    className='profile btn-login-header'
+                                    className='btn-logout'
                                     onClick={handleLogout}
                                 >
                                     Log Out
                                 </button>
-                                // </Link>
                             )}
 
                             {/* </Link> */}

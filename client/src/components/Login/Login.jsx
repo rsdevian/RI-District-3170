@@ -138,7 +138,7 @@ function Login() {
     return (
         <div className='login'>
             <div>
-                <h1>LOGIN FORM</h1>
+                <h1>LOGIN</h1>
             </div>
 
             {/* Email input field */}
