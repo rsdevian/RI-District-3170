@@ -56,7 +56,7 @@ function Council() {
         <div className='council-container'>
             {/* Header Section */}
             <div className='council-header'>
-                <h1>Disctrict Council</h1>
+                <h1>District Council</h1>
                 <p>
                     Meet the dedicated leaders who guide our organization
                     towards excellence
@@ -65,7 +65,7 @@ function Council() {
 
             {/* Main Leader - Top Row (1 person) */}
             <section className='council-section main-section'>
-                <h2 className='section-title'>Leadership</h2>
+                <h2 className='section-title'>DRR Core</h2>
                 <div className='main-member-row'>
                     {mainMembers.map((member) => (
                         <MemberCard
@@ -79,7 +79,6 @@ function Council() {
 
             {/* Sub Main - 2nd Row (2 people) */}
             <section className='council-section sub-main-section'>
-                <h2 className='section-title'>Executive Team</h2>
                 <div className='sub-main-member-row'>
                     {subMainMembers.map((member) => (
                         <MemberCard

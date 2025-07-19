@@ -19,7 +19,7 @@
     font-weight: 700;
     color: #2d3748;
     margin-bottom: 1rem;
-    background: linear-gradient(45deg, #667eea, #764ba2);
+    background: #197fbc;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -41,7 +41,7 @@
 .section-title {
     font-size: 2rem;
     font-weight: 600;
-    color: #2d3748;
+    color: #1976d2;
     text-align: center;
     margin-bottom: 2.5rem;
     position: relative;
@@ -55,7 +55,7 @@
     transform: translateX(-50%);
     width: 80px;
     height: 3px;
-    background: linear-gradient(90deg, #667eea, #764ba2);
+    background: #1976d2;
     border-radius: 2px;
 }
 
@@ -605,12 +605,14 @@
         font-size: 1.1rem;
     }
 
-    /* ALL GRIDS become single column on mobile */
+    /* FIX: Make sub-main-member-row single column on mobile */
     .sub-main-member-row {
-        flex-direction: column;
+        flex-direction: column !important;
         gap: 1.5rem;
+        align-items: center; /* Center the cards */
     }
 
+    /* ALL OTHER GRIDS become single column on mobile */
     .sub-main-member-row2 {
         grid-template-columns: 1fr !important;
         gap: 1.5rem;
@@ -621,12 +623,19 @@
         gap: 1.5rem;
     }
 
+    /* Ensure cards don't get too wide on mobile */
+    .sub-main-member-row .member-card {
+        max-width: 400px;
+        width: 100%;
+    }
+
     .member-card {
         padding: 1.5rem;
     }
 
     .member-card.main {
         padding: 2rem;
+        max-width: 400px;
     }
 
     .modal-header {
@@ -645,7 +654,7 @@
     }
 }
 
-/* Extra small devices (480px and below) - SINGLE COLUMN MAINTAINED */
+/* Extra small devices (480px and below) */
 @media (max-width: 480px) {
     .council-header h1 {
         font-size: 2rem;
@@ -678,6 +687,15 @@
     }
 
     /* Ensure single column is maintained even on very small screens */
+    .sub-main-member-row {
+        flex-direction: column !important;
+        gap: 1rem;
+    }
+
+    .sub-main-member-row .member-card {
+        max-width: 350px;
+    }
+
     .sub-main-member-row2,
     .regular-members-grid {
         grid-template-columns: 1fr !important;
