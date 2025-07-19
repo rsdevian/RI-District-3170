@@ -1,0 +1,323 @@
+/* Signup.css - Enhanced Signup Component Styles */
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 2.5rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    min-height: calc(100vh - 200px);
+    justify-content: center;
+}
+
+/* Header Styling */
+.signup-form h1 {
+    text-align: center;
+    color: #2d3748;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Input Field Styling */
+.signup-form input {
+    padding: 15px 18px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+    color: #2d3748;
+    outline: none;
+}
+
+.signup-form input:focus {
+    border-color: #667eea;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    transform: translateY(-1px);
+}
+
+.signup-form input:disabled {
+    background: #e2e8f0;
+    color: #a0aec0;
+    cursor: not-allowed;
+}
+
+.signup-form input::placeholder {
+    color: #a0aec0;
+    font-weight: 400;
+}
+
+/* Input validation styling */
+.signup-form input:valid {
+    border-color: #48bb78;
+}
+
+.signup-form input:invalid:not(:placeholder-shown) {
+    border-color: #f56565;
+}
+
+/* Button Styling */
+.signup-form button {
+    padding: 15px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50px;
+    text-decoration: none;
+}
+
+/* Primary Signup Button */
+.signup-form button:first-of-type {
+    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
+}
+
+.signup-form button:first-of-type:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
+}
+
+.signup-form button:first-of-type:disabled {
+    background: #a0aec0;
+    color: #e2e8f0;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.signup-form button:first-of-type.loading {
+    background: #48bb78;
+}
+
+/* Secondary Login Link Button */
+.signup-form a button,
+.signup-form button:last-of-type {
+    background: transparent;
+    color: #667eea;
+    border: 2px solid #667eea;
+    text-decoration: none;
+}
+
+.signup-form a button:hover:not(:disabled),
+.signup-form button:last-of-type:hover:not(:disabled) {
+    background: #667eea;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.signup-form a button:disabled,
+.signup-form button:last-of-type:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.signup-form a {
+    text-decoration: none;
+}
+
+/* Message Styling */
+.signup-form .message {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-weight: 500;
+    text-align: center;
+    margin: 0;
+    animation: slideIn 0.3s ease;
+}
+
+.signup-form .message.success {
+    background: #c6f6d5;
+    color: #22543d;
+    border: 1px solid #9ae6b4;
+}
+
+.signup-form .message.error {
+    background: #fed7d7;
+    color: #742a2a;
+    border: 1px solid #fc8181;
+}
+
+/* Loading Animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Progress Indicator for Form Completion */
+.signup-form::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #48bb78 0%, #667eea 100%);
+    border-radius: 12px 12px 0 0;
+    transition: width 0.3s ease;
+    width: var(--form-progress, 0%);
+}
+
+.signup-form {
+    position: relative;
+}
+
+/* Field Group Animation */
+.signup-form input:focus + input {
+    border-color: rgba(102, 126, 234, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .signup-form {
+        margin: 1rem auto;
+        padding: 2rem;
+        max-width: 350px;
+        min-height: calc(100vh - 160px);
+    }
+
+    .signup-form h1 {
+        font-size: 1.75rem;
+    }
+
+    .signup-form input,
+    .signup-form button {
+        padding: 12px 16px;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .signup-form {
+        margin: 0.5rem auto;
+        padding: 1.5rem;
+        max-width: 320px;
+        border-radius: 8px;
+        min-height: calc(100vh - 120px);
+    }
+
+    .signup-form h1 {
+        font-size: 1.5rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .signup-form input,
+    .signup-form button {
+        padding: 10px 14px;
+        font-size: 0.9rem;
+    }
+
+    .signup-form {
+        gap: 1.25rem;
+    }
+}
+
+/* Focus and Accessibility */
+.signup-form button:focus {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+}
+
+.signup-form input:focus {
+    outline: none;
+}
+
+/* Password strength indicator */
+.signup-form input[type="password"]:focus {
+    border-color: #667eea;
+}
+
+.signup-form input[type="password"]:valid {
+    border-color: #48bb78;
+}
+
+.signup-form input[type="password"]:invalid:not(:placeholder-shown) {
+    border-color: #f56565;
+}
+
+/* Email validation styling */
+.signup-form input[type="email"]:valid {
+    border-color: #48bb78;
+}
+
+.signup-form input[type="email"]:invalid:not(:placeholder-shown) {
+    border-color: #f56565;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .signup-form input {
+        border-color: #000;
+    }
+
+    .signup-form input:focus {
+        border-color: #0066cc;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .signup-form input,
+    .signup-form button,
+    .signup-form .message {
+        transition: none;
+        animation: none;
+    }
+
+    .signup-form button:hover:not(:disabled) {
+        transform: none;
+    }
+
+    .signup-form::before {
+        transition: none;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .signup-form {
+        background: #2d3748;
+        color: #e2e8f0;
+    }
+
+    .signup-form h1 {
+        color: #e2e8f0;
+    }
+
+    .signup-form input {
+        background: #4a5568;
+        border-color: #718096;
+        color: #e2e8f0;
+    }
+
+    .signup-form input::placeholder {
+        color: #a0aec0;
+    }
+
+    .signup-form input:focus {
+        background: #4a5568;
+        border-color: #667eea;
+    }
+}

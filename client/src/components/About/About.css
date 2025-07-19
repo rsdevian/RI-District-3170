@@ -1,0 +1,126 @@
+/* About.css - About Page Styles */
+
+.about-container {
+    /* min-height: 100vh; */
+    width: 100%;
+}
+
+.ab-container {
+    margin: 0px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Hero Section */
+.about-hero {
+    background-image: url("/assets/images/Home/background.jpg");
+    background-size: cover;
+    color: white;
+    padding: 60px 0;
+    text-align: center;
+}
+
+.about-hero h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    color: #1a365d;
+}
+
+.about-hero p {
+    font-size: 1.3rem;
+    opacity: 0.9;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+    color: #1a365d;
+}
+
+/* Mission & Vision Section */
+.mission-vision {
+    padding: 100px 0;
+    background: #f8f9fa;
+}
+
+.mission-vision-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    gap: 1rem;
+}
+
+.mission-card,
+.vision-card {
+    background: white;
+    padding: 1rem;
+    border-radius: 15px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mission-card:hover,
+.vision-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.card-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    display: block;
+}
+
+.mission-card h2,
+.vision-card h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #2d3748;
+}
+
+.mission-card p,
+.vision-card p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #718096;
+}
+
+.dialog-title {
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+    margin-bottom: 1.5rem !important;
+    color: #2d3748 !important;
+    border-bottom: 2px solid #2d3748 !important;
+}
+
+.dialog-content {
+    font-size: 1.1rem !important;
+    line-height: 1.7 !important;
+    color: #718096 !important;
+    display: flex;
+    flex-direction: row;
+}
+
+.content {
+    width: 70%;
+}
+
+.img-container {
+    width: 30%;
+}
+
+.img-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.image {
+    border-radius: 50%;
+}
+/* Story Section */
