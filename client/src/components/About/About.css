@@ -28,6 +28,7 @@
     font-weight: 700;
     margin-bottom: 1.5rem;
     line-height: 1.2;
+    color: #1a365d;
 }
 
 .about-hero p {
@@ -36,6 +37,7 @@
     max-width: 700px;
     margin: 0 auto;
     line-height: 1.6;
+    color: #1a365d;
 }
 
 /* Mission & Vision Section */

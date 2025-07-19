@@ -21,6 +21,7 @@
     color: white;
     padding: 60px 0;
     text-align: center;
+    color: #1a365d;
 }
 
 .about-hero h1 {
@@ -28,6 +29,7 @@
     font-weight: 700;
     margin-bottom: 1.5rem;
     line-height: 1.2;
+    color: #1a365d;
 }
 
 .about-hero p {

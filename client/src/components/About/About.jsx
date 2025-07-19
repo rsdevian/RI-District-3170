@@ -35,7 +35,6 @@ function About() {
                 <div className='ab-container'>
                     <div className='mission-vision-grid'>
                         <div className='mission-card'>
-                            <div className='card-icon'>🎯</div>
                             <h2>About District 3170</h2>
                             <Button
                                 onClick={() => {
@@ -59,7 +58,6 @@ function About() {
                             </Button>
                         </div>
                         <div className='vision-card'>
-                            <div className='card-icon'>🚀</div>
                             <h2>District Governor</h2>
                             <Button
                                 onClick={() => {
@@ -76,7 +74,6 @@ function About() {
                         </div>
 
                         <div className='vision-card'>
-                            <div className='card-icon'>🚀</div>
                             <h2>District Rotaract Committee Chairperson</h2>
                             <Button
                                 onClick={() => {
@@ -101,7 +98,6 @@ function About() {
                         </div>
 
                         <div className='vision-card'>
-                            <div className='card-icon'>🚀</div>
                             <h2>District Rotaract Respresentative</h2>
                             <Button
                                 onClick={() => {
@@ -126,7 +122,6 @@ function About() {
                         </div>
 
                         <div className='vision-card'>
-                            <div className='card-icon'>🚀</div>
                             <h2>District Rotaract Secretary</h2>
                             <Button
                                 onClick={() => {
