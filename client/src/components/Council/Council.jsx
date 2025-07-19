@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import { getMembersByTier } from "../../contents/members.council.js";
+import { getMembersById } from "../../contents/members.council.js";
 import "./Council.css";
 import CloseIcon from "@mui/icons-material/Close";
 
 function Council() {
     const [selectedMember, setSelectedMember] = useState(null);
 
-    const mainMembers = getMembersByTier("main");
-    const subMainMembers = getMembersByTier("sub-main");
-    const subMainMembers2 = getMembersByTier("sub-main2");
-    const regularMembers = getMembersByTier("member");
-    const droMembers = getMembersByTier("dro");
+    const mainMembers = getMembersById(0, 2);
+    const subMainMembers = getMembersById(1, 4);
+    const subMainMembers2 = getMembersById(3, 10);
+    const regularMembers = getMembersById(9, 18);
+    const droMembers = getMembersById(17, 71);
 
     const handleMemberClick = (member) => {
         setSelectedMember(member);
@@ -67,7 +67,7 @@ function Council() {
                         <MemberCard
                             key={member.id}
                             member={member}
-                            tier='main'
+                            tier='sub-main'
                         />
                     ))}
                 </div>
@@ -173,10 +173,10 @@ function Council() {
                                         Phone:
                                     </span>
                                     <a
-                                        href={`tel:${selectedMember.phone}`}
+                                        href={`tel:${selectedMember.mobile}`}
                                         className='contact-value'
                                     >
-                                        {selectedMember.phone}
+                                        {selectedMember.mobile}
                                     </a>
                                 </div>
                             </div>
