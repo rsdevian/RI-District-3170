@@ -24,6 +24,7 @@ app.use(
             "http://localhost:3001",
             "http://localhost:5173",
             "https://docs-hub-green.vercel.app",
+            "https://rotractdistrict3170.vercel.app",
         ],
         credentials: true,
     })
