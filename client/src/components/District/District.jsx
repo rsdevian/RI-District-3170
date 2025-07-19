@@ -26,8 +26,9 @@ function District() {
                 <div className='container'>
                     <h1>District</h1>
                     <p>
-                        Empowering businesses with innovative solutions and
-                        exceptional service since 2020
+                        Leading with purpose across District 3170. Uniting
+                        clubs, empowering members, and strengthening communities
+                        through collaborative service and shared vision.
                     </p>
                 </div>
             </section>
@@ -35,61 +36,76 @@ function District() {
             <section className='mission-vision'>
                 <div className='ab-container'>
                     <div className='mission-vision-grid-dis'>
-                        <Link to='/district/council'>
-                            <div className='mission-card'>
-                                <h2>District Council</h2>
-                                <p>
+                        <div className='mission-card'>
+                            <h2>District Council</h2>
+                            {/* <p>
                                     To deliver cutting-edge technology solutions
                                     that help businesses grow, innovate, and
                                     succeed in the digital age. We strive to
                                     make technology accessible, reliable, and
                                     transformative for our clients.
-                                </p>
-                            </div>
-                        </Link>
+                                </p> */}
+                            <Link to='/district/council'>
+                                <Button variant='contained'>
+                                    Click to learn more
+                                </Button>
+                            </Link>
+                        </div>
 
-                        <div
-                            className='vision-card'
-                            onClick={() => {
-                                setPoppupOpen(true);
-                            }}
-                        >
-                            <h2>Zones</h2>
-                            <p>
+                        <div>
+                            <div className='vision-card'>
+                                <h2>Zones</h2>
+                                {/* <p>
                                 To become the leading technology partner for
                                 businesses worldwide, known for our innovation,
                                 reliability, and commitment to customer success.
                                 We envision a future where technology seamlessly
                                 enhances human potential.
-                            </p>
+                            </p> */}
+                                <Button
+                                    variant='contained'
+                                    onClick={() => {
+                                        setPoppupOpen(true);
+                                    }}
+                                >
+                                    Click to learn more
+                                </Button>
+                            </div>
                         </div>
-                        <Link to='/district/initiatives'>
-                            <div className='vision-card'>
-                                <h2>District Initiatives</h2>
-                                <p>
+                        <div className='vision-card'>
+                            <h2>District Initiatives</h2>
+                            {/* <p>
                                     To become the leading technology partner for
                                     businesses worldwide, known for our
                                     innovation, reliability, and commitment to
                                     customer success. We envision a future where
                                     technology seamlessly enhances human
                                     potential.
-                                </p>
-                            </div>
-                        </Link>
-                        <div
-                            className='vision-card'
-                            onClick={() => {
-                                setEventsPoppupOpen(true);
-                            }}
-                        >
+                                </p> */}
+                            <Link to='/district/initiatives'>
+                                <Button variant='contained'>
+                                    Click to learn more
+                                </Button>
+                            </Link>
+                        </div>
+
+                        <div className='vision-card'>
                             <h2>Events</h2>
-                            <p>
+                            {/* <p>
                                 To become the leading technology partner for
                                 businesses worldwide, known for our innovation,
                                 reliability, and commitment to customer success.
                                 We envision a future where technology seamlessly
                                 enhances human potential.
-                            </p>
+                            </p> */}
+                            <Button
+                                variant='contained'
+                                onClick={() => {
+                                    setEventsPoppupOpen(true);
+                                }}
+                            >
+                                Click to learn more
+                            </Button>
                         </div>
                     </div>
                 </div>

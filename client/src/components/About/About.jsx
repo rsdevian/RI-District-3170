@@ -44,11 +44,15 @@ function About() {
             {/* Hero Section */}
             <section className='about-hero'>
                 <div className='container'>
-                    <h1>About Us</h1>
-                    <p>
-                        Empowering communities through service and leadership in
-                        Rotary International District 3170
-                    </p>
+                    <div className='container'>
+                        <h1>About Us</h1>
+
+                        <p>
+                            Connecting local service with global impact through
+                            Rotary International District 3170's dedicated
+                            network of leaders and changemakers
+                        </p>
+                    </div>
                 </div>
             </section>
 
@@ -71,7 +75,7 @@ function About() {
                                     );
                                 }}
                             >
-                                Click for More Info
+                                Click to learn more
                             </Button>
                         </div>
 
@@ -88,7 +92,7 @@ function About() {
                                     setImage(about["District Governor"].image);
                                 }}
                             >
-                                Click for More Info
+                                Click to learn more
                             </Button>
                         </div>
 
@@ -113,7 +117,7 @@ function About() {
                                     );
                                 }}
                             >
-                                Click for More Info
+                                Click to learn more
                             </Button>
                         </div>
 
@@ -138,7 +142,7 @@ function About() {
                                     );
                                 }}
                             >
-                                Click for More Info
+                                Click to learn more
                             </Button>
                         </div>
 
@@ -159,7 +163,7 @@ function About() {
                                     );
                                 }}
                             >
-                                Click for More Info
+                                Click to learn more
                             </Button>
                         </div>
                     </div>

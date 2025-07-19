@@ -143,8 +143,23 @@ function Header() {
                                 >
                                     Contact
                                 </Link>
+                                {!loggedIn && (
+                                    <Link
+                                        to='/login'
+                                        className={`${
+                                            currentPage.pathname !== "/login" &&
+                                            "nav-link"
+                                        } ${
+                                            currentPage.pathname === "/login"
+                                                ? "active"
+                                                : ""
+                                        }`}
+                                    >
+                                        Secretarial Login
+                                    </Link>
+                                )}
                                 {/* <Link to='/account' className='nav-link'> */}
-                                {!loggedIn &&
+                                {/* {!loggedIn &&
                                     currentPage.pathname !== "/login" && (
                                         <Link to='/login'>
                                             <button className='profile btn-login-header'>
@@ -152,7 +167,7 @@ function Header() {
                                                 <Person2Icon />
                                             </button>
                                         </Link>
-                                    )}
+                                    )} */}
 
                                 {loggedIn && (
                                     <button

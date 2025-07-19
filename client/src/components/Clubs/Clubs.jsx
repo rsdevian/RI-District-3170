@@ -13,8 +13,9 @@ function Clubs() {
                 <div className='container'>
                     <h1>Clubs</h1>
                     <p>
-                        Empowering businesses with innovative solutions and
-                        exceptional service since 2020
+                        Connecting communities through service, fellowship, and
+                        positive change. Discover the Rotary clubs in District
+                        3170 making a difference locally and globally.
                     </p>
                 </div>
             </section>
