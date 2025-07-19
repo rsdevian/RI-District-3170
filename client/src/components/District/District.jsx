@@ -207,10 +207,7 @@ function District() {
                 </DialogTitle>
                 <DialogContent>
                     <div className='events-content'>
-                        <Link
-                            // to='/district/events'
-                            className='event-card'
-                        >
+                        <Link to='/district/events' className='event-card'>
                             <div className='event-header'>
                                 <h3 className='event-title'>District Events</h3>
                             </div>

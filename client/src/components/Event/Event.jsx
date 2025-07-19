@@ -8,9 +8,9 @@ function Event() {
 
     const subMainMembers2 = getMembersByTier("sub-main2");
 
-    const handleMemberClick = (member) => {
-        setSelectedMember(member);
-    };
+    // const handleMemberClick = (member) => {
+    //     setSelectedMember(member);
+    // };
 
     const closeModal = () => {
         setSelectedMember(null);
@@ -19,9 +19,9 @@ function Event() {
     const MemberCard = ({ member, tier }) => (
         <div
             className={`member-card ${tier}`}
-            onClick={() => handleMemberClick(member)}
+            // onClick={() => handleMemberClick(member)}
         >
-            <div className='member-image-container'>
+            {/* <div className='member-image-container'>
                 <img
                     src={member.image}
                     alt={member.name}
@@ -35,7 +35,7 @@ function Event() {
                 <div className='member-overlay'>
                     <span>View Details</span>
                 </div>
-            </div>
+            </div> */}
             <div className='member-info'>
                 <h3 className='member-name'>{member.name}</h3>
                 <p className='member-position'>{member.position}</p>
@@ -48,7 +48,7 @@ function Event() {
         <div className='council-container'>
             {/* Header Section */}
             <div className='council-header'>
-                <h1>District Council</h1>
+                <h1>Disctrict Council</h1>
                 <p>
                     Meet the dedicated leaders who guide our organization
                     towards excellence
