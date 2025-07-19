@@ -117,16 +117,19 @@ function Contact() {
 
                             <div className='contact-details'>
                                 <div className='contact-item'>
-                                    <div className='contact-icon'>📍</div>
-                                    <div className='contact-text'>
-                                        <h3>Address</h3>
-                                        <p>
-                                            123 Business Street
-                                            <br />
-                                            Pune, Maharashtra 411001
-                                            <br />
-                                            India
-                                        </p>
+                                    <div className='contact-names'>
+                                        <div className='contact-text'>
+                                            <h3>Address</h3>
+                                            <p>
+                                                House no 1776, Dharmaveer
+                                                Sambaji
+                                                <br />
+                                                Maharaj Chowk, Kelkar baag
+                                                Belgaum -
+                                                <br />
+                                                590001
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -314,7 +317,7 @@ function Contact() {
             </section>
 
             {/* Map Section */}
-            <section className='map-section'>
+            {/* <section className='map-section'>
                 <div className='container'>
                     <h2>Find Us</h2>
                     <div className='map-placeholder'>
@@ -328,7 +331,7 @@ function Contact() {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section> */}
         </div>
     );
 }

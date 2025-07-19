@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Person2Icon from "@mui/icons-material/Person2";
 import "./Header.css";
+import Button from "@mui/material/Button";
 
 function Header() {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -32,6 +33,19 @@ function Header() {
             window.removeEventListener("authStatusChange", handleAuthChange);
         };
     }, []);
+
+    const closeMenu = () => {
+        setIsMenuOpen(false);
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userId");
+        localStorage.removeItem("email");
+        localStorage.removeItem("name");
+        setLoggedIn(false);
+        window.dispatchEvent(new Event("authStatusChange"));
+    };
 
     return (
         <header className='header-align'>
@@ -64,11 +78,27 @@ function Header() {
                             <Link to='/contact' className='nav-link'>
                                 Contact
                             </Link>
-                            <Link to='/account' className='nav-link'>
-                                <span className='profile'>
-                                    Profile <Person2Icon />
-                                </span>
-                            </Link>
+                            {/* <Link to='/account' className='nav-link'> */}
+                            {!loggedIn && (
+                                <Link to='/login' className='nav-link'>
+                                    <button className='profile btn-login-header'>
+                                        Secretarial login <Person2Icon />
+                                    </button>
+                                </Link>
+                            )}
+
+                            {loggedIn && (
+                                // <Link to='/logout' className='nav-link'>
+                                <button
+                                    className='profile btn-login-header'
+                                    onClick={handleLogout}
+                                >
+                                    Log Out
+                                </button>
+                                // </Link>
+                            )}
+
+                            {/* </Link> */}
                             {/* {loggedIn && (
                                 <Link to='/form' className='nav-link'>
                                     Form
@@ -148,7 +178,7 @@ function Header() {
                     </Link>
                 )} */}
 
-                {/* <div className='mobile-auth-section'>
+                <div className='mobile-auth-section'>
                     {loggedIn ? (
                         <>
                             <Link
@@ -183,7 +213,7 @@ function Header() {
                             </Link>
                         </div>
                     )}
-                </div> */}
+                </div>
             </nav>
 
             {/* Mobile Overlay */}

@@ -12,21 +12,60 @@
     padding: 0 20px;
 }
 
-/* Hero Section */
+/* Hero Section with Video Background */
 .hero-section {
+    position: relative;
     display: flex;
     align-items: center;
+    justify-content: center;
     min-height: 80vh;
     padding: 60px 20px;
+    color: white;
+    overflow: hidden;
+}
+
+/* Background Video Styling */
+.hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+}
+
+.background-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Video Overlay for better text readability */
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+}
+
+/* Fallback background image */
+.hero-section.fallback {
     background-image: url("/assets/images/Home/background.jpg");
     background-size: cover;
-    color: white;
-    gap: 40px;
+    background-position: center;
+    background-attachment: fixed;
 }
 
 .hero-content {
+    position: relative;
+    z-index: 1;
     flex: 1;
     max-width: 600px;
+    text-align: center;
 }
 
 .hero-title {
@@ -34,13 +73,15 @@
     font-weight: 700;
     margin-bottom: 1rem;
     line-height: 1.2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
 .hero-subtitle {
     font-size: 1.25rem;
     margin-bottom: 2rem;
-    opacity: 0.9;
+    opacity: 0.95;
     line-height: 1.6;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
 }
 
 .hero-buttons {
@@ -87,12 +128,13 @@
 .btn-primary {
     background: #fff;
     color: #667eea;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .btn-primary:hover {
     background: #f8f9ff;
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
 .btn-secondary {
@@ -203,6 +245,19 @@
         min-height: 70vh;
     }
 
+    /* Hide video on mobile for better performance */
+    .hero-video {
+        display: none;
+    }
+
+    /* Show fallback background on mobile */
+    .hero-section {
+        background-image: url("/assets/images/Home/background.jpg");
+        background-size: cover;
+        background-position: center;
+        background-attachment: scroll;
+    }
+
     .hero-title {
         font-size: 2.5rem;
     }
@@ -257,6 +312,11 @@
         width: 350px;
         height: 250px;
     }
+
+    /* Disable fixed background on tablets */
+    .hero-section.fallback {
+        background-attachment: scroll;
+    }
 }
 
 /* Small Mobile Styles */
@@ -288,5 +348,34 @@
 
     .container {
         padding: 0 15px;
+    }
+}
+
+/* High contrast and accessibility */
+@media (prefers-contrast: high) {
+    .video-overlay {
+        background: rgba(0, 0, 0, 0.7);
+    }
+    
+    .hero-title,
+    .hero-subtitle {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+    }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .background-video {
+        animation-play-state: paused;
+    }
+    
+    .btn,
+    .feature-card {
+        transition: none;
+    }
+    
+    .btn:hover,
+    .feature-card:hover {
+        transform: none;
     }
 }

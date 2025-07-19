@@ -129,6 +129,18 @@
     border: 1px solid #667eea;
 }
 
+.btn-login-header {
+    background: white;
+    color: black;
+    border: 1px solid #667eea;
+}
+
+.btn-login-header {
+    background: #667eea;
+    color: white;
+    border: 1px solid #667eea;
+}
+
 .btn-login:hover {
     background: #667eea;
     color: white;
