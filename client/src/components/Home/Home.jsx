@@ -8,17 +8,16 @@ function Home() {
     const [videoError, setVideoError] = useState(false);
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         const video = videoRef.current;
         if (!video) return;
 
         const handleLoadedData = () => {
             setVideoLoaded(true);
-            console.log("Video loaded successfully");
         };
 
         const handleError = () => {
             setVideoError(true);
-            console.log("Video failed to load, using fallback background");
         };
 
         video.addEventListener("loadeddata", handleLoadedData);

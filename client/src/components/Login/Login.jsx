@@ -24,6 +24,10 @@ function Login() {
     const navigate = useNavigate();
 
     //useEffects
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
     useEffect(() => {
         // If user is already logged in, redirect to account page
         const token = localStorage.getItem("token");

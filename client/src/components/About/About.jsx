@@ -1,5 +1,5 @@
 import "./About.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
     Dialog,
@@ -17,6 +17,10 @@ function About() {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [image, setImage] = useState("");
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     // Function to render content with proper paragraphs
     const renderContent = (content) => {

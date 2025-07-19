@@ -145,19 +145,19 @@
 
 .btn-secondary:hover {
     background: #fff;
-    color: #667eea;
+    color: #1976d2;
     transform: translateY(-2px);
 }
 
 .btn-cta {
-    background: #667eea;
+    background: #1976d2;
     color: white;
     padding: 15px 30px;
     font-size: 1.1rem;
 }
 
 .btn-cta:hover {
-    background: #5a67d8;
+    background: white !important;
     transform: translateY(-2px);
     box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
 }
@@ -356,7 +356,7 @@
     .video-overlay {
         background: rgba(0, 0, 0, 0.7);
     }
-    
+
     .hero-title,
     .hero-subtitle {
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
@@ -368,12 +368,12 @@
     .background-video {
         animation-play-state: paused;
     }
-    
+
     .btn,
     .feature-card {
         transition: none;
     }
-    
+
     .btn:hover,
     .feature-card:hover {
         transform: none;

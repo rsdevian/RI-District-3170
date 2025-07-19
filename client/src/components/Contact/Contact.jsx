@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Contact.css";
 
 function Contact() {
@@ -12,6 +12,10 @@ function Contact() {
     const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitMessage, setSubmitMessage] = useState("");
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;

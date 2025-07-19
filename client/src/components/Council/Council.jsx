@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { getMembersById } from "../../contents/members.council.js";
 import "./Council.css";
 import CloseIcon from "@mui/icons-material/Close";
 
 function Council() {
     const [selectedMember, setSelectedMember] = useState(null);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     const mainMembers = getMembersById(0, 2);
     const subMainMembers = getMembersById(1, 4);

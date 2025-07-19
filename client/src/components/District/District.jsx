@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
     Dialog,
     DialogTitle,
@@ -16,6 +16,9 @@ import respresentatives from "../../contents/zones.representatives";
 function District() {
     const [popupOpen, setPoppupOpen] = useState(false);
     const [eventPopupOpen, setEventsPoppupOpen] = useState(false);
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
     return (
         <div className='about-container'>
             {/* Hero Section */}
@@ -32,9 +35,8 @@ function District() {
             <section className='mission-vision'>
                 <div className='ab-container'>
                     <div className='mission-vision-grid-dis'>
-                        <Link to='/council'>
+                        <Link to='/district/council'>
                             <div className='mission-card'>
-                                <div className='card-icon'>🎯</div>
                                 <h2>District Council</h2>
                                 <p>
                                     To deliver cutting-edge technology solutions
@@ -52,7 +54,6 @@ function District() {
                                 setPoppupOpen(true);
                             }}
                         >
-                            <div className='card-icon'>🚀</div>
                             <h2>Zones</h2>
                             <p>
                                 To become the leading technology partner for
@@ -62,9 +63,8 @@ function District() {
                                 enhances human potential.
                             </p>
                         </div>
-                        <Link to='/login'>
+                        <Link to='/district/initiatives'>
                             <div className='vision-card'>
-                                <div className='card-icon'>🚀</div>
                                 <h2>District Initiatives</h2>
                                 <p>
                                     To become the leading technology partner for
@@ -82,7 +82,6 @@ function District() {
                                 setEventsPoppupOpen(true);
                             }}
                         >
-                            <div className='card-icon'>🚀</div>
                             <h2>Events</h2>
                             <p>
                                 To become the leading technology partner for
@@ -159,7 +158,6 @@ function District() {
                     </Button>
                 </DialogActions>
             </Dialog>
-            // Replace the empty events dialog content with this structure:
             <Dialog
                 open={eventPopupOpen}
                 onClose={() => {
@@ -171,14 +169,17 @@ function District() {
                 <DialogTitle>District Events</DialogTitle>
                 <DialogContent>
                     <div className='events-content'>
-                        <Link to='/events' className='event-card'>
+                        <Link to='/district/events' className='event-card'>
                             <div className='event-header'>
                                 <h3 className='event-title'>District Events</h3>
                             </div>
                         </Link>
 
                         {/* Example Event Card 2 */}
-                        <Link to='/rsamdio' className='event-card'>
+                        <Link
+                            to='/district/events/rsamdio'
+                            className='event-card'
+                        >
                             <div className='event-header'>
                                 <h3 className='event-title'>
                                     Rotaract South Asia Multi District
