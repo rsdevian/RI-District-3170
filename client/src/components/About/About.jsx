@@ -17,6 +17,24 @@ function About() {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [image, setImage] = useState("");
+
+    // Function to render content with proper paragraphs
+    const renderContent = (content) => {
+        return content.split("\n\n").map((paragraph, index) => (
+            <Typography
+                key={index}
+                className='content-paragraph'
+                style={{
+                    marginBottom: "1rem",
+                    lineHeight: "1.6",
+                    textAlign: "justify",
+                }}
+            >
+                {paragraph}
+            </Typography>
+        ));
+    };
+
     return (
         <div className='about-container'>
             {/* Hero Section */}
@@ -24,8 +42,8 @@ function About() {
                 <div className='container'>
                     <h1>About Us</h1>
                     <p>
-                        Empowering businesses with innovative solutions and
-                        exceptional service since 2020
+                        Empowering communities through service and leadership in
+                        Rotary International District 3170
                     </p>
                 </div>
             </section>
@@ -37,29 +55,26 @@ function About() {
                         <div className='mission-card'>
                             <h2>About District 3170</h2>
                             <Button
+                                variant='contained'
                                 onClick={() => {
                                     setPoppupOpen(true);
-                                    setTitle(
-                                        "District Rotaract Respresentative"
-                                    );
+                                    setTitle("About District 3170");
                                     setContent(
-                                        about[
-                                            "District Rotaract Respresentative"
-                                        ].content
+                                        about["About District 3170"].content
                                     );
                                     setImage(
-                                        about[
-                                            "District Rotaract Respresentative"
-                                        ].image
+                                        about["About District 3170"].image
                                     );
                                 }}
                             >
                                 Click for More Info
                             </Button>
                         </div>
+
                         <div className='vision-card'>
                             <h2>District Governor</h2>
                             <Button
+                                variant='contained'
                                 onClick={() => {
                                     setPoppupOpen(true);
                                     setTitle("District Governor");
@@ -76,19 +91,20 @@ function About() {
                         <div className='vision-card'>
                             <h2>District Rotaract Committee Chairperson</h2>
                             <Button
+                                variant='contained'
                                 onClick={() => {
                                     setPoppupOpen(true);
                                     setTitle(
-                                        "District Rotaract Respresentative"
+                                        "District Rotaract Committee Chairperson"
                                     );
                                     setContent(
                                         about[
-                                            "District Rotaract Respresentative"
+                                            "District Rotaract Committee Chairperson"
                                         ].content
                                     );
                                     setImage(
                                         about[
-                                            "District Rotaract Respresentative"
+                                            "District Rotaract Committee Chairperson"
                                         ].image
                                     );
                                 }}
@@ -98,12 +114,13 @@ function About() {
                         </div>
 
                         <div className='vision-card'>
-                            <h2>District Rotaract Respresentative</h2>
+                            <h2>District Rotaract Representative</h2>
                             <Button
+                                variant='contained'
                                 onClick={() => {
                                     setPoppupOpen(true);
                                     setTitle(
-                                        "District Rotaract Respresentative"
+                                        "District Rotaract Representative"
                                     );
                                     setContent(
                                         about[
@@ -124,6 +141,7 @@ function About() {
                         <div className='vision-card'>
                             <h2>District Rotaract Secretary</h2>
                             <Button
+                                variant='contained'
                                 onClick={() => {
                                     setPoppupOpen(true);
                                     setTitle("District Rotaract Secretary");
@@ -143,31 +161,76 @@ function About() {
                     </div>
                 </div>
             </section>
+
             <Dialog
                 open={popupOpen}
-                onClose={() => {
-                    setPoppupOpen(false);
-                }}
+                onClose={() => setPoppupOpen(false)}
                 maxWidth='lg'
                 fullWidth
+                PaperProps={{
+                    style: {
+                        borderRadius: "12px",
+                        maxHeight: "90vh",
+                    },
+                }}
             >
-                <DialogTitle className='dialog-title'>{title}</DialogTitle>
-                <DialogContent className='dialog-content'>
-                    <Typography className='content'>{content}</Typography>
-                    <div className='img-container'>
-                        <div className='img-div'>
-                            <img
-                                src={image}
-                                alt={"image"}
-                                width='250px'
-                                className='image'
-                            />
-                        </div>
+                <DialogTitle
+                    className='dialog-title'
+                    style={{
+                        fontSize: "1.5rem",
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        borderBottom: "1px solid #e0e0e0",
+                        paddingBottom: "1rem",
+                    }}
+                >
+                    {title}
+                </DialogTitle>
+
+                <DialogContent
+                    className='dialog-content'
+                    style={{
+                        padding: "2rem",
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: "1.5rem",
+                    }}
+                >
+                    <div className='content-container'>
+                        {renderContent(content)}
                     </div>
+
+                    {image && (
+                        <div
+                            className='img-container'
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                marginBottom: "1rem",
+                            }}
+                        >
+                            <div className='img-div'>
+                                <img
+                                    src={image}
+                                    alt={title}
+                                    style={{
+                                        width: "250px",
+                                        height: "auto",
+                                        borderRadius: "8px",
+                                        boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                                    }}
+                                    className='image'
+                                />
+                            </div>
+                        </div>
+                    )}
                 </DialogContent>
-                <DialogActions>
+
+                <DialogActions style={{ padding: "1rem 2rem" }}>
                     <Button
                         onClick={() => setPoppupOpen(false)}
+                        variant='contained'
+                        color='primary'
                         className='close-button'
                     >
                         Close

@@ -9,6 +9,7 @@ import DRJSImage from "/assets/images/council/DRJS.jpg";
 import CADRRImage from "/assets/images/council/CADRR.jpeg";
 import DRTImage from "/assets/images/council/DRT.png";
 import DLFImage from "/assets/images/council/DLF.jpg";
+import DRCImage from "/assets/images/council/DRC.jpg";
 import DSAImage from "/assets/images/council/DSA.jpg";
 import DSA2Image from "/assets/images/council/DSA2.jpg";
 
@@ -24,14 +25,14 @@ import ZRRUKZImage from "/assets/images/council/ZRRUKZ.jpg";
 
 //DRO
 import IPDRRImage from "/assets/images/council/IPDRR.jpeg";
-// import DRREImage from "/assets/images/council/DRRE.jpeg";
+import DRREImage from "/assets/images/council/DREE.jpg";
 import DCSDImage from "/assets/images/council/DCSD.jpg";
 import DCoSDImage from "/assets/images/council/DCoSD.jpg";
 import DPDDImage from "/assets/images/council/DPDD.jpg";
 import DISDImage from "/assets/images/council/DISD.jpg";
 import DICImage from "/assets/images/council/DIC1.jpg";
 import DIC2Image from "/assets/images/council/DIC2.jpeg";
-// import DIC3Image from "/assets/images/council/DIC3.jpeg";
+import DIC3Image from "/assets/images/council/DIC3.jpg";
 import DCREC1Image from "/assets/images/council/DCREC1.jpg";
 import DCREC2Image from "/assets/images/council/DCREC2.jpeg";
 import DVMT1Image from "/assets/images/council/DVMT1.jpeg";
@@ -57,7 +58,7 @@ import DDMOCImage from "/assets/images/council/DDMOC.jpeg";
 import DRYLACImage from "/assets/images/council/DRYLAC.jpg";
 import DWRCWImage from "/assets/images/council/DWRCW.jpeg";
 import DMDECImage from "/assets/images/council/DMDEC.jpg";
-// import DACCImage from "/assets/images/council/DACC.jpg";
+import DACCImage from "/assets/images/council/DACC.jpg";
 import DACC2Image from "/assets/images/council/DACC2.jpg";
 import DACC3Image from "/assets/images/council/DACC3.jpg";
 import DCHPC1Image from "/assets/images/council/DCHPC1.jpg";
@@ -73,7 +74,7 @@ import DAWNCC4Image from "/assets/images/council/DAWNCC4.png";
 import DTRFImage from "/assets/images/council/DTRF.jpeg";
 import DMCImage from "/assets/images/council/DMC.jpg";
 import DRBNCImage from "/assets/images/council/DRBNC.jpeg";
-// import DRBNCMImage from "/assets/images/council/DRBNCMI.jpeg";
+import DRBNCMImage from "/assets/images/council/DRBNCMI.jpg";
 import DMDSC1Image from "/assets/images/council/DMDSC1.png";
 import DMDSC2Image from "/assets/images/council/DMDSC2.png";
 
@@ -132,7 +133,7 @@ const councilMembers = [
         position: "District Rotaract Chairperson",
         email: "vinay.balikai@gmail.com",
         mobile: "8453004747",
-        // image: DRCImage,
+        image: DRCImage,
     },
     {
         id: "8.0",
@@ -228,7 +229,7 @@ const councilMembers = [
         position: "District Rotaract Representative Elect",
         email: "ameyvarerkar@gmail.com",
         mobile: "7350140270",
-        // image: DRREImage,
+        image: DRREImage,
     },
     {
         id: "20.0",
@@ -284,7 +285,7 @@ const councilMembers = [
         position: "District Initiative Chairperson",
         email: "-",
         mobile: "8626033385",
-        // image: DIC3Image,
+        image: DIC3Image,
     },
     {
         id: "27.0",
@@ -492,7 +493,7 @@ const councilMembers = [
         position: "District Awards Committee Chairperson",
         email: "chinmayendraarya@gmail.com",
         mobile: "7019525698",
-        // image: DACCImage,
+        image: DACCImage,
     },
     {
         id: "53.0",
@@ -620,7 +621,7 @@ const councilMembers = [
         position: "District Rotaract Business Network (RBN) Committee Member",
         email: "Oswaldarshan51@gmail.com",
         mobile: "8149002121",
-        // image: DRBNCMImage,
+        image: DRBNCMImage,
     },
     {
         id: "69.0",
