@@ -18,7 +18,8 @@
     align-items: center;
     min-height: 80vh;
     padding: 60px 20px;
-    background: linear-gradient(105.9deg, rgb(54, 0, 51), rgb(11, 135, 147));
+    background-image: url("/assets/images/Home/background.jpg");
+    background-size: cover;
     color: white;
     gap: 40px;
 }
