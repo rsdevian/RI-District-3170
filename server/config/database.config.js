@@ -15,7 +15,6 @@ async function connectDB() {
         }
 
         console.log("\nConnecting to Database...");
-        console.log(process.env.MONGODB_URI);
         //connect to the database
         await mongoose.connect(process.env.MONGODB_URI);
         //log success message
