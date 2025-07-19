@@ -70,7 +70,7 @@ import DAWNCC1Image from "/assets/images/council/DAWNCC1.jpg";
 import DAWNCC2Image from "/assets/images/council/DAWNCC2.jpg";
 import DAWNCC3Image from "/assets/images/council/DAWNCC3.jpeg";
 import DAWNCC4Image from "/assets/images/council/DAWNCC4.png";
-// import DAWNCC5Image from "/assets/images/council/DAWNCC5.jpg";
+import DAWNCC5Image from "/assets/images/council/DAWNCC5.jpg";
 import DTRFImage from "/assets/images/council/DTRF.jpeg";
 import DMCImage from "/assets/images/council/DMC.jpg";
 import DRBNCImage from "/assets/images/council/DRBNC.jpeg";
@@ -589,7 +589,7 @@ const councilMembers = [
         position: "District Animal Welfare and Nature Conservation Chairperson",
         email: "anikita22569@gmail.com",
         mobile: "9527768704",
-        // image: DAWNCC5Image,
+        image: DAWNCC5Image,
     },
     {
         id: "65.0",

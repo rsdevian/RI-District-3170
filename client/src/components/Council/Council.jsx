@@ -65,7 +65,7 @@ function Council() {
 
             {/* Main Leader - Top Row (1 person) */}
             <section className='council-section main-section'>
-                <h2 className='section-title'>DRR Core</h2>
+                <h2 className='section-title'>DRR</h2>
                 <div className='main-member-row'>
                     {mainMembers.map((member) => (
                         <MemberCard
@@ -105,7 +105,9 @@ function Council() {
 
             {/* Regular Members - 3rd Row onwards (3 per row) */}
             <section className='council-section members-section'>
-                <h2 className='section-title'>Board Members</h2>
+                <h2 className='section-title'>
+                    Zonal Rotaract Representatives
+                </h2>
                 <div className='regular-members-grid'>
                     {regularMembers.map((member) => (
                         <MemberCard

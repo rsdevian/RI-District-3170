@@ -215,69 +215,69 @@ function Form() {
     }, [user]);
 
     // Function to handle deleting all files
-    const handleDeleteAll = useCallback(async () => {
-        // Check if user is authenticated
-        if (!user || !user.email) {
-            setMessage("Please login to delete files");
-            return;
-        }
+    // const handleDeleteAll = useCallback(async () => {
+    //     // Check if user is authenticated
+    //     if (!user || !user.email) {
+    //         setMessage("Please login to delete files");
+    //         return;
+    //     }
 
-        // Confirm deletion with user
-        const confirmDelete = window.confirm(
-            "Are you sure you want to delete all your files? This action cannot be undone."
-        );
+    //     // Confirm deletion with user
+    //     const confirmDelete = window.confirm(
+    //         "Are you sure you want to delete all your files? This action cannot be undone."
+    //     );
 
-        if (!confirmDelete) return;
+    //     if (!confirmDelete) return;
 
-        try {
-            // Set loading state for delete all
-            setLoading((prev) => ({ ...prev, deleteAll: true }));
-            setMessage("");
+    //     try {
+    //         // Set loading state for delete all
+    //         setLoading((prev) => ({ ...prev, deleteAll: true }));
+    //         setMessage("");
 
-            // Get userId for the request
-            const userId = user.id || user.uid || user._id || user.userId;
+    //         // Get userId for the request
+    //         const userId = user.id || user.uid || user._id || user.userId;
 
-            // Prepare request body
-            const requestBody = {};
-            if (userId) {
-                requestBody.userId = userId;
-            } else {
-                requestBody.userEmail = user.email;
-            }
+    //         // Prepare request body
+    //         const requestBody = {};
+    //         if (userId) {
+    //             requestBody.userId = userId;
+    //         } else {
+    //             requestBody.userEmail = user.email;
+    //         }
 
-            // Send request to server to delete all files for the current user
-            const response = await fetch(`${URL}/api/file/deleteall`, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${user.token}`,
-                },
-                body: JSON.stringify(requestBody),
-            });
+    //         // Send request to server to delete all files for the current user
+    //         const response = await fetch(`${URL}/api/file/deleteall`, {
+    //             method: "DELETE",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //                 Authorization: `Bearer ${user.token}`,
+    //             },
+    //             body: JSON.stringify(requestBody),
+    //         });
 
-            // Parse response data
-            const data = await response.json();
+    //         // Parse response data
+    //         const data = await response.json();
 
-            if (response.ok) {
-                // Set success message
-                setMessage(data.message || "All files deleted successfully!");
+    //         if (response.ok) {
+    //             // Set success message
+    //             setMessage(data.message || "All files deleted successfully!");
 
-                // Clear fetched files list
-                setFetchedFiles(null);
-            } else {
-                setMessage(data.message || "Failed to delete files");
-            }
-        } catch (error) {
-            // Log delete error
-            console.error("Error deleting files:", error);
-            setMessage(
-                "Network error. Please check your connection and try again."
-            );
-        } finally {
-            // Remove loading state
-            setLoading((prev) => ({ ...prev, deleteAll: false }));
-        }
-    }, [user]);
+    //             // Clear fetched files list
+    //             setFetchedFiles(null);
+    //         } else {
+    //             setMessage(data.message || "Failed to delete files");
+    //         }
+    //     } catch (error) {
+    //         // Log delete error
+    //         console.error("Error deleting files:", error);
+    //         setMessage(
+    //             "Network error. Please check your connection and try again."
+    //         );
+    //     } finally {
+    //         // Remove loading state
+    //         setLoading((prev) => ({ ...prev, deleteAll: false }));
+    //     }
+    // }, [user]);
 
     // Function to handle downloading a file
     const handleDownload = useCallback(
@@ -344,7 +344,9 @@ function Form() {
     return (
         <div className='form-container'>
             <div className='form-header'>
-                <h2>File Management</h2>
+                <h2></h2>
+                <h2>Report Management</h2>
+                <p>Upload your report pdf file here!</p>
             </div>
 
             <div className='file-operations'>
@@ -378,13 +380,15 @@ function Form() {
                                 <CircularProgress size={16} />
                                 <span>Uploading...</span>
                             </>
+                        ) : !file ? (
+                            "Select a file to submit"
                         ) : (
-                            "Upload File"
+                            "Submit"
                         )}
                     </button>
 
                     {/* View all files button */}
-                    <button
+                    {/* <button
                         onClick={handleViewAll}
                         disabled={loading.viewAll}
                         className='action-button view-button'
@@ -397,10 +401,10 @@ function Form() {
                         ) : (
                             "View My Files"
                         )}
-                    </button>
+                    </button> */}
 
                     {/* Delete all files button */}
-                    <button
+                    {/* <button
                         onClick={handleDeleteAll}
                         disabled={
                             loading.deleteAll ||
@@ -417,7 +421,7 @@ function Form() {
                         ) : (
                             "Delete All My Files"
                         )}
-                    </button>
+                    </button> */}
                 </div>
             </div>
 
@@ -439,7 +443,7 @@ function Form() {
                                         <>
                                             {file.uploadDate && (
                                                 <span className='file-date'>
-                                                    Uploaded:{" "}
+                                                    Uploaded:
                                                     {new Date(
                                                         file.uploadDate
                                                     ).toLocaleDateString()}

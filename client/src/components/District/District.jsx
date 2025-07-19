@@ -118,7 +118,16 @@ function District() {
                 maxWidth='lg'
                 fullWidth
             >
-                <DialogTitle>Zones</DialogTitle>
+                <DialogTitle
+                    style={{
+                        borderBottom: "5px solid #1976d2",
+                        color: "#1976d2",
+                        fontWeight: "bold",
+                        padding: "5px 20px",
+                    }}
+                >
+                    <h2 style={{ margin: "0px" }}>Zones</h2>
+                </DialogTitle>
                 <DialogContent>
                     <div className='rep-content'>
                         {respresentatives.map((item, index) => {
@@ -181,11 +190,27 @@ function District() {
                 }}
                 maxWidth='lg'
                 fullWidth
+                BackdropProps={{
+                    style: {
+                        backgroundColor: "rgba(0,0,0,0.4)",
+                    },
+                }}
             >
-                <DialogTitle>District Events</DialogTitle>
+                <DialogTitle
+                    style={{
+                        borderBottom: "5px solid #1976d2",
+                        color: "#1976d2",
+                        fontWeight: "bold",
+                    }}
+                >
+                    <h2 style={{ margin: "0px" }}>Disctrict - Events</h2>
+                </DialogTitle>
                 <DialogContent>
                     <div className='events-content'>
-                        <Link to='/district/events' className='event-card'>
+                        <Link
+                            // to='/district/events'
+                            className='event-card'
+                        >
                             <div className='event-header'>
                                 <h3 className='event-title'>District Events</h3>
                             </div>
@@ -193,7 +218,7 @@ function District() {
 
                         {/* Example Event Card 2 */}
                         <Link
-                            to='/district/events/rsamdio'
+                            // to='/district/events/rsamdio'
                             className='event-card'
                         >
                             <div className='event-header'>
@@ -205,31 +230,37 @@ function District() {
                         </Link>
 
                         {/* Example Event Card 3 */}
-                        <div to='/' className='event-card'>
+                        <Link
+                            // to='/'
+                            className='event-card'
+                        >
                             <div className='event-header'>
                                 <h3 className='event-title'>
                                     South East Asia Rotract Information Center
                                     (SEARIC MDIO)
                                 </h3>
                             </div>
-                        </div>
+                        </Link>
 
-                        <div to='/' className='event-card'>
+                        <Link
+                            // to='/'
+                            className='event-card'
+                        >
                             <div className='event-header'>
                                 <h3 className='event-title'>
                                     Rotary International Convention - Taipei
                                 </h3>
                             </div>
-                        </div>
+                        </Link>
                         {/* If no events, show this instead */}
                         {/* 
-            <div className='no-events'>
-                <div className='no-events-title'>No Events Available</div>
-                <div className='no-events-message'>
-                    Check back later for upcoming district events and activities.
-                </div>
-            </div>
-            */}
+                            <div className='no-events'>
+                                <div className='no-events-title'>No Events Available</div>
+                                <div className='no-events-message'>
+                                    Check back later for upcoming district events and activities.
+                                </div>
+                            </div>
+                        */}
                     </div>
                 </DialogContent>
                 <DialogActions>

@@ -189,7 +189,7 @@ function About() {
                         fontWeight: "bold",
                         textAlign: "center",
                         borderBottom: "1px solid #e0e0e0",
-                        paddingBottom: "1rem",
+                        paddingBottom: "1rem",  
                     }}
                 >
                     {title}
@@ -204,9 +204,7 @@ function About() {
                         gap: "1.5rem",
                     }}
                 >
-                    <div className='content-container'>
-                        {renderContent(content)}
-                    </div>
+                    <div className='content'>{renderContent(content)}</div>
 
                     {image && (
                         <div
@@ -226,6 +224,7 @@ function About() {
                                         height: "auto",
                                         borderRadius: "8px",
                                         boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                                        border: "2px solid black",
                                     }}
                                     className='image'
                                 />

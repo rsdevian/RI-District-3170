@@ -1,6 +1,8 @@
-import DGImage from "/assets/images/DG.jpg";
-import DRRImage from "/assets/images/DRR.png";
-import DRSImage from "/assets/images/DRS.jpg";
+import DGImage from "/assets/images/about/DG.jpg";
+import DRRImage from "/assets/images/about/DRR.png";
+import DRCImage from "/assets/images/about/DRC.jpg";
+import DRSImage from "/assets/images/about/DRS.jpg";
+import DImage from "/assets/images/about/District.png";
 
 const about = {
     "District Governor": {
@@ -13,7 +15,7 @@ Beyond engineering, he has demonstrated exceptional leadership as the former Pre
 In Rotary, Rtn. Arun's journey began in 1997. Over the years, he has been celebrated as Best Rotarian, Best Secretary of the District (2002-03), and Best Club President (2010-11), bagging more than 20 district awards and 4 Rotary International awards during his term. A dedicated Major Donor to The Rotary Foundation, Rtn. Arun has also founded the Deepak Memorial Trust, investing ₹25 lakhs toward education and healthcare for underprivileged families. His unanimous nomination as District Governor for 2025-26 is a testament to his dedication and vision for Rotary.`,
         image: DGImage,
     },
-    
+
     "District Rotaract Respresentative": {
         content: `PHF DRR Rtn. Rtr. Harsh Paresh Shinde is a vibrant, passionate, and inspiring leader from Belgaum. An Architecture graduate from KLS GIT, Harsh is also a skilled digital marketer, professional anchor, and founder of his creative firm, PRAHAS, launched in 2023. His dynamic personality and versatile skill set have made him a well-known face in both professional and social circles.
 
@@ -24,7 +26,7 @@ Harsh has received wide recognition for his dedication and achievements: Best Cl
 He has also been a judge, speaker, and trainer at prestigious institutions across Belgaum and beyond. Known for his extroverted nature, positivity, and dedication, Harsh continues to inspire others through his service, creativity, and deep sense of gratitude. His journey reflects a perfect blend of leadership, professionalism, and heartfelt contribution to society.`,
         image: DRRImage,
     },
-    
+
     "About District 3170": {
         content: `Rotary International District 3170 is a vibrant and dynamic district that encompasses a diverse geographical area with a rich heritage of service and community development. Our district is home to numerous Rotary clubs that work tirelessly to address local and global challenges through various service projects and initiatives.
 
@@ -33,20 +35,20 @@ The district has a strong tradition of leadership development and community enga
 Our district is committed to building sustainable communities through collaborative efforts and innovative solutions. We work closely with local governments, NGOs, and community organizations to maximize our impact and create lasting change in the lives of people we serve.
 
 With a membership spanning across diverse professions and backgrounds, District 3170 continues to uphold Rotary's motto of "Service Above Self" while adapting to meet the evolving needs of our communities in the 21st century.`,
-        image: DRRImage,
+        image: DImage,
     },
-    
+
     "District Rotaract Committee Chairperson": {
-        content: `The District Rotaract Committee Chairperson plays a crucial role in bridging the gap between Rotary and Rotaract clubs within District 3170. This position requires exceptional leadership skills, strategic thinking, and a deep understanding of both Rotary and Rotaract cultures to ensure seamless coordination and collaboration.
+        content: `Vinaykumar Bupal Balikai is the Managing Director of Hitech Group Belgaum and President of Rotary Club of Venugram Belgaum during its Silver Jubilee Year. Born on August 23, 1982, in Athani Taluka, he is a qualified pharmacist who has built a diverse business empire spanning pharmaceuticals, advertising, manufacturing, and automotive dealerships.
 
-Our current chairperson brings years of experience in youth development and community service, having served in various capacities within both Rotary and Rotaract organizations. They are responsible for overseeing the growth and development of Rotaract clubs, ensuring they receive adequate support and guidance from their sponsoring Rotary clubs.
+Starting as a pharmacist with Padmashree Medicals in 2005, Vinaykumar expanded into multiple ventures including Hitech Advertisers, Hitech Doors Factory, and authorized dealerships for TVS, Ashok Leyland, and Piaggio across Belgaum and Bagalkot districts. His entrepreneurial success has been recognized with numerous awards including Best Upcoming Trader by Belgaum Chambers of Commerce and lifetime achievement recognition.
 
-The chairperson works closely with the District Rotaract Representative and District Rotaract Secretary to implement district-wide initiatives, organize training programs, and facilitate knowledge sharing among clubs. They also play a vital role in identifying and nurturing future leaders who will eventually transition from Rotaract to Rotary.
+Beyond business, Vinaykumar is deeply committed to social service - supporting over 24 students' education, donating blood 84+ times, and leading eye donation awareness campaigns with 130+ pledges. He is married to Dr. Charushila, an accomplished pharmacist and lecturer pursuing her Ph.D., and they have one son, Prithvi.
 
-Under their guidance, the district has seen remarkable growth in Rotaract membership and increased participation in community service projects. Their vision focuses on empowering young professionals to become effective leaders and change-makers in their communities while maintaining the core values of Rotary.`,
-        image: DRRImage,
+His motto of service above self is reflected in both his business leadership and extensive community work across educational, healthcare, and social welfare initiatives.`,
+        image: DRCImage,
     },
-    
+
     "District Rotaract Secretary": {
         content: `Harshit Kulkarni's journey has been one of purpose, passion, and progress. A proud alumnus of Kendriya Vidyalaya No. 2, Belagavi, and KLE Independent PU College, he pursued his Mechanical Engineering from KLS Gogte Institute of Technology, where he not only graduated as a department topper but also served as the General Secretary of the college.
 

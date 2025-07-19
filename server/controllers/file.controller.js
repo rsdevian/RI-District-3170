@@ -178,7 +178,7 @@ const uploadFile = async (req, res) => {
         // Return success response
         res.status(201).json({
             success: true,
-            message: "File uploaded successfully to MongoDB",
+            message: "Report submitted successfully",
             file: {
                 id: newFile._id,
                 fileName: newFile.fileName,
