@@ -16,7 +16,8 @@
 
 /* Hero Section */
 .about-hero {
-    background: linear-gradient(105.9deg, rgb(54, 0, 51), rgb(11, 135, 147));
+    background-image: url("/assets/images/Home/background.jpg");
+    background-size: cover;
     color: white;
     padding: 60px 0;
     text-align: center;
