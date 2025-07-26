@@ -1,9 +1,12 @@
-const development = false;
+import configs from "../config/envs";
 
-const developmentUrl = "http://localhost:3000";
-const productionURL = "https://docshub-dev-w2ku.onrender.com";
+const env = configs.NODE_ENV;
 
-const env = development ? "Development" : "Production";
-const URL = development ? developmentUrl : productionURL;
+const URLs = {
+    development: configs.DEVELOPMENT_URL,
+    production: configs.PRODUCTION_URL,
+};
+
+const URL = URLs[env];
 
 export { URL, env };

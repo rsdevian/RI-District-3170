@@ -61,8 +61,6 @@ function App() {
                             element={<District />}
                         />
 
-                        <Route path='/clubs' element={<Clubs />} />
-
                         <Route path='/district/council' element={<Council />} />
 
                         <Route path='/district/events' element={<Event />} />
@@ -71,6 +69,8 @@ function App() {
                             path='/district/events/rsamdio'
                             element={<RSAMDIO />}
                         />
+
+                        <Route path='/clubs' element={<Clubs />} />
 
                         <Route path='*' element={<Home />} />
                     </Routes>
