@@ -5,7 +5,8 @@ import cors from "cors";
 
 //import routers
 import fileRouter from "./routes/file.router.js";
-import userRouter from "./routes/user.routes.js";
+import userRouter from "./routes/user.router.js";
+import healthRouter from "./routes/health.router.js";
 
 //import db config
 import { connectDB } from "./config/database.config.js";
@@ -15,8 +16,8 @@ config();
 
 //app configuration
 const app = express();
-const PORT = process.env.PORT || 3000;
-const allowedCorsOrigin = process.env.CORS_ORIGIN_ALLOW;
+const port = process.env.PORT; //port info from env variables
+const allowedCorsOrigin = process.env.CORS_ORIGIN_ALLOW; //cors origin from env variables
 
 //cors
 app.use(
@@ -32,21 +33,12 @@ app.use(express.urlencoded({ extended: true }));
 //connect to db
 connectDB().then(() => {
     //listener
-    app.listen(PORT, () => {
-        console.log(`\nServer running on port: http://localhost:${PORT}`);
+    app.listen(port, () => {
+        console.log(`\nServer is ready to use!`);
     });
 });
 
 //routers
 app.use("/api/file", fileRouter); //file router
 app.use("/api/user", userRouter); //user router
-
-//health check
-app.get("/api/health", (req, res) => {
-    res.status(200).json({
-        message: "Server is running",
-        success: true,
-        timestamp: new Date().toISOString(),
-        environment: process.env.NODE_ENV || "development",
-    });
-});
+app.use("/api/health", healthRouter); //health router
