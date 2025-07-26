@@ -13,7 +13,7 @@ import "../../styles/Form.css";
 function Form() {
     // Get user data from AuthContext
     const { user } = useAuth();
-    console.log(user);
+    // console.log(user);
     //states
     const [message, setMessage] = useState("");
     const [file, setFile] = useState(null);
