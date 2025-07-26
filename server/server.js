@@ -16,15 +16,17 @@ config();
 //app configuration
 const app = express();
 const PORT = process.env.PORT || 3000;
+const allowedCorsOrigin = process.env.CORS_ORIGIN_ALLOW;
 
 //cors
 app.use(
     cors({
         origin: [
-            "http://localhost:3001",
-            "http://localhost:5173",
-            "https://docs-hub-green.vercel.app",
-            "https://rotractdistrict3170.vercel.app",
+            // "http://localhost:3001",
+            // "http://localhost:5173",
+            // "https://docs-hub-green.vercel.app",
+            // "https://rotractdistrict3170.vercel.app",
+            allowedCorsOrigin,
         ],
         credentials: true,
     })
