@@ -2,6 +2,8 @@
 import { useEffect, useState, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 //import constants
 import { URL } from "../../constants/url.js";
@@ -19,6 +21,10 @@ function Login() {
         email: "",
         password: "",
     });
+    const [_, setTimeExtended] = useState(0);
+    const [startTimer, setStartTimer] = useState(false);
+    const [serverContent, setServerContent] = useState(null);
+    const [visibility, setVisibility] = useState(false);
 
     //navigator
     const navigate = useNavigate();
@@ -35,6 +41,25 @@ function Login() {
             navigate("/account");
         }
     }, [navigate]);
+
+    useEffect(() => {
+        if (startTimer) {
+            setInterval(() => {
+                setTimeExtended((prevTime) => {
+                    const curTimev = prevTime + 1;
+                    if (curTimev >= 3) {
+                        setServerContent(
+                            "Connecting to server... Please Wait!"
+                        );
+                    }
+                    return curTimev;
+                });
+            }, 1000);
+        } else {
+            setTimeExtended(0);
+            setServerContent(null);
+        }
+    }, [startTimer]);
 
     useEffect(() => {
         // Check if form is complete to enable/disable login button
@@ -75,8 +100,9 @@ function Login() {
         try {
             // Add loading status to disable queued requests
             setLoading(true);
+            setVisibility(false);
             setMessage("");
-
+            setStartTimer(true);
             const { email, password } = details;
 
             // Validate fields
@@ -135,6 +161,15 @@ function Login() {
             );
         } finally {
             // Remove loading status after response
+            setDetails((prev) => {
+                return {
+                    ...prev,
+                    password: "",
+                };
+            });
+            setTimeExtended(0);
+            setServerContent(null);
+            setStartTimer(false);
             setLoading(false);
         }
     }, [details, navigate]);
@@ -157,15 +192,33 @@ function Login() {
             />
 
             {/* Password input field */}
-            <input
-                value={details.password}
-                type='password'
-                placeholder='Password'
-                onChange={handleInputChange("password")}
-                onKeyDown={handleKeyDown}
-                disabled={loading}
-                autoComplete='current-password'
-            />
+            <div className='password-container'>
+                <input
+                    value={details.password}
+                    type={visibility ? "text" : "password"}
+                    placeholder='Password'
+                    onChange={handleInputChange("password")}
+                    onKeyDown={handleKeyDown}
+                    disabled={loading}
+                    autoComplete='current-password'
+                />
+                {!visibility && (
+                    <VisibilityIcon
+                        className='visibility-on-icon'
+                        onClick={() => {
+                            setVisibility(true);
+                        }}
+                    />
+                )}
+                {visibility && (
+                    <VisibilityOffIcon
+                        className='visibility-on-icon'
+                        onClick={() => {
+                            setVisibility(false);
+                        }}
+                    />
+                )}
+            </div>
 
             {/* Login button with loading state */}
             <button
@@ -175,8 +228,13 @@ function Login() {
             >
                 {loading ? (
                     <>
-                        <CircularProgress size={20} />
-                        <span style={{ marginLeft: "8px" }}>Logging in...</span>
+                        <CircularProgress
+                            size={20}
+                            className='circular-progress'
+                        />
+                        <span style={{ marginLeft: "8px" }}>
+                            {serverContent || "Logging in..."}
+                        </span>
                     </>
                 ) : !formCompleted ? (
                     "Fill in all fields to login"

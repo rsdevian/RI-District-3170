@@ -237,3 +237,32 @@
         transform: none;
     }
 }
+
+.circular-progress {
+    color: #fff !important;
+}
+
+.password-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.password-container input {
+    padding-right: 40px;
+    width: 70%;
+}
+
+.visibility-on-icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    padding: 0 10px;
+    border: none;
+    background: none;
+    color: #2d3748 !important;
+}
