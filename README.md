@@ -1,12 +1,39 @@
-# React + Vite
+# Rotract District 3170
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the repository for the Rotract District 3170 website. The website is built using [react.js] for building server-rendered applications.
 
-Currently, two official plugins are available:
+## Getting Started
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. clone the repo in local system (after repository access)
 
-## Expanding the ESLint configuration
+```bash
+git clone https://github.com/rsdevian/DocsHub-dev
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+2. install the initial packages by navigating to client & server folders:
+
+client:
+
+```bash
+cd client
+npm install
+```
+
+server:
+
+```bash
+cd server
+npm install
+```
+
+3. run the development client & server ports:
+
+```bash
+npm run dev
+```
+
+Create .env and add variables with ports and db credentials to Open with your browser to see the result.
+
+(Contact Repo Owner for access and local setup)
+
+<!-- You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file. -->
