@@ -1,4 +1,4 @@
-const development = true;
+const development = false;
 
 const developmentUrl = "http://localhost:3000";
 const productionURL = "https://docshub-dev-w2ku.onrender.com";
