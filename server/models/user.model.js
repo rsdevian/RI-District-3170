@@ -4,7 +4,7 @@ import { model, Schema } from "mongoose";
 //import middleware
 import { validateEmail } from "../middleware/validation.middleware.js";
 
-//initiate schema
+//create schema
 const userSchema = new Schema({
     // Basic user information
     name: {

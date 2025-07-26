@@ -22,7 +22,7 @@ const allowedCorsOrigin = process.env.CORS_ORIGIN_ALLOW; //cors origin from env 
 //cors
 app.use(
     cors({
-        origin: [allowedCorsOrigin],
+        origin: [allowedCorsOrigin], //set cors origin restriction
         credentials: true,
     })
 );

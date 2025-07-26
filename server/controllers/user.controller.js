@@ -74,6 +74,7 @@ async function userLogin(req, res) {
             message: "Logged in successfully",
         });
     } catch (error) {
+        //if there is an error in logging in return error message
         res.status(500).json({ message: "Error Logging In" });
         console.log("Error Logging In: ", error);
     }

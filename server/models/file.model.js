@@ -1,6 +1,8 @@
-import mongoose from "mongoose";
+//import modules
+import { model, Schema } from "mongoose";
 
-const fileSchema = new mongoose.Schema(
+//create schema
+const fileSchema = new Schema(
     {
         fileName: {
             type: String,
@@ -14,7 +16,7 @@ const fileSchema = new mongoose.Schema(
         },
         // For GridFS, we store the GridFS file ID instead of file path
         gridfsFileId: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: Schema.Types.ObjectId,
             required: true,
         },
         fileSize: {
@@ -233,6 +235,8 @@ fileSchema.virtual("ageInDays").get(function () {
 fileSchema.set("toJSON", { virtuals: true });
 fileSchema.set("toObject", { virtuals: true });
 
-const File = mongoose.model("File", fileSchema);
+//assign the model with a schema
+const File = model("File", fileSchema);
 
+//export the model
 export default File;

@@ -1,10 +1,12 @@
+//import modules
 import { config } from "dotenv";
-// Function to log details of an incoming HTTP request
 
+//config env variables
 config();
 
-const environment = process.env.NODE_ENV;
+const environment = process.env.NODE_ENV; //environment info from env variables
 
+// Function to log details of an incoming HTTP request
 function requestLog(req) {
     // Log the request details to the console
     if (environment === "development") {
