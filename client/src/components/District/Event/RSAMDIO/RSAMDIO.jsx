@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { getMembersByTier } from "../../contents/events.rsamdio.js";
-import "./RSAMDIO.css";
+import { getMembersByTier } from "../../../../contents/events.rsamdio.js";
+import "../../../../styles/RSAMDIO.css";
 import CloseIcon from "@mui/icons-material/Close";
 
 function RSAMDIO() {

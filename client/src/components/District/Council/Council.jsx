@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { getMembersById } from "../../contents/members.council.js";
-import "./Council.css";
+import { getMembersById } from "../../../contents/members.council.js";
+import "../../../styles/Council.css";
 import CloseIcon from "@mui/icons-material/Close";
 
 function Council() {

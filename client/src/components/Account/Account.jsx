@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 //import styles
-import "./Account.css";
+import "../../styles/Account.css";
 
 //export function
 function Account() {

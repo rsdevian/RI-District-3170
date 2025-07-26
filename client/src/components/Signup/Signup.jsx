@@ -7,7 +7,7 @@ import { CircularProgress } from "@mui/material";
 import { URL } from "../../constants/url";
 
 //import styles
-import "./Signup.css";
+import "../../styles/Signup.css";
 
 //export function
 function Signup() {

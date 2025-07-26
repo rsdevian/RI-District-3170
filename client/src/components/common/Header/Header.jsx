@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Person2Icon from "@mui/icons-material/Person2";
-import "./Header.css";
+import "../../../styles/Header.css";
 import {
     Dialog,
     DialogTitle,

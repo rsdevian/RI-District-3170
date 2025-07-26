@@ -20,9 +20,9 @@ import Header from "./components/common/Header/Header";
 import Footer from "./components/common/Footer/Footer";
 import Contact from "./components/Contact/Contact";
 import About from "./components/About/About";
-import Council from "./components/Council/Council";
-import Event from "./components/Event/Event";
-import RSAMDIO from "./components/RSAMDIO/RSAMDIO";
+import Council from "./components/District/Council/Council";
+import Event from "./components/District/Event/Event";
+import RSAMDIO from "./components/District/Event/RSAMDIO/RSAMDIO";
 
 //export function
 function App() {
@@ -35,7 +35,6 @@ function App() {
                 {/* configurations of the routers and routes */}
                 <Router>
                     {/* render the fixed header component */}
-                    {/* <Logo /> */}
                     <Header />
 
                     <Routes>

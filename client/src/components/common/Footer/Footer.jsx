@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import "./Footer.css";
+import "../../../styles/Footer.css";
 import Facebook from "/assets/svgs/facebook.svg";
 import Instagram from "/assets/svgs/instagram.svg";
 import X from "/assets/svgs/x.svg";

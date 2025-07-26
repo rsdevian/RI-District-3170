@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { getMembersByTier } from "../../contents/events.district.js";
-import "./Event.css";
+import { getMembersByTier } from "../../../contents/events.district.js";
+import "../../../styles/Event.css";
 import CloseIcon from "@mui/icons-material/Close";
 
 function Event() {

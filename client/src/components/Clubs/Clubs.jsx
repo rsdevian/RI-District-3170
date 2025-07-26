@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import "./Clubs.css";
+import "../../styles/Clubs.css";
 
 function Clubs() {
     useEffect(() => {

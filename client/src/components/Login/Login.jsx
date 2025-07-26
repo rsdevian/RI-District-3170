@@ -9,7 +9,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import { URL } from "../../constants/url.js";
 
 //import styles
-import "./Login.css";
+import "../../styles/Login.css";
 
 //export function
 function Login() {

@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 
 import { Link } from "react-router-dom";
-import "./District.css";
+import "../../styles/District.css";
 
 import respresentatives from "../../contents/zones.representatives";
 
