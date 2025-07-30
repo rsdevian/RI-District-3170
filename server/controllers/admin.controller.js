@@ -151,6 +151,8 @@ const deleteAllFilesByAllUser = async (req, res) => {
             }
             try {
                 if (file.gridfsFileId) {
+                    file.isActive = false;
+                    await file.save();
                     await bucket.delete(file.gridfsFileId);
                     deletedFromGridFS++;
                 }
