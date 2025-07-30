@@ -2,49 +2,31 @@
 
 import File from "../models/file.model.js";
 import mongoose from "mongoose";
-import crypto from "crypto";
 import fs from "fs";
-import { GridFSBucket } from "mongodb";
+
+import {
+    initGridFS,
+    generateFileHash,
+    // generateFileHashFromBuffer,
+} from "../middleware/file.middleware.js";
 
 // Initialize GridFS bucket
-let bucket;
-
-// Initialize GridFS bucket when connection is ready
-const initGridFS = () => {
-    if (mongoose.connection.readyState === 1) {
-        bucket = new GridFSBucket(mongoose.connection.db, {
-            bucketName: "uploads",
-        });
-    }
-};
+let bucket = null;
 
 // Monitor connection state
-mongoose.connection.on("connected", initGridFS);
-mongoose.connection.on("reconnected", initGridFS);
-
-// Helper function to generate file hash from buffer
-const generateFileHashFromBuffer = (buffer) => {
-    return crypto.createHash("md5").update(buffer).digest("hex");
-};
-
-// Helper function to generate file hash from file path
-const generateFileHash = (filePath) => {
-    return new Promise((resolve, reject) => {
-        const hash = crypto.createHash("md5");
-        const stream = fs.createReadStream(filePath);
-
-        stream.on("data", (data) => hash.update(data));
-        stream.on("end", () => resolve(hash.digest("hex")));
-        stream.on("error", reject);
-    });
-};
+mongoose.connection.on("connected", () => {
+    initGridFS();
+});
+mongoose.connection.on("reconnected", () => {
+    initGridFS();
+});
 
 // Controller for file upload with GridFS
 const uploadFile = async (req, res) => {
     try {
         // Check if GridFS bucket is initialized
         if (!bucket) {
-            initGridFS();
+            bucket = initGridFS();
             if (!bucket) {
                 return res.status(500).json({
                     success: false,
@@ -98,27 +80,34 @@ const uploadFile = async (req, res) => {
         // Generate file hash for duplicate detection
         const fileHash = await generateFileHash(req.file.path);
 
+        if (!fileHash) {
+            return res.status(500).json({
+                success: false,
+                message: "Error generating file hash",
+            });
+        }
+
         // Check for duplicate files (same hash + same user)
-        // const duplicateFile = await File.findOne({
-        //     fileHash: fileHash,
-        //     userId: userId,
-        //     isActive: true,
-        // });
+        const duplicateFile = await File.findOne({
+            fileHash: fileHash,
+            userId: userId,
+            isActive: true,
+        });
 
-        // if (duplicateFile) {
-        //     // Clean up uploaded file
-        //     if (req.file.path && fs.existsSync(req.file.path)) {
-        //         fs.unlink(req.file.path, (err) => {
-        //             if (err) console.error("Error deleting file:", err);
-        //         });
-        //     }
+        if (duplicateFile) {
+            // Clean up uploaded file
+            if (req.file.path && fs.existsSync(req.file.path)) {
+                fs.unlink(req.file.path, (err) => {
+                    if (err) console.error("Error deleting file:", err);
+                });
+            }
 
-        //     return res.status(409).json({
-        //         success: false,
-        //         message: "This file has already been uploaded",
-        //         duplicateFile: duplicateFile.fileName,
-        //     });
-        // }
+            return res.status(409).json({
+                success: false,
+                message: "This file has already been uploaded",
+                duplicateFile: duplicateFile.fileName,
+            });
+        }
 
         // Upload file to GridFS
         const uploadStream = bucket.openUploadStream(req.file.filename, {
@@ -218,7 +207,7 @@ const downloadFile = async (req, res) => {
 
         // Check if GridFS bucket is initialized
         if (!bucket) {
-            initGridFS();
+            bucket = initGridFS();
             if (!bucket) {
                 return res.status(500).json({
                     success: false,
@@ -395,7 +384,7 @@ const deleteAllFiles = async (req, res) => {
 
         // Check if GridFS bucket is initialized
         if (!bucket) {
-            initGridFS();
+            bucket = initGridFS();
             if (!bucket) {
                 return res.status(500).json({
                     success: false,
@@ -486,7 +475,7 @@ const deleteFile = async (req, res) => {
 
         // Check if GridFS bucket is initialized
         if (!bucket) {
-            initGridFS();
+            bucket = initGridFS();
             if (!bucket) {
                 return res.status(500).json({
                     success: false,
@@ -530,9 +519,10 @@ const deleteFile = async (req, res) => {
 
         // Soft delete the file
         file.isActive = false;
+        file.fileHash = null; //allow user to upload the same file after deleted
         await file.save();
 
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             message: "File deleted successfully",
             fileName: file.fileName,
@@ -564,7 +554,13 @@ const getFileStats = async (req, res) => {
 
         const stats = await File.getUserFileStats(userId);
 
-        res.status(200).json({
+        if (!stats) {
+            return res.status(404).json({
+                message: "No file statistics found for your userId",
+            });
+        }
+
+        return res.status(200).json({
             success: true,
             message: "File statistics retrieved successfully",
             stats:
@@ -579,13 +575,9 @@ const getFileStats = async (req, res) => {
         });
     } catch (error) {
         console.error("Error fetching file stats:", error);
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: "Internal server error while fetching file statistics",
-            error:
-                process.env.NODE_ENV === "development"
-                    ? error.message
-                    : undefined,
         });
     }
 };

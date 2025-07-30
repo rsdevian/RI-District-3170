@@ -23,6 +23,7 @@ import About from "./components/About/About";
 import Council from "./components/District/Council/Council";
 import Event from "./components/District/Event/Event";
 import RSAMDIO from "./components/District/Event/RSAMDIO/RSAMDIO";
+import NotFound from "./components/NotFound/NotFound";
 
 //export function
 function App() {
@@ -41,7 +42,7 @@ function App() {
                         {/* render the home component based on the path specified*/}
                         <Route exact path='/' element={<Home />} />
 
-                        <Route path='/signup' element={<Signup />} />
+                        {/* <Route path='/signup' element={<Signup />} /> */}
 
                         <Route path='/login' element={<Login />} />
 
@@ -71,7 +72,7 @@ function App() {
 
                         <Route path='/clubs' element={<Clubs />} />
 
-                        <Route path='*' element={<Home />} />
+                        <Route path='*' element={<NotFound />} />
                     </Routes>
 
                     {/* render the fixed footer component */}

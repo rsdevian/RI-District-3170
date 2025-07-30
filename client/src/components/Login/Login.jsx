@@ -244,11 +244,11 @@ function Login() {
             </button>
 
             {/* Navigation to the signup page */}
-            <Link to='/signup'>
+            {/* <Link to='/signup'>
                 <button type='button' disabled={loading}>
                     Don't have an account? Sign up
                 </button>
-            </Link>
+            </Link> */}
 
             {/* Render success or error message */}
             {message && (
