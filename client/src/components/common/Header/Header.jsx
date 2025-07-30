@@ -173,6 +173,21 @@ function Header() {
                                         Secretarial Report
                                     </Link>
                                 )}
+                                {loggedIn && (
+                                    <Link
+                                        to='/account'
+                                        className={`${
+                                            currentPage.pathname !==
+                                                "/account" && "nav-link"
+                                        } ${
+                                            currentPage.pathname === "/account"
+                                                ? "active"
+                                                : ""
+                                        }`}
+                                    >
+                                        Account
+                                    </Link>
+                                )}
                                 {/* <Link to='/account' className='nav-link'> */}
                                 {/* {!loggedIn &&
                                     currentPage.pathname !== "/login" && (

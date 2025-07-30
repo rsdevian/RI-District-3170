@@ -33,7 +33,28 @@ const userSchema = new Schema({
         minlength: [6, "Password must be at least 6 characters long"],
         select: true, // Don't include password in queries by default
     },
-
+    phone: {
+        type: String,
+        required: [true, "Phone number is required"],
+        unique: true,
+        trim: true,
+        minlength: [10, "Phone number must be at least 10 characters long"],
+        maxlength: [10, "Phone number cannot exceed 10 characters"],
+    },
+    zone: {
+        type: String,
+        required: [true, "Zone is required"],
+        trim: true,
+    },
+    position: {
+        type: String,
+    },
+    club: {
+        type: String,
+    },
+    isAdmin: {
+        type: Boolean,
+    },
     createdAt: {
         type: Date,
         required: true,

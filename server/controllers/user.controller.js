@@ -86,8 +86,9 @@ async function userSignup(req, res) {
         //log the request information
         requestLog(req);
 
-        const { email, password, name } = req.body;
-
+        const { email, name, password, phone, zone, position, club, isAdmin } =
+            req.body;
+        console.log(req.body);
         //check the availability of email, password and name
         if ((!email, !password, !name)) {
             return res
@@ -125,6 +126,11 @@ async function userSignup(req, res) {
             email: email.toLowerCase(),
             name: name.trim(),
             password: newPassword,
+            phone,
+            zone,
+            position,
+            club,
+            isAdmin,
         });
 
         //if there is an error in creating user return error message
@@ -143,5 +149,44 @@ async function userSignup(req, res) {
     }
 }
 
+async function userResetPassword(req, res) {
+    requestLog(req);
+    try {
+        const { userId, oldPassword, newPassword } = req.body;
+        console.log(req.body);
+
+        if (!userId || !oldPassword || !newPassword) {
+            return res.status(400).json({ message: "Missing required fields" });
+        }
+
+        const user = await userModel.findOne({ _id: userId });
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const isPasswordMatch = await comparePassword(
+            oldPassword,
+            user.password
+        );
+
+        if (!isPasswordMatch) {
+            return res.status(401).json({ message: "Invalid password" });
+        }
+
+        const hashedNewPassword = await hashPasswordWithSalt(newPassword, 10);
+        user.password = hashedNewPassword;
+
+        await user.save();
+
+        return res
+            .status(200)
+            .json({ message: "Password updated successfully" });
+    } catch (error) {
+        console.error("Error Resetting Password:", error);
+        return res.status(500).json({ message: "Error Resetting Password" });
+    }
+}
+
 //export controllers
-export { userLogin, userSignup };
+export { userLogin, userSignup, userResetPassword };

@@ -1,4 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+
+import { URL } from "../../constants/url";
+
 import "../../styles/Contact.css";
 
 function Contact() {
@@ -74,7 +78,12 @@ function Contact() {
 
         try {
             // Simulate API call
-            await new Promise((resolve) => setTimeout(resolve, 2000));
+            await axios.post(`${URL}/api/contact/message`, {
+                name: formData.name,
+                email: formData.email,
+                subject: formData.subject,
+                message: formData.message,
+            });
 
             setSubmitMessage(
                 "Thank you for your message! We'll get back to you soon."
