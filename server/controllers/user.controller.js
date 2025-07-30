@@ -153,7 +153,6 @@ async function userResetPassword(req, res) {
     requestLog(req);
     try {
         const { userId, oldPassword, newPassword } = req.body;
-        console.log(req.body);
 
         if (!userId || !oldPassword || !newPassword) {
             return res.status(400).json({ message: "Missing required fields" });
