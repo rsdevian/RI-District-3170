@@ -87,13 +87,13 @@ function Form() {
             formData.append("userId", userId);
 
             // Debug log to check what's being sent
-            console.log("Uploading with user data:", {
-                userEmail: user.email,
-                userName: user.name || user.displayName || "",
-                userId: userId,
-                fileSize: file.size,
-                fileName: file.name,
-            });
+            // console.log("Uploading with user data:", {
+            //     userEmail: user.email,
+            //     userName: user.name || user.displayName || "",
+            //     userId: userId,
+            //     fileSize: file.size,
+            //     fileName: file.name,
+            // });
 
             // Send file upload request to server
             const response = await fetch(`${URL}/api/file/upload`, {
