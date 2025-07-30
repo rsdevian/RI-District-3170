@@ -1,10 +1,21 @@
+import mongoose from "mongoose";
+
 import { requestLog } from "../logs/request.logger.js";
 
 import { userModel } from "../models/user.model.js";
 
+import { initGridFS } from "../middleware/file.middleware.js";
+
 import File from "../models/file.model.js";
 
 let bucket = null;
+
+mongoose.connection.on("connected", () => {
+    initGridFS();
+});
+mongoose.connection.on("reconnected", () => {
+    initGridFS();
+});
 
 async function getAllUsers(req, res) {
     //function to get all users
@@ -113,4 +124,60 @@ const getAllFilesByAllUser = async (req, res) => {
     }
 };
 
-export { getAllUsers, getUserDetails, getAllFilesByAllUser };
+const deleteAllFilesByAllUser = async (req, res) => {
+    try {
+        const files = await File.find();
+        if (!files) {
+            return res.status(404).json({
+                success: false,
+                message: "No files found",
+            });
+        }
+        if (!bucket) {
+            bucket = initGridFS();
+            if (!bucket) {
+                return res.status(500).json({
+                    success: false,
+                    message: "Internal server error while initializing GridFS",
+                });
+            }
+        }
+
+        let deletedFromGridFS = 0;
+        files.map(async (file) => {
+            if (!file.isActive) {
+                console.log(`File is not active: ${file.fileName}`);
+                return;
+            }
+            try {
+                if (file.gridfsFileId) {
+                    await bucket.delete(file.gridfsFileId);
+                    deletedFromGridFS++;
+                }
+            } catch (error) {
+                console.error(`Error deleting file:  \n\n${file}`, error);
+            }
+        });
+        return res.status(200).json({
+            success: true,
+            message: `Deleted ${deletedFromGridFS} files from GridFS`,
+        });
+    } catch (error) {
+        console.error("Error deleting files:", error);
+        res.status(500).json({
+            success: false,
+            message: "Internal server error while deleting files",
+            error:
+                process.env.NODE_ENV === "development"
+                    ? error.message
+                    : undefined,
+        });
+    }
+};
+
+export {
+    getAllUsers,
+    getUserDetails,
+    getAllFilesByAllUser,
+    deleteAllFilesByAllUser,
+};
