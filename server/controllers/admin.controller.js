@@ -177,9 +177,40 @@ const deleteAllFilesByAllUser = async (req, res) => {
     }
 };
 
+async function deleteUserByEmail(req, res) {
+    try {
+        requestLog(req);
+        const { email } = req.params;
+        console.log(req.params);
+        const user = await userModel.findOne({ email });
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+        }
+        await user.deleteOne();
+        return res.status(200).json({
+            success: true,
+            message: "User deleted successfully",
+        });
+    } catch (error) {
+        console.error("Error deleting User:", error);
+        res.status(500).json({
+            success: false,
+            message: "Internal server error while deleting files",
+            error:
+                process.env.NODE_ENV === "development"
+                    ? error.message
+                    : undefined,
+        });
+    }
+}
+
 export {
     getAllUsers,
     getUserDetails,
     getAllFilesByAllUser,
     deleteAllFilesByAllUser,
+    deleteUserByEmail,
 };
