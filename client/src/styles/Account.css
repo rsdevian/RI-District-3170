@@ -247,3 +247,9 @@
         min-height: calc(100vh - 120px);
     }
 }
+
+.reset-password-input {
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+}

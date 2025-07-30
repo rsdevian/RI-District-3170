@@ -2,7 +2,7 @@
 import express from "express";
 
 //import controllers
-import { userLogin, userSignup } from "../controllers/user.controller.js";
+import { userLogin, userSignup, userResetPassword } from "../controllers/user.controller.js";
 
 //create router
 const router = express.Router();
@@ -11,6 +11,7 @@ const router = express.Router();
 
 router.post("/login", userLogin); //login user details in client
 router.post("/signup", userSignup); //save user details in DB
+router.post("/resetPassword", userResetPassword); //save user details in DB
 
 //export the router
 export default router;

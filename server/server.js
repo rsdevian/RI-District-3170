@@ -7,6 +7,7 @@ import cors from "cors";
 import fileRouter from "./routes/file.router.js";
 import userRouter from "./routes/user.router.js";
 import adminRouter from "./routes/admin.router.js";
+import contactRouter from "./routes/contact.router.js";
 import healthRouter from "./routes/health.router.js";
 
 //import db config
@@ -43,4 +44,5 @@ connectDB().then(() => {
 app.use("/api/file", fileRouter); //file router
 app.use("/api/user", userRouter); //user router
 app.use("/api/admin", adminRouter); //admin router
+app.use("/api/contact", contactRouter); //admin router
 app.use("/api/health", healthRouter); //health router
