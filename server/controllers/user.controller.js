@@ -86,8 +86,9 @@ async function userSignup(req, res) {
         //log the request information
         requestLog(req);
 
-        const { email, password, name } = req.body;
-
+        const { email, name, password, phone, zone, position, club, isAdmin } =
+            req.body;
+        console.log(req.body);
         //check the availability of email, password and name
         if ((!email, !password, !name)) {
             return res
@@ -125,6 +126,11 @@ async function userSignup(req, res) {
             email: email.toLowerCase(),
             name: name.trim(),
             password: newPassword,
+            phone,
+            zone,
+            position,
+            club,
+            isAdmin,
         });
 
         //if there is an error in creating user return error message
