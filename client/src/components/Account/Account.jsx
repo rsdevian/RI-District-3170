@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { CircularProgress } from "@mui/material";
 
 //import styles
 import "../../styles/Account.css";
@@ -19,6 +20,7 @@ function Account() {
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [loading, setLoading] = useState("");
 
     const navigate = useNavigate();
 
@@ -89,14 +91,22 @@ function Account() {
         }
 
         try {
+            setLoading(true);
             await axios.post(`${URL}/api/user/resetPassword`, {
                 userId,
                 oldPassword,
                 newPassword,
             });
+            setResetField(false);
+            setOldPassword("");
+            setNewPassword("");
+            setConfirmPassword("");
+            alert("Password reset successful");
         } catch (error) {
             console.log(error);
             alert("Error resetting password");
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -144,6 +154,7 @@ function Account() {
                                         }}
                                         placeholder='Old Password'
                                         className='reset-password-input'
+                                        disabled={loading}
                                     />
                                     <input
                                         value={newPassword}
@@ -152,6 +163,7 @@ function Account() {
                                         }}
                                         placeholder='New Password'
                                         className='reset-password-input'
+                                        disabled={loading}
                                     />
                                     <input
                                         value={confirmPassword}
@@ -162,20 +174,20 @@ function Account() {
                                         }}
                                         placeholder='Confirm New Password'
                                         className='reset-password-input'
+                                        disabled={loading}
                                     />
                                     <button
-                                        // disabled={
-                                        //     oldPassword !== "" ||
-                                        //     oldPassword.length <= 5 ||
-                                        //     newPassword !== confirmPassword ||
-                                        //     newPassword.length <= 5 ||
-                                        //     confirmPassword.length <= 5 ||
-                                        //     newPassword === "" ||
-                                        //     confirmPassword === ""
-                                        // }
+                                        disabled={loading}
                                         onClick={handleResetPassword}
                                     >
-                                        Reset Password
+                                        {loading ? (
+                                            <CircularProgress
+                                                size={20}
+                                                className='circular-progress'
+                                            />
+                                        ) : (
+                                            "Reset Password"
+                                        )}
                                     </button>
                                 </div>
                             </>

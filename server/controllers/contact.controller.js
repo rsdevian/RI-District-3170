@@ -18,9 +18,10 @@ async function saveContactRequest(req, res) {
             subject,
         });
         await contact.save();
-        res.status(200).json({ message: "Contact saved successfully" });
+        return res.status(200).json({ message: "Contact saved successfully" });
     } catch (error) {
         console.log(error);
+        return res.status(500).json({ message: "Internal server error" });
     }
 }
 
