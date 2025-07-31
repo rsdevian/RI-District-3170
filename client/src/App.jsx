@@ -46,7 +46,7 @@ function App() {
 
                         <Route path='/login' element={<Login />} />
 
-                        <Route path='/form' element={<Form />} />
+                        <Route path='/report' element={<Form />} />
 
                         <Route path='/account' element={<Account />} />
 

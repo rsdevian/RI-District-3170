@@ -135,9 +135,9 @@ function Account() {
                                         <b>{localStorage.getItem("name")}</b>{" "}
                                         {/*Render the name of Logged in user */}
                                     </p>
-                                    <button onClick={handleLogout}>
+                                    {/* <button onClick={handleLogout}>
                                         Log Out
-                                    </button>
+                                    </button> */}
                                     <button onClick={handleResetClick}>
                                         Reset Password
                                     </button>

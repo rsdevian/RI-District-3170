@@ -160,12 +160,12 @@ function Header() {
                                 )}
                                 {loggedIn && (
                                     <Link
-                                        to='/form'
+                                        to='/report'
                                         className={`${
-                                            currentPage.pathname !== "/form" &&
+                                            currentPage.pathname !== "/report" &&
                                             "nav-link"
                                         } ${
-                                            currentPage.pathname === "/form"
+                                            currentPage.pathname === "/report"
                                                 ? "active"
                                                 : ""
                                         }`}
@@ -213,7 +213,7 @@ function Header() {
 
                                 {/* </Link> */}
                                 {/* {loggedIn && (
-                                <Link to='/form' className='nav-link'>
+                                <Link to='/report' className='nav-link'>
                                     Form
                                 </Link>
                             )} */}
@@ -283,7 +283,7 @@ function Header() {
                     </Link>
                     {/* {loggedIn && (
                     <Link
-                        to='/form'
+                        to='/report'
                         className='mobile-nav-link'
                         onClick={closeMenu}
                     >
