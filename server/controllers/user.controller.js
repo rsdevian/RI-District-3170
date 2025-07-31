@@ -33,9 +33,7 @@ async function userLogin(req, res) {
 
         //if there is no entry return error unavailability message
         if (!exisitingUser) {
-            return res
-                .status(401)
-                .json({ message: "Invalid email or password" });
+            return res.status(401).json({ message: "Invalid email" });
         }
 
         //fetch the password stored in database
@@ -46,9 +44,7 @@ async function userLogin(req, res) {
 
         //if the password is not correct return error message
         if (!isCorrectPassword) {
-            return res
-                .status(401)
-                .json({ message: "Invalid email or password" });
+            return res.status(401).json({ message: "Incorrect Password" });
         }
 
         //if the password is correct generate token using token middleware

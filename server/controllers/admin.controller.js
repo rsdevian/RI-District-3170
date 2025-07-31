@@ -207,10 +207,41 @@ async function deleteUserByEmail(req, res) {
     }
 }
 
+async function getUserDetailsByEmail(req, res) {
+    try {
+        requestLog(req);
+        const { email } = req.params;
+        console.log(req.params);
+        const user = await userModel.findOne({ email });
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+        }
+        res.status(200).json({
+            success: true,
+            message: "User found successfully",
+            data: user,
+        });
+    } catch (error) {
+        console.error("Error getting User:", error);
+        res.status(500).json({
+            success: false,
+            message: "Internal server error while getting user",
+            error:
+                process.env.NODE_ENV === "development"
+                    ? error.message
+                    : undefined,
+        });
+    }
+}
+
 export {
     getAllUsers,
     getUserDetails,
     getAllFilesByAllUser,
     deleteAllFilesByAllUser,
     deleteUserByEmail,
+    getUserDetailsByEmail,
 };
