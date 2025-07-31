@@ -21,11 +21,16 @@ const app = express();
 const port = process.env.PORT; //port info from env variables
 const allowedCorsOriginMain = process.env.CORS_ORIGIN_ALLOW_MAIN; //cors origin from env variables
 const allowedCorsOriginTest = process.env.CORS_ORIGIN_ALLOW_TEST; //cors origin from env variables
+const allowedCorsOriginLocalTest = process.env.CORS_ORIGIN_ALLOW_LOCAL_TEST; //cors origin from env variables
 
 //cors
 app.use(
     cors({
-        origin: [allowedCorsOriginMain, allowedCorsOriginTest], //set cors origin restriction
+        origin: [
+            allowedCorsOriginMain,
+            allowedCorsOriginTest,
+            allowedCorsOriginLocalTest,
+        ], //set cors origin restriction
         credentials: true,
     })
 );
