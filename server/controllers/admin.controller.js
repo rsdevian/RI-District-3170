@@ -35,7 +35,7 @@ async function getAllUsers(req, res) {
     }
 }
 
-async function getUserDetails(req, res) {
+async function getUserDetailsByUserId(req, res) {
     //function to a specific users
     try {
         requestLog(req);
@@ -54,8 +54,9 @@ async function getUserDetails(req, res) {
     }
 }
 
-const getAllFilesByAllUser = async (req, res) => {
+async function getAllFilesByAllUser(req, res) {
     try {
+        requestLog(req);
         const files = await File.find();
 
         // Check GridFS file existence
@@ -122,10 +123,11 @@ const getAllFilesByAllUser = async (req, res) => {
                     : undefined,
         });
     }
-};
+}
 
-const deleteAllFilesByAllUser = async (req, res) => {
+async function deleteAllFilesByAllUser(req, res) {
     try {
+        requestLog(req);
         const files = await File.find();
         if (!files) {
             return res.status(404).json({
@@ -175,7 +177,7 @@ const deleteAllFilesByAllUser = async (req, res) => {
                     : undefined,
         });
     }
-};
+}
 
 async function deleteUserByEmail(req, res) {
     try {
@@ -183,6 +185,36 @@ async function deleteUserByEmail(req, res) {
         const { email } = req.params;
         console.log(req.params);
         const user = await userModel.findOne({ email });
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+        }
+        await user.deleteOne();
+        return res.status(200).json({
+            success: true,
+            message: "User deleted successfully",
+        });
+    } catch (error) {
+        console.error("Error deleting User:", error);
+        res.status(500).json({
+            success: false,
+            message: "Internal server error while deleting files",
+            error:
+                process.env.NODE_ENV === "development"
+                    ? error.message
+                    : undefined,
+        });
+    }
+}
+
+async function deleteUserByUserId(req, res) {
+    try {
+        requestLog(req);
+        const { userId } = req.params;
+        console.log(req.params);
+        const user = await userModel.findOne({ userId });
         if (!user) {
             return res.status(404).json({
                 success: false,
@@ -239,9 +271,10 @@ async function getUserDetailsByEmail(req, res) {
 
 export {
     getAllUsers,
-    getUserDetails,
+    getUserDetailsByUserId,
     getAllFilesByAllUser,
     deleteAllFilesByAllUser,
     deleteUserByEmail,
+    deleteUserByUserId,
     getUserDetailsByEmail,
 };
