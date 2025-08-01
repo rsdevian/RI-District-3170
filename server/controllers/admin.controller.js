@@ -183,7 +183,6 @@ async function deleteUserByEmail(req, res) {
     try {
         requestLog(req);
         const { email } = req.params;
-        console.log(req.params);
         const user = await userModel.findOne({ email });
         if (!user) {
             return res.status(404).json({
@@ -213,8 +212,7 @@ async function deleteUserByUserId(req, res) {
     try {
         requestLog(req);
         const { userId } = req.params;
-        console.log(req.params);
-        const user = await userModel.findOne({ userId });
+        const user = await userModel.findById(userId);
         if (!user) {
             return res.status(404).json({
                 success: false,
@@ -243,7 +241,6 @@ async function getUserDetailsByEmail(req, res) {
     try {
         requestLog(req);
         const { email } = req.params;
-        console.log(req.params);
         const user = await userModel.findOne({ email });
         if (!user) {
             return res.status(404).json({
