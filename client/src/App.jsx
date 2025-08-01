@@ -24,6 +24,7 @@ import Council from "./components/District/Council/Council";
 import Event from "./components/District/Event/Event";
 import RSAMDIO from "./components/District/Event/RSAMDIO/RSAMDIO";
 import NotFound from "./components/NotFound/NotFound";
+import AdminDashboard from "./components/AdminDashboard/AdminDashboard.jsx";
 
 //export function
 function App() {
@@ -71,6 +72,11 @@ function App() {
                         />
 
                         <Route path='/clubs' element={<Clubs />} />
+
+                        <Route
+                            path='/adminboard'
+                            element={<AdminDashboard />}
+                        />
 
                         <Route path='*' element={<NotFound />} />
                     </Routes>
