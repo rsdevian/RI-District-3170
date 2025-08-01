@@ -20,7 +20,7 @@ function Account() {
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [loading, setLoading] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
 
@@ -45,6 +45,7 @@ function Account() {
         };
     }, []); // Empty dependency array
 
+    // eslint-disable-next-line no-unused-vars
     function handleLogout() {
         //handle the logout functionality
 
