@@ -3,6 +3,7 @@ import express from "express";
 
 //import controllers
 import {
+    adminStatusCheck,
     getAllUsers,
     getUserDetailsByUserId,
     getUserDetailsByUserEmail,
@@ -21,6 +22,9 @@ import {
 
 //create router
 const router = express.Router();
+
+//check
+router.get("/checkAdminStatus/:userId", adminStatusCheck);
 
 //User Actions
 //get

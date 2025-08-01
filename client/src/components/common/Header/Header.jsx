@@ -13,6 +13,8 @@ import {
     MenuItem,
     Typography,
 } from "@mui/material";
+import axios from "axios";
+import { URL } from "../../../constants/url";
 
 function Header() {
     const currentPage = useLocation();
@@ -20,6 +22,7 @@ function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [logOutConfirmBox, setLogOutConfirmBox] = useState(false);
     const navigate = useNavigate();
+    const [fetchedUserInfo, setFetchedUserInfo] = useState({});
 
     useEffect(() => {
         function checkLoggedInStatus() {
@@ -47,8 +50,39 @@ function Header() {
         };
     }, []);
 
+    useEffect(() => {
+        fetchUserInfo();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [loggedIn]);
+
     const closeMenu = () => {
         setIsMenuOpen(false);
+    };
+
+    const fetchUserInfo = async () => {
+        setFetchedUserInfo({});
+        if (!loggedIn) return;
+        const userId = localStorage.getItem("userId");
+        const token = localStorage.getItem("token");
+
+        if (!userId || !token) {
+            alert("Try logging out and logging in again");
+            return;
+        }
+
+        try {
+            const response = await axios.get(
+                `${URL}/api/admin/checkAdminStatus/${userId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            setFetchedUserInfo(response.data);
+        } catch (error) {
+            console.error("Error fetching user info:", error);
+        }
     };
 
     const handleLogout = () => {
@@ -162,8 +196,8 @@ function Header() {
                                     <Link
                                         to='/report'
                                         className={`${
-                                            currentPage.pathname !== "/report" &&
-                                            "nav-link"
+                                            currentPage.pathname !==
+                                                "/report" && "nav-link"
                                         } ${
                                             currentPage.pathname === "/report"
                                                 ? "active"
@@ -171,6 +205,22 @@ function Header() {
                                         }`}
                                     >
                                         Secretarial Report
+                                    </Link>
+                                )}
+                                {fetchedUserInfo?.isAdmin && loggedIn && (
+                                    <Link
+                                        to='/adminboard'
+                                        className={`${
+                                            currentPage.pathname !==
+                                                "/adminboard" && "nav-link"
+                                        } ${
+                                            currentPage.pathname ===
+                                            "/adminboard"
+                                                ? "active"
+                                                : ""
+                                        }`}
+                                    >
+                                        Admin Dashboard
                                     </Link>
                                 )}
                                 {loggedIn && (

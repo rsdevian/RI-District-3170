@@ -26,6 +26,34 @@ mongoose.connection.on("reconnected", () => {
     initGridFS();
 });
 
+async function adminStatusCheck(req, res) {
+    //function to check if user is admin
+    try {
+        requestLog(req);
+        const { userId } = req.params;
+
+        const user = await userModel.findById(userId);
+        if (!user) {
+            return res
+                .status(404)
+                .json({ success: false, message: "User not found" });
+        }
+
+        if (user.isAdmin === true) {
+            console.log("admin only");
+            return res.status(200).json({ success: true, isAdmin: true });
+        } else {
+            return res.status(403).json({
+                message: "You are not authorized to access this resource",
+            });
+        }
+    } catch (error) {
+        return res
+            .status(500)
+            .json({ success: false, message: "Internal Server Error", error });
+    }
+}
+
 async function getAllUsers(req, res) {
     //function to get all users
     try {
@@ -762,6 +790,7 @@ async function deleteFilesByUserEmail(req, res) {
 }
 
 export {
+    adminStatusCheck,
     getAllUsers,
     getUserDetailsByUserId,
     getUserDetailsByUserEmail,
