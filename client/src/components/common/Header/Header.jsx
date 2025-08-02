@@ -25,6 +25,7 @@ function Header() {
     const [fetchedUserInfo, setFetchedUserInfo] = useState({});
 
     useEffect(() => {
+        fetchUserInfo();
         function checkLoggedInStatus() {
             setLoggedIn(!!localStorage.getItem("token"));
         }

@@ -8,6 +8,7 @@ import {
     getUserDetailsByUserId,
     getUserDetailsByUserEmail,
     addUser,
+    sendMail,
     updateUserPassword,
     deleteAllUsers,
     deleteUserByUserId,
@@ -34,6 +35,7 @@ router.get("/user/getByUserEmail/:email", getUserDetailsByUserEmail); //get user
 
 //post
 router.post("/user/addUser", addUser); //add user
+router.post("/user/sendMail/:sender/:reciever", sendMail); //send mail
 
 //patch
 router.patch("/user/resetPassword/:userId/:newPassword", updateUserPassword); //update user by userId

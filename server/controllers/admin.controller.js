@@ -16,6 +16,8 @@ import { requestLog } from "../logs/request.logger.js";
 import { userModel } from "../models/user.model.js";
 import File from "../models/file.model.js";
 
+import nodemailer from "nodemailer";
+
 let bucket = null;
 
 //initiate connection with database for gridFS
@@ -40,7 +42,6 @@ async function adminStatusCheck(req, res) {
         }
 
         if (user.isAdmin === true) {
-            console.log("admin only");
             return res.status(200).json({ success: true, isAdmin: true });
         } else {
             return res.status(403).json({
@@ -139,9 +140,8 @@ async function addUser(req, res) {
 
         const { email, name, password, phone, zone, position, club, isAdmin } =
             req.body;
-        console.log(req.body);
         //check the availability of email, password and name
-        if ((!email, !password, !name)) {
+        if (!email || !password || !name) {
             return res
                 .status(400)
                 .json({ message: "Email, password and name are required" });
@@ -160,6 +160,11 @@ async function addUser(req, res) {
             email: email.toLowerCase(),
         });
 
+        //if there is a user with same email return error message
+        if (exisitingUser) {
+            return res.status(400).json({ message: "User already exists" });
+        }
+
         const existingMobileNumber = await userModel.findOne({ phone: phone });
 
         if (existingMobileNumber) {
@@ -168,11 +173,6 @@ async function addUser(req, res) {
                 message:
                     "Mobile Number is already connected with another user account",
             });
-        }
-
-        //if there is a user with same email return error message
-        if (exisitingUser) {
-            return res.status(400).json({ message: "User already exists" });
         }
 
         //hash the password with salt using bcrypt middleware
@@ -205,8 +205,44 @@ async function addUser(req, res) {
             .json({ message: "New user created successfully" });
     } catch (error) {
         //if there is an error in signing up return error message
-        console.log("Error Signing Up: ", error);
-        return res.status(500).json({ message: "Error Signing Up" });
+        console.log("Error Creating User: ", error);
+        return res.status(500).json({ message: "Error Creating User", error });
+    }
+}
+
+async function sendMail(req, res) {
+    try {
+        const { sender, reciever } = req.params;
+        const { name, email, password, appPassword } = req.body;
+        const mailOptions = {
+            from: sender,
+            to: reciever,
+            subject: `Hello ${name}`,
+            text: `Your Email is ${email} and your password is ${password}`,
+        };
+        const transporter = nodemailer.createTransport({
+            host: "smtp.ethereal.email",
+            port: 587,
+            secure: false, // true for 465, false for other ports
+            service: "gmail",
+            auth: {
+                user: sender,
+                pass: appPassword, //ydtrnaxipynzvsbg
+            },
+        });
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log("Error Sending Mail: ", error);
+                return res.status(500).json({ message: "Error Sending Mail" });
+            } else {
+                return res
+                    .status(200)
+                    .json({ message: "Email sent successfully" });
+            }
+        });
+    } catch (error) {
+        console.log("Error Sending Mail: ", error);
+        return res.status(500).json({ message: "Error Sending Mail" });
     }
 }
 
@@ -645,7 +681,6 @@ async function deleteFilesByUserId(req, res) {
     try {
         requestLog(req);
         const { userId } = req.params;
-        console.log(userId);
         const files = await File.find({ userId });
         if (files.length === 0) {
             return res.status(404).json({
@@ -719,7 +754,6 @@ async function deleteFilesByUserEmail(req, res) {
     try {
         requestLog(req);
         const { email } = req.params;
-        console.log(email);
         const files = await File.find({ userEmail: email });
         if (files.length === 0) {
             return res.status(404).json({
@@ -795,6 +829,7 @@ export {
     getUserDetailsByUserId,
     getUserDetailsByUserEmail,
     addUser,
+    sendMail,
     updateUserPassword,
     deleteAllUsers,
     deleteUserByUserId,
