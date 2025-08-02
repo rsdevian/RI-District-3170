@@ -498,7 +498,13 @@ function AdminDashboard() {
                             {Array.isArray(users) && users.length > 0 ? (
                                 users.map((user) => (
                                     <tr key={user.id}>
-                                        <td>{user.name}</td>
+                                        <td>
+                                            {user.name}
+                                            {user._id ===
+                                            localStorage.getItem("userId") ? (
+                                                <span>{" (You)"}</span>
+                                            ) : null}
+                                        </td>
                                         <td>
                                             {user.isAdmin ? (
                                                 <span className='badge admin'>
