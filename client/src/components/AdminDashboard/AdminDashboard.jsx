@@ -44,11 +44,46 @@ function AdminDashboard() {
     const [openDialog, setOpenDialog] = useState(false);
     const [dialogContent, setDialogContent] = useState("");
     const [sendNewMail, setSendMail] = useState(false);
+    const [selectedSubNav, setSelectedSubNav] = useState("zones");
+    const [allZones, setAllZones] = useState([]);
+    const [allClubs, setAllClubs] = useState([]);
+    const [selectedZone, setSelectedZone] = useState("");
+    const [selectedClub, setSelectedClub] = useState("");
+
     useEffect(() => {
         if (activeItem === "users") {
             fetchUsers();
         }
     }, [activeItem]);
+
+    useEffect(() => {
+        if (selectedSubNav === "zones") {
+            fetchZones();
+        }
+        if (selectedSubNav === "clubs") {
+            fetchClubs();
+        }
+    }, [selectedSubNav]);
+
+    const fetchZones = async () => {
+        try {
+            const response = await axios.get(`${URL}/api/zones`);
+            console.log(response.data);
+            setAllZones(response.data.zones);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const fetchClubs = async () => {
+        try {
+            const response = await axios.get(`${URL}/api/clubs`);
+            console.log(response.data.clubs);
+            setAllClubs(response.data.clubs);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const fetchUsers = async () => {
         setLoading(true);
@@ -203,6 +238,69 @@ function AdminDashboard() {
         return (
             <div className='users-content'>
                 {/* Subnav / Action buttons */}
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "flex-start",
+                    }}
+                >
+                    <select
+                        value={selectedSubNav}
+                        onChange={(e) => {
+                            setSelectedSubNav(e.target.value);
+                            setSelectedClub("");
+                            setSelectedZone("");
+                        }}
+                        style={{
+                            padding: "10px",
+                            borderRadius: "5px",
+                            border: "1px solid #ccc",
+                            backgroundColor: "black",
+                        }}
+                    >
+                        <option value='zones'>Zones</option>
+                        <option value='clubs'>Clubs</option>
+                    </select>
+                    {selectedSubNav === "zones" && (
+                        <select
+                            value={selectedZone}
+                            onChange={(e) => setSelectedZone(e.target.value)}
+                            style={{
+                                padding: "10px",
+                                borderRadius: "5px",
+                                border: "1px solid #ccc",
+                                backgroundColor: "black",
+                                margin: "0px 20px",
+                            }}
+                        >
+                            <option></option>
+                            {allZones.map((zone) => (
+                                <option value={zone.zone}>{zone.zone}</option>
+                            ))}
+                        </select>
+                    )}
+                    {selectedSubNav === "clubs" && (
+                        <select
+                            value={selectedClub}
+                            onChange={(e) => {
+                                setSelectedClub(e.target.value);
+                            }}
+                            style={{
+                                padding: "10px",
+                                borderRadius: "5px",
+                                border: "1px solid #ccc",
+                                backgroundColor: "black",
+                                margin: "0px 20px",
+                            }}
+                        >
+                            <option></option>
+                            {allClubs?.map((club) => (
+                                <option value={club.club}>{club.club}</option>
+                            ))}
+                        </select>
+                    )}
+                </div>
                 <div className='sub-nav-buttons'>
                     <button
                         className='icon-button'
@@ -451,16 +549,31 @@ function AdminDashboard() {
                         </thead>
                         <tbody>
                             {Array.isArray(users) && users.length > 0 ? (
-                                users.map((user) => (
-                                    <tr key={user.id}>
-                                        <td>
-                                            {user.name}
-                                            {user._id ===
-                                            localStorage.getItem("userId") ? (
-                                                <span>{" (You)"}</span>
-                                            ) : null}
-                                        </td>
-                                        {/* <td>
+                                users.map((user) => {
+                                    if (
+                                        selectedZone &&
+                                        user.zone !== selectedZone
+                                    ) {
+                                        return null;
+                                    }
+                                    if (
+                                        selectedClub &&
+                                        user.club !== selectedClub
+                                    ) {
+                                        return null;
+                                    }
+                                    return (
+                                        <tr key={user.id}>
+                                            <td>
+                                                {user.name}
+                                                {user._id ===
+                                                localStorage.getItem(
+                                                    "userId"
+                                                ) ? (
+                                                    <span>{" (You)"}</span>
+                                                ) : null}
+                                            </td>
+                                            {/* <td>
                                             {user.isAdmin ? (
                                                 <span className='badge admin'>
                                                     Yes
@@ -471,13 +584,14 @@ function AdminDashboard() {
                                                 </span>
                                             )}
                                         </td> */}
-                                        <td>{user.phone}</td>
-                                        <td>{user.club}</td>
-                                        <td>{user.email}</td>
-                                        {/* <td>{user.position}</td> */}
-                                        <td>{user.zone}</td>
-                                    </tr>
-                                ))
+                                            <td>{user.phone}</td>
+                                            <td>{user.club}</td>
+                                            <td>{user.email}</td>
+                                            {/* <td>{user.position}</td> */}
+                                            <td>{user.zone}</td>
+                                        </tr>
+                                    );
+                                })
                             ) : (
                                 <tr>
                                     <td colSpan='3' className='no-users'>

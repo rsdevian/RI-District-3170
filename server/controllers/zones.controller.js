@@ -8,7 +8,9 @@ async function getZones(req, res) {
         if (zones.length === 0) {
             return res.status(404).json({ message: "No zones found" });
         }
-        return res.status(200).json(zones);
+        return res
+            .status(200)
+            .json({ message: "All Zones Retrieved successfully", zones });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
