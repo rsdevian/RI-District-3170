@@ -212,10 +212,10 @@ async function addUser(req, res) {
 
 async function sendMail(req, res) {
     try {
-        const { sender, reciever } = req.params;
-        const { name, email, password, appPassword } = req.body;
+        const { reciever } = req.params;
+        const { name, email, password } = req.body;
         const mailOptions = {
-            from: sender,
+            from: process.env.MAIL_SENDER,
             to: reciever,
             subject: `Hello ${name}`,
             text: `Your Email is ${email} and your password is ${password}`,
@@ -226,8 +226,8 @@ async function sendMail(req, res) {
             secure: false, // true for 465, false for other ports
             service: "gmail",
             auth: {
-                user: sender,
-                pass: appPassword, //ydtrnaxipynzvsbg
+                user: process.env.MAIL_SENDER,
+                pass: process.env.MAIL_APP_PASSWORD, //ydtrnaxipynzvsbg
             },
         });
         transporter.sendMail(mailOptions, (error, info) => {

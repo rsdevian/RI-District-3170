@@ -8,15 +8,11 @@ import {
     DialogContent,
     DialogTitle,
     FormControlLabel,
-    DialogContentText,
-    TextField,
 } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import EditIcon from "@mui/icons-material/Edit";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import { CircularProgress } from "@mui/material";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import { URL } from "../../constants/url";
 
 const sidebarItems = [
@@ -48,7 +44,6 @@ function AdminDashboard() {
     const [openDialog, setOpenDialog] = useState(false);
     const [dialogContent, setDialogContent] = useState("");
     const [sendNewMail, setSendMail] = useState(false);
-    const [visibility, setVisibility] = useState(false);
     useEffect(() => {
         if (activeItem === "users") {
             fetchUsers();
@@ -171,18 +166,16 @@ function AdminDashboard() {
         return result;
     }
 
-    const sendMail = async (name, email, password, appPassword) => {
+    const sendMail = async (name, email, password) => {
         try {
             setSendingMail(true);
-            const sender = localStorage.getItem("email");
             const receiver = email;
             const response = await axios.post(
-                `${URL}/api/admin/user/sendMail/${sender}/${receiver}`,
+                `${URL}/api/admin/user/sendMail/${receiver}`,
                 {
                     name,
                     email,
                     password,
-                    appPassword,
                 }
             );
             setSendMail(false);
@@ -287,50 +280,12 @@ function AdminDashboard() {
                 >
                     <DialogTitle>Send Mail to User</DialogTitle>
                     <DialogContent>
-                        <DialogContentText>
-                            Enter the App Password generated in the App
-                            Passwords section of your google account
-                        </DialogContentText>
-
-                        <div className='text-container'>
-                            <TextField
-                                type={visibility ? "text" : "password"}
-                                label='App Password'
-                                variant='outlined'
-                                value={details.appPassword}
-                                onChange={(e) =>
-                                    setDetails((prev) => ({
-                                        ...prev,
-                                        appPassword: e.target.value,
-                                    }))
-                                }
-                                placeholder='Enter your App Password'
-                                className='text-field'
-                            />
-                            {!visibility && (
-                                <VisibilityIcon
-                                    className='admin-visibility-on'
-                                    onClick={() => {
-                                        setVisibility(true);
-                                    }}
-                                />
-                            )}
-                            {visibility && (
-                                <VisibilityOffIcon
-                                    className='admin-visibility-on'
-                                    onClick={() => {
-                                        setVisibility(false);
-                                    }}
-                                />
-                            )}
-                        </div>
                         <p>
                             <i>
                                 Note: By click "Push Mail" button, an email will
-                                be sent to the newly created user from your
-                                google account (from which credentials you have
-                                logged in), which contains the users logging in
-                                email and password
+                                be sent to the newly created user from admin's
+                                google account which contains the users logging
+                                in email and password
                             </i>
                         </p>
                     </DialogContent>
@@ -343,8 +298,8 @@ function AdminDashboard() {
                                         sendMail(
                                             details.name,
                                             details.email,
-                                            details.password,
-                                            details.appPassword
+                                            details.password
+                                            // details.appPassword
                                         );
                                     }}
                                 >
@@ -486,11 +441,11 @@ function AdminDashboard() {
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Admin</th>
-                                <th>Email</th>
                                 <th>Phone</th>
-                                <th>Position</th>
                                 <th>Club</th>
+                                {/* <th>Admin</th> */}
+                                <th>Email</th>
+                                {/* <th>Position</th> */}
                                 <th>Zone</th>
                             </tr>
                         </thead>
@@ -505,7 +460,7 @@ function AdminDashboard() {
                                                 <span>{" (You)"}</span>
                                             ) : null}
                                         </td>
-                                        <td>
+                                        {/* <td>
                                             {user.isAdmin ? (
                                                 <span className='badge admin'>
                                                     Yes
@@ -515,11 +470,11 @@ function AdminDashboard() {
                                                     No
                                                 </span>
                                             )}
-                                        </td>
-                                        <td>{user.email}</td>
+                                        </td> */}
                                         <td>{user.phone}</td>
-                                        <td>{user.position}</td>
                                         <td>{user.club}</td>
+                                        <td>{user.email}</td>
+                                        {/* <td>{user.position}</td> */}
                                         <td>{user.zone}</td>
                                     </tr>
                                 ))
