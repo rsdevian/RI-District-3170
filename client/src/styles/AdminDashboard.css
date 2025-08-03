@@ -330,6 +330,7 @@
     border-radius: 5px;
     border: 1px solid #ccc;
     background-color: black;
+    margin: 0px 20px;
 }
 
 .user-filter-select-zone,
@@ -348,4 +349,12 @@
 
 .report-user {
     color: #555;
+}
+
+.user-content-top-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
 }

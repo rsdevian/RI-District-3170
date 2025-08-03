@@ -369,75 +369,80 @@ function AdminDashboard() {
     const usersContent = () => {
         return (
             <div className='users-content'>
-                {/* Subnav / Action buttons */}
-                <div className='user-content'>
-                    <select
-                        value={selectedSubNav}
-                        onChange={(e) => {
-                            setSelectedSubNav(e.target.value);
-                            setSelectedClub("");
-                            setSelectedZone("");
-                        }}
-                        className='user-filter-select'
-                    >
-                        <option value='zones'>Zones</option>
-                        <option value='clubs'>Clubs</option>
-                    </select>
-                    {selectedSubNav === "zones" && (
+                <div className='user-content-top-bar'>
+                    {/* Subnav / Action buttons */}
+                    <div className='user-content'>
+                        <p>Filter users by: </p>
                         <select
-                            value={selectedZone}
-                            onChange={(e) => setSelectedZone(e.target.value)}
-                            className='user-filter-select-zone'
-                        >
-                            <option></option>
-                            {allZones.map((zone) => (
-                                <option key={zone._id} value={zone.zone}>
-                                    {zone.zone}
-                                </option>
-                            ))}
-                        </select>
-                    )}
-                    {selectedSubNav === "clubs" && (
-                        <select
-                            value={selectedClub}
+                            value={selectedSubNav}
                             onChange={(e) => {
-                                setSelectedClub(e.target.value);
+                                setSelectedSubNav(e.target.value);
+                                setSelectedClub("");
+                                setSelectedZone("");
                             }}
-                            className='user-filter-select-club'
+                            className='user-filter-select'
                         >
-                            <option></option>
-                            {allClubs?.map((club) => (
-                                <option key={club._id} value={club.club}>
-                                    {club.club}
-                                </option>
-                            ))}
+                            <option value='zones'>Zones</option>
+                            <option value='clubs'>Clubs</option>
                         </select>
-                    )}
-                </div>
-                <div className='sub-nav-buttons'>
-                    <button
-                        className='icon-button'
-                        title='Refresh'
-                        onClick={() => {
-                            fetchUsers();
-                            fetchClubs();
-                            fetchZones();
-                        }}
-                    >
-                        <RefreshIcon />
-                    </button>
-                    <button className='icon-button' title='Edit'>
-                        <EditIcon />
-                    </button>
-                    <button
-                        className='icon-button'
-                        title='Add User'
-                        onClick={() => {
-                            setAddNewUserPopup(true);
-                        }}
-                    >
-                        <PersonAddAltIcon />
-                    </button>
+                        {selectedSubNav === "zones" && (
+                            <select
+                                value={selectedZone}
+                                onChange={(e) =>
+                                    setSelectedZone(e.target.value)
+                                }
+                                className='user-filter-select-zone'
+                            >
+                                <option></option>
+                                {allZones.map((zone) => (
+                                    <option key={zone._id} value={zone.zone}>
+                                        {zone.zone}
+                                    </option>
+                                ))}
+                            </select>
+                        )}
+                        {selectedSubNav === "clubs" && (
+                            <select
+                                value={selectedClub}
+                                onChange={(e) => {
+                                    setSelectedClub(e.target.value);
+                                }}
+                                className='user-filter-select-club'
+                            >
+                                <option></option>
+                                {allClubs?.map((club) => (
+                                    <option key={club._id} value={club.club}>
+                                        {club.club}
+                                    </option>
+                                ))}
+                            </select>
+                        )}
+                    </div>
+                    <div className='sub-nav-buttons'>
+                        <button
+                            className='icon-button'
+                            title='Refresh'
+                            onClick={() => {
+                                fetchUsers();
+                                fetchClubs();
+                                fetchZones();
+                            }}
+                        >
+                            <RefreshIcon />
+                        </button>
+                        <button className='icon-button' title='Edit'>
+                            <EditIcon />
+                        </button>
+                        <button
+                            className='icon-button'
+                            title='Add User'
+                            onClick={() => {
+                                setAddNewUserPopup(true);
+                            }}
+                        >
+                            <PersonAddAltIcon />
+                        </button>
+                    </div>
                 </div>
 
                 {openDialog && (
