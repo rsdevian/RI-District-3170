@@ -9,6 +9,9 @@ import {
     comparePassword,
 } from "../middleware/bcrypt.middleware.js";
 
+//import contents
+import { credentialsPushMail } from "../contents/mail.content.js";
+
 //import loggers
 import { requestLog } from "../logs/request.logger.js";
 
@@ -214,22 +217,30 @@ async function sendMail(req, res) {
     try {
         const { reciever } = req.params;
         const { name, email, password } = req.body;
+
+        // Prepare mail body by replacing placeholders with actual values
+        const mailBody = credentialsPushMail.body
+            .replace(/\${email}/g, email)
+            .replace(/\${password}/g, password);
+
         const mailOptions = {
             from: process.env.MAIL_SENDER,
             to: reciever,
-            subject: `Hello ${name}`,
-            text: `Your Email is ${email} and your password is ${password}`,
+            subject: credentialsPushMail.subject,
+            text: mailBody,
         };
+
         const transporter = nodemailer.createTransport({
             host: "smtp.ethereal.email",
             port: 587,
-            secure: false, // true for 465, false for other ports
+            secure: false,
             service: "gmail",
             auth: {
                 user: process.env.MAIL_SENDER,
-                pass: process.env.MAIL_APP_PASSWORD, //ydtrnaxipynzvsbg
+                pass: process.env.MAIL_APP_PASSWORD,
             },
         });
+
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 console.log("Error Sending Mail: ", error);
