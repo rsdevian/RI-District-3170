@@ -65,6 +65,7 @@ function AdminDashboard() {
 
         if (activeItem === "reports") {
             fetchReports();
+            fetchZones();
         }
     }, [activeItem]);
 
@@ -189,68 +190,127 @@ function AdminDashboard() {
     const reportContents = () => {
         return (
             <div>
+                <div className='user-content-top-bar'>
+                    <div className='user-content'>
+                        <p>Filter users by: </p>
+                        <select
+                            value={selectedSubNav}
+                            onChange={(e) => {
+                                setSelectedSubNav(e.target.value);
+                                setSelectedClub("");
+                                setSelectedZone("");
+                            }}
+                            className='user-filter-select'
+                        >
+                            <option value='zones'>Zones</option>
+                        </select>
+                        {selectedSubNav === "zones" && (
+                            <select
+                                value={selectedZone}
+                                onChange={(e) =>
+                                    setSelectedZone(e.target.value)
+                                }
+                                className='user-filter-select-zone'
+                            >
+                                <option></option>
+                                {allZones.map((zone) => (
+                                    <option key={zone._id} value={zone.zone}>
+                                        {zone.zone}
+                                    </option>
+                                ))}
+                            </select>
+                        )}
+                    </div>
+                    <div className='sub-nav-buttons'>
+                        <button
+                            className='icon-button'
+                            title='Refresh'
+                            onClick={() => {
+                                fetchZones();
+                                fetchReports();
+                            }}
+                        >
+                            <RefreshIcon />
+                        </button>
+                    </div>
+                </div>
                 <p className='reports-content--title'>
                     {reports.length > 0
-                        ? "Reports are sorted by most recent"
+                        ? "Reports are sorted by most recent uploads"
                         : "No reports found"}
                 </p>
-                {reports.map((report, index) => (
-                    <div key={index} className='reports-container'>
-                        <div className='report-details'>
-                            <p>
-                                File Name: <i>{report.originalName}</i>
-                            </p>
-                            <p>
-                                Uploaded At:
-                                <i>
-                                    {convertUTCtoIST(
-                                        report.uploadDate
-                                    ).toString()}
-                                </i>
-                            </p>
-                            <p className='report-user'>
-                                Reporter Name: <i>{report.userName}</i>
-                            </p>
-                            <p className='report-user'>
-                                Reporter Zone: <i>{report.userZone}</i>
-                            </p>
+                {reports.map((report, index) => {
+                    if (selectedZone && report.userZone !== selectedZone) {
+                        return;
+                    }
+                    return (
+                        <div key={index} className='reports-container'>
+                            <div className='report-details'>
+                                <p>
+                                    File Name: <i>{report.originalName}</i>
+                                </p>
+                                <p>
+                                    Uploaded At:
+                                    <i>
+                                        {convertUTCtoIST(
+                                            report.uploadDate
+                                        ).toString()}
+                                    </i>
+                                </p>
+                                <p className='report-user'>
+                                    Reporter Name: <i>{report.userName}</i>
+                                </p>
+                                <p className='report-user'>
+                                    Reporter Zone: <i>{report.userZone}</i>
+                                </p>
+                            </div>
+                            <div className='report-action'>
+                                <button
+                                    className='report-download--button'
+                                    onMouseEnter={(e) =>
+                                        (e.currentTarget.style.backgroundColor =
+                                            "#0056b3")
+                                    }
+                                    onMouseLeave={(e) =>
+                                        (e.currentTarget.style.backgroundColor =
+                                            "#007BFF")
+                                    }
+                                    onClick={() =>
+                                        downloadFile(
+                                            report.originalName,
+                                            report.id
+                                        )
+                                    }
+                                    disabled={downloading}
+                                >
+                                    {downloading &&
+                                    downloadingFileId === report.id ? (
+                                        <CircularProgress
+                                            size={20}
+                                            color='white'
+                                        />
+                                    ) : (
+                                        "Download"
+                                    )}
+                                </button>
+                                <button
+                                    onClick={() => handleDeleteFile(report.id)}
+                                    className='report-delete--button'
+                                >
+                                    {deleting &&
+                                    deletingFileId === report.id ? (
+                                        <CircularProgress
+                                            size={20}
+                                            color='white'
+                                        />
+                                    ) : (
+                                        <DeleteIcon />
+                                    )}
+                                </button>
+                            </div>
                         </div>
-                        <div className='report-action'>
-                            <button
-                                className='report-download--button'
-                                onMouseEnter={(e) =>
-                                    (e.currentTarget.style.backgroundColor =
-                                        "#0056b3")
-                                }
-                                onMouseLeave={(e) =>
-                                    (e.currentTarget.style.backgroundColor =
-                                        "#007BFF")
-                                }
-                                onClick={() =>
-                                    downloadFile(report.originalName, report.id)
-                                }
-                                disabled={downloading}
-                            >
-                                {downloading &&
-                                downloadingFileId === report.id ? (
-                                    <CircularProgress size={20} color='white' />
-                                ) : (
-                                    "Download"
-                                )}
-                            </button>
-                            <button
-                                onClick={() => handleDeleteFile(report.id)}
-                                className='report-delete--button'
-                            >
-                                {deleting && deletingFileId === report.id ? (
-                                    <CircularProgress size={20} color='white' />
-                                ) : (
-                                    <DeleteIcon />
-                                )}
-                            </button>
-                        </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
         );
     };
