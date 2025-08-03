@@ -63,6 +63,8 @@ function AdminDashboard() {
     const [resetPasswordPopup, setResetPasswordPopup] = useState(false);
     const [adminPassword, setAdminPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
+    const [deleteConfirmationPopup, setDeleteConfirmationPopup] =
+        useState(false);
 
     useEffect(() => {
         if (activeItem === "users") {
@@ -183,8 +185,9 @@ function AdminDashboard() {
         try {
             setDeleting(true);
             setDeletingFileId(fileId);
+            setDeleteConfirmationPopup(false);
             await axios.delete(
-                `${URL}/api/admin/files/deleteByFileId/${fileId}`
+                `${URL}/api/admin/files/deleteByFileId/${deletingFileId}`
             );
             await fetchReports();
         } catch (error) {
@@ -221,9 +224,37 @@ function AdminDashboard() {
         setFieldToModifyPopup(true);
     };
 
+    const formatFileSize = (size) => {
+        const mbSize = size / 1024 / 1024;
+        return mbSize.toFixed(2) + " MB";
+    };
+
     const reportContents = () => {
         return (
             <div>
+                <Dialog
+                    open={deleteConfirmationPopup}
+                    fullWidth
+                    maxWidth='sm'
+                    BackdropProps={{
+                        style: {
+                            backgroundColor: "rgba(0,0,0,0)",
+                        },
+                    }}
+                >
+                    <DialogContent>
+                        <p>Are you sure you want to delete this file?</p>
+                    </DialogContent>
+                    <DialogActions>
+                        <button onClick={handleDeleteFile}>Yes</button>
+                        <button
+                            onClick={() => setDeleteConfirmationPopup(false)}
+                        >
+                            No
+                        </button>
+                    </DialogActions>
+                </Dialog>
+
                 <div className='user-content-top-bar'>
                     <div className='user-content'>
                         <p>Filter users by: </p>
@@ -293,14 +324,16 @@ function AdminDashboard() {
                                     </i>
                                 </p>
                                 <p className='report-user'>
+                                    Report File Size:
+                                    <i>
+                                        {" " + formatFileSize(report.fileSize)}
+                                    </i>
+                                </p>
+                                <p className='report-user'>
                                     Reporter Name: <i>{report.userName}</i>
                                 </p>
                                 <p className='report-user'>
                                     Reporter Zone: <i>{report.userZone}</i>
-                                </p>
-                                <p className='report-user'>
-                                    Report File Size:{" "}
-                                    <i>{report.fileSize / 1000000} MB</i>
                                 </p>
                             </div>
                             <div className='report-action'>
@@ -333,7 +366,12 @@ function AdminDashboard() {
                                     )}
                                 </button>
                                 <button
-                                    onClick={() => handleDeleteFile(report.id)}
+                                    // onClick={() => handleDeleteFile(report.id)}
+                                    onClick={() => {
+                                        console.log("Goingin");
+                                        setDeleteConfirmationPopup(true);
+                                        setDeletingFileId(report.id);
+                                    }}
                                     className='report-delete--button'
                                 >
                                     {deleting &&
