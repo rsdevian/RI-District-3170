@@ -570,7 +570,7 @@ function AdminDashboard() {
                                 className='input-field'
                             />
                             <select
-                                className='input-field'
+                                className='input-field-select'
                                 onChange={(e) => {
                                     setDetails({
                                         ...details,
@@ -583,7 +583,7 @@ function AdminDashboard() {
                                 <option>Secretary</option>
                             </select>
                             <select
-                                className='input-field'
+                                className='input-field-select'
                                 onChange={(e) => {
                                     setDetails({
                                         ...details,
@@ -600,7 +600,7 @@ function AdminDashboard() {
                                 ))}
                             </select>
                             <select
-                                className='input-field'
+                                className='input-field-select'
                                 onChange={(e) => {
                                     setDetails({
                                         ...details,
