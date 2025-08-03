@@ -800,7 +800,9 @@ function AdminDashboard() {
                         </div>
                     </DialogContent>
                     <DialogActions>
-                        <button onClick={handleModifyInDatabase}>Change</button>
+                        <button onClick={handleModifyInDatabase}>
+                            Change in Database
+                        </button>
                         <button
                             onClick={() => {
                                 setFieldToModifyPopup(false);
