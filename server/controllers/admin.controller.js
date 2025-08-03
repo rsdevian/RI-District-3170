@@ -248,7 +248,38 @@ async function sendMail(req, res) {
 
 async function updateUserPassword(req, res) {
     try {
-        const { userId, newPassword } = req.params;
+        const { adminId, userId } = req.params;
+        const { adminPassword, newPassword } = req.body;
+
+        const admin = await userModel.findById(adminId);
+        if (!admin) {
+            return res.status(404).json({
+                success: false,
+                message: "Admin Not Found",
+            });
+        }
+
+        if (admin.isAdmin !== true) {
+            return res.status(403).json({
+                success: false,
+                message: "You are not authorized to perform this action",
+            });
+        }
+
+        const isPasswordValid = await comparePassword(
+            adminPassword,
+            admin.password
+        );
+
+        if (!isPasswordValid) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid Admin Password",
+                working: "Yes function",
+                admin,
+            });
+        }
+
         const user = await userModel.findById(userId);
         if (!user) {
             return res.status(404).json({

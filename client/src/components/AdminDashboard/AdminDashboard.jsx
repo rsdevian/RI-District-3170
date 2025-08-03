@@ -60,6 +60,9 @@ function AdminDashboard() {
     const [editUser, setEditUser] = useState({});
     const [fieldsToModifyPopup, setFieldToModifyPopup] = useState(false);
     const [fieldsToModify, setFieldsToModify] = useState({});
+    const [resetPasswordPopup, setResetPasswordPopup] = useState(false);
+    const [adminPassword, setAdminPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
 
     useEffect(() => {
         if (activeItem === "users") {
@@ -484,6 +487,58 @@ function AdminDashboard() {
         }
     };
 
+    const handleResetPassword = async () => {
+        try {
+            const userId = currentUser?._id;
+            const adminId = localStorage.getItem("userId");
+            if (!adminId) {
+                alert(
+                    "Admin Details are missing try logging out and logging in back"
+                );
+                return;
+            }
+            if (!userId) {
+                alert("User Details are missing");
+                return;
+            }
+            await axios.patch(
+                `${URL}/api/admin/user/resetPassword/${adminId}/${userId}`,
+                {
+                    adminPassword,
+                    newPassword,
+                }
+            );
+            setFieldToModifyPopup(false);
+            setEditUser({});
+            setEditUserPopup(false);
+            setCurrentUser({});
+            setFieldsToModify({});
+            setResetPasswordPopup(false);
+            setNewPassword("");
+            setAdminPassword("");
+            alert(
+                "User password reset successfully, Refresh the Users to see modifications"
+            );
+        } catch (error) {
+            if (error.status === 400) {
+                alert("New password cannot be the same exisiting password");
+                return;
+            }
+            if (error.status === 401) {
+                alert("Your password is incorrect");
+                return;
+            }
+            if (error.status === 403) {
+                alert("You are not authorized to perform this action");
+                return;
+            }
+            if (error.status === 404) {
+                alert("Either Admin details or user details are not found");
+                return;
+            }
+            console.log(error);
+        }
+    };
     const usersContent = () => {
         return (
             <div className='users-content'>
@@ -745,6 +800,13 @@ function AdminDashboard() {
                         </div>
                     </DialogContent>
                     <DialogActions>
+                        <button
+                            onClick={() => {
+                                setResetPasswordPopup(true);
+                            }}
+                        >
+                            Reset password for this user
+                        </button>
                         <button onClick={handleEditUser}>
                             Check Modifications
                         </button>
@@ -753,6 +815,47 @@ function AdminDashboard() {
                                 setEditUserPopup(false);
                                 setEditUser({});
                                 setCurrentUser({});
+                            }}
+                        >
+                            Cancel
+                        </button>
+                    </DialogActions>
+                </Dialog>
+
+                <Dialog
+                    open={resetPasswordPopup}
+                    fullWidth
+                    maxWidth='sm'
+                    BackdropProps={{
+                        style: { backgroundColor: "rgba(0,0,0,0)" },
+                    }}
+                >
+                    <DialogTitle>Reset Users password</DialogTitle>
+                    <DialogContent>
+                        <label className='input-label'>Your Password</label>
+                        <input
+                            label='Your Password'
+                            type='password'
+                            value={adminPassword}
+                            onChange={(e) => setAdminPassword(e.target.value)}
+                            className='input-field'
+                        />
+                        <label className='input-label'>New Password</label>
+                        <input
+                            label='New Password'
+                            type='password'
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            className='input-field'
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <button onClick={handleResetPassword}>
+                            Reset password
+                        </button>
+                        <button
+                            onClick={() => {
+                                setResetPasswordPopup(false);
                             }}
                         >
                             Cancel

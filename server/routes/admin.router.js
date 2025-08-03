@@ -41,8 +41,8 @@ router.post("/user/addUser", addUser); //add user
 router.post("/user/sendMail/:reciever", sendMail); //send mail
 
 //patch
-router.patch("/user/resetPassword/:userId/:newPassword", updateUserPassword); //update user by userId
-router.patch("/user/modify/:userId", editAllUserDetailsByUserId)
+router.patch("/user/resetPassword/:adminId/:userId", updateUserPassword); //update user by userId
+router.patch("/user/modify/:userId", editAllUserDetailsByUserId);
 
 //delete
 router.delete("/users/deleteAll", deleteAllUsers); //get user details by userId
