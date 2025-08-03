@@ -298,6 +298,10 @@ function AdminDashboard() {
                                 <p className='report-user'>
                                     Reporter Zone: <i>{report.userZone}</i>
                                 </p>
+                                <p className='report-user'>
+                                    Report File Size:{" "}
+                                    <i>{report.fileSize / 1000000} MB</i>
+                                </p>
                             </div>
                             <div className='report-action'>
                                 <button
@@ -602,9 +606,6 @@ function AdminDashboard() {
                             }}
                         >
                             <RefreshIcon />
-                        </button>
-                        <button className='icon-button' title='Edit'>
-                            <EditIcon />
                         </button>
                         <button
                             className='icon-button'
