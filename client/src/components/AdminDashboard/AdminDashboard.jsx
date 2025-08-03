@@ -250,11 +250,12 @@ function AdminDashboard() {
                                     File Name: <i>{report.originalName}</i>
                                 </p>
                                 <p>
-                                    Uploaded At:
+                                    Uploaded at:
                                     <i>
-                                        {convertUTCtoIST(
-                                            report.uploadDate
-                                        ).toString()}
+                                        {" " +
+                                            convertUTCtoIST(
+                                                report.uploadDate
+                                            ).toString()}
                                     </i>
                                 </p>
                                 <p className='report-user'>
