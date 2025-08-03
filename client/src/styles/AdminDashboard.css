@@ -1,0 +1,402 @@
+/* Layout */
+.admin-dashboard {
+    display: flex;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background-color: #3a3939ff;
+    color: #ffffff;
+    padding: 20px;
+}
+
+.sidebar-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.sidebar-subtitle {
+    font-size: 15px;
+    font-weight: normal;
+    margin: 5px;
+    margin-bottom: 30px;
+}
+
+.sidebar-item {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    background: none;
+    border: none;
+    color: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+}
+
+.sidebar-item:hover {
+    background-color: #3d3d3d;
+}
+
+.sidebar-item.active {
+    background-color: #505050;
+}
+
+/* Main content */
+.main-content {
+    flex: 1;
+    padding: 30px;
+    background: #ffffffff;
+}
+
+.content-title {
+    text-transform: capitalize;
+    font-size: 30px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.content-box {
+    background-color: #1755a2;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.sub-nav-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+    gap: 20px;
+}
+
+.sub-nav-button {
+    background-color: #1755a2;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.sub-nav-button:hover {
+    transform: scale(1.5);
+}
+
+/* Table styles */
+.table-container {
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.table th,
+.table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.table tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Users section styling */
+.users-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.icon-button {
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-button:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+/* Table */
+.table-container {
+    overflow-x: auto;
+}
+
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.user-table th,
+.user-table td {
+    background-color: #ffffffff;
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 1px solid #0c0c0cff;
+    color: #000000ff;
+}
+
+.user-table th {
+    background-color: #050505ff;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.user-table tr:hover {
+    background-color: #f9f9f9;
+}
+
+.no-users {
+    text-align: center;
+    padding: 20px;
+    color: #888;
+}
+
+/* Admin badge */
+.badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    background-color: #ddd;
+    font-size: 12px;
+}
+
+.badge.admin {
+    background-color: #4caf50;
+    color: white;
+}
+
+.circular-progress-dashboard {
+    color: black;
+}
+
+.input-field {
+    padding: 15px 18px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+    color: #2d3748;
+    outline: none;
+    width: 90%;
+}
+
+.input-field-select {
+    padding: 15px 18px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+    color: #2d3748;
+    outline: none;
+    width: 97%;
+}
+
+.add-user--content {
+    padding: 10px;
+}
+
+.add-user--content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 20px;
+}
+
+.add-user--content-container h1 {
+    margin-bottom: 20px;
+}
+
+.add-user--content-container button {
+    margin-top: 20px;
+}
+
+.add-user--content-container button:hover {
+    background-color: #0d6efd;
+}
+
+.text-field {
+    margin: 20px 0px !important;
+}
+
+.text-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+.admin-visibility-on {
+    position: relative;
+    top: 50%;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    margin: 0;
+    padding: 0 10px;
+    border: none;
+    background: none;
+    color: #2d3748 !important;
+}
+
+.reports-content--title {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.reports-container {
+    border: 1px solid #333;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #f0f0f0;
+    color: #000;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: Arial, sans-serif;
+}
+
+.report-details {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+}
+
+.report-action {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
+}
+
+.report-download--button {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+}
+
+.report-delete--button {
+    padding: 2px 15px;
+}
+
+.user-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.user-filter-select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: black;
+    margin: 0px 20px;
+}
+
+.user-filter-select-zone,
+.user-filter-select-club {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: black;
+    margin: 0px 10px;
+}
+
+.report-details p {
+    margin: 0;
+    font-weight: 600;
+}
+
+.report-user {
+    color: #555;
+}
+
+.user-content-top-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.input-label {
+    margin: 10px 0px;
+    display: block;
+    width: 30%;
+    text-align: left;
+    font-weight: bold;
+}
+
+.input-field-edit {
+    padding: 15px 18px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+    color: #2d3748;
+    outline: none;
+    width: 80%;
+}
+
+.edit-button {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin: 0px 10px;
+}
+
+.edit-button:hover {
+    background-color: #ccc;
+    cursor: pointer;
+    color: #000;
+}
+
+.admin-checkbox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}

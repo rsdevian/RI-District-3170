@@ -1,18 +1,70 @@
+//import modules
 import express from "express";
+
+//import controllers
 import {
+    adminStatusCheck,
     getAllUsers,
-    getUserDetails,
+    getUserDetailsByUserId,
+    getUserDetailsByUserEmail,
+    addUser,
+    sendMail,
+    updateUserPassword,
+    editAllUserDetailsByUserId,
+    deleteAllUsers,
+    deleteUserByUserId,
+    deleteUserByUserEmail,
     getAllFilesByAllUser,
+    getFilesByUserId,
+    getFilesByUserEmail,
     deleteAllFilesByAllUser,
-    deleteUserByEmail,
+    deleteFilesByUserEmail,
+    deleteFilesByUserId,
+    deletedByFileId,
+    downloadFile,
 } from "../controllers/admin.controller.js";
 
+//create router
 const router = express.Router();
 
-router.get("/users/all", getAllUsers); //get all user details
-router.get("/user/:userId", getUserDetails); //get user details by userId
-router.delete("/user/email/:email", deleteUserByEmail); //get user details by userId
-router.get("/files/all", getAllFilesByAllUser); //get all files in DB
-router.get("/files/deleteall", deleteAllFilesByAllUser); //get all files in DB
+//check
+router.get("/checkAdminStatus/:userId", adminStatusCheck);
 
+//User Actions
+//get
+router.get("/users/getAll", getAllUsers); //get all users & details
+router.get("/user/getByUserId/:userId", getUserDetailsByUserId); //get user details by userId
+router.get("/user/getByUserEmail/:email", getUserDetailsByUserEmail); //get user details by userEmail
+
+//post
+router.post("/user/addUser", addUser); //add user
+router.post("/user/sendMail/:reciever", sendMail); //send mail
+
+//patch
+router.patch("/user/resetPassword/:adminId/:userId", updateUserPassword); //update user by userId
+router.patch("/user/modify/:userId", editAllUserDetailsByUserId);
+
+//delete
+router.delete("/users/deleteAll", deleteAllUsers); //get user details by userId
+router.delete("/user/deleteByUserId/:userId", deleteUserByUserId); //delete user by userId
+router.delete("/user/deleteByUserEmail/:email", deleteUserByUserEmail); //delete user by userEmail
+
+//File Actions
+//get
+router.get("/files/getAll", getAllFilesByAllUser); //get all files in DB
+router.get("/files/getByUserId/:userId", getFilesByUserId); //get files by userId
+router.get("/files/getByUserEmail/:email", getFilesByUserEmail); //get files by userEmail
+router.get("/files/downloadFile/:fileId", downloadFile);
+
+//delete
+router.delete("/files/deleteAll", deleteAllFilesByAllUser); //delete all files in DB
+router.delete("/files/deleteByUserEmail/:email", deleteFilesByUserEmail); //delete files by userId
+router.delete("/files/deleteByUserId/:userId", deleteFilesByUserId); //delete files by userEmail
+router.delete("/files/deleteByFileId/:fileId", deletedByFileId); //delete files by userEmail
+
+// download all files by userId
+// download file by fileId
+// download all files
+
+//export router
 export default router;

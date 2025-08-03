@@ -146,7 +146,7 @@ function Login() {
                 setMessage("Login successful! Redirecting...");
 
                 // Navigate to home page after successful login
-                setTimeout(() => navigate("/form"), 1000);
+                setTimeout(() => navigate("/account"), 1000);
             } else {
                 // Set error message from server response
                 setMessage(data.message || "Login failed. Please try again.");

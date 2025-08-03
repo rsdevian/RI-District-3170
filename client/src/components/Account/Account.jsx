@@ -20,7 +20,7 @@ function Account() {
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [loading, setLoading] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
 
@@ -45,6 +45,7 @@ function Account() {
         };
     }, []); // Empty dependency array
 
+    // eslint-disable-next-line no-unused-vars
     function handleLogout() {
         //handle the logout functionality
 
@@ -135,9 +136,9 @@ function Account() {
                                         <b>{localStorage.getItem("name")}</b>{" "}
                                         {/*Render the name of Logged in user */}
                                     </p>
-                                    <button onClick={handleLogout}>
+                                    {/* <button onClick={handleLogout}>
                                         Log Out
-                                    </button>
+                                    </button> */}
                                     <button onClick={handleResetClick}>
                                         Reset Password
                                     </button>

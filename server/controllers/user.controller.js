@@ -2,7 +2,6 @@
 import { requestLog } from "../logs/request.logger.js";
 
 //import middleware
-import { validateEmail } from "../middleware/validation.middleware.js";
 import {
     hashPasswordWithSalt,
     comparePassword,
@@ -22,7 +21,7 @@ async function userLogin(req, res) {
         const { email, password } = req.body;
 
         //check the availability of email and password
-        if ((!email, !password)) {
+        if (!email || !password) {
             return res
                 .status(400)
                 .json({ message: "Email and password are required" });
@@ -33,9 +32,7 @@ async function userLogin(req, res) {
 
         //if there is no entry return error unavailability message
         if (!exisitingUser) {
-            return res
-                .status(401)
-                .json({ message: "Invalid email or password" });
+            return res.status(401).json({ message: "Invalid email" });
         }
 
         //fetch the password stored in database
@@ -46,9 +43,7 @@ async function userLogin(req, res) {
 
         //if the password is not correct return error message
         if (!isCorrectPassword) {
-            return res
-                .status(401)
-                .json({ message: "Invalid email or password" });
+            return res.status(401).json({ message: "Incorrect Password" });
         }
 
         //if the password is correct generate token using token middleware
@@ -80,112 +75,66 @@ async function userLogin(req, res) {
     }
 }
 
-async function userSignup(req, res) {
-    //function to handle the login API
-    try {
-        //log the request information
-        requestLog(req);
-
-        const { email, name, password, phone, zone, position, club, isAdmin } =
-            req.body;
-        console.log(req.body);
-        //check the availability of email, password and name
-        if ((!email, !password, !name)) {
-            return res
-                .status(400)
-                .json({ message: "Email, password and name are required" });
-        }
-
-        //check if the email is valid using validation middleware
-        const isValidEmail = validateEmail(email);
-
-        //if the email is not valid return error message
-        if (!isValidEmail) {
-            return res.status(400).json({ message: "Invalid Email" });
-        }
-
-        //check if there is another user with same email
-        const exisitingUser = await userModel.findOne({
-            email: email.toLowerCase(),
-        });
-
-        //if there is a user with same email return error message
-        if (exisitingUser) {
-            return res.status(400).json({ message: "User already exists" });
-        }
-
-        //hash the password with salt using bcrypt middleware
-        const newPassword = await hashPasswordWithSalt(password, 10);
-
-        if (!newPassword) {
-            return res.status(500).json({ message: "Error hashing password" });
-        }
-
-        //create new user
-        const newUser = await userModel.create({
-            email: email.toLowerCase(),
-            name: name.trim(),
-            password: newPassword,
-            phone,
-            zone,
-            position,
-            club,
-            isAdmin,
-        });
-
-        //if there is an error in creating user return error message
-        if (!newUser) {
-            return res.status(500).json({ message: "Error Creating User" });
-        }
-
-        //return the success message of user creation
-        return res
-            .status(200)
-            .json({ message: "New user created successfully" });
-    } catch (error) {
-        //if there is an error in signing up return error message
-        console.log("Error Signing Up: ", error);
-        return res.status(500).json({ message: "Error Signing Up" });
-    }
-}
-
+//password reset controller
 async function userResetPassword(req, res) {
+    //log the request information
     requestLog(req);
     try {
         const { userId, oldPassword, newPassword } = req.body;
 
+        //check the required fields
         if (!userId || !oldPassword || !newPassword) {
             return res.status(400).json({ message: "Missing required fields" });
         }
 
+        //check if the user exists
         const user = await userModel.findOne({ _id: userId });
 
+        //if user is not available return error message
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
 
-        const isPasswordMatch = await comparePassword(
-            oldPassword,
-            user.password
-        );
+        const dbPassword = user.password;
 
+        //check the password match
+        const isPasswordMatch = await comparePassword(oldPassword, dbPassword);
+
+        //if the password is not match return error message as unauthorized
         if (!isPasswordMatch) {
             return res.status(401).json({ message: "Invalid password" });
         }
 
+        //check if the new password is same as old password
+        const isSamePassword = await comparePassword(newPassword, dbPassword);
+
+        // if the new password is same as the old password return error message
+        if (isSamePassword) {
+            return res.status(400).json({
+                message: "New password cannot be same as old password",
+            });
+        }
+
+        //hash the new password
         const hashedNewPassword = await hashPasswordWithSalt(newPassword, 10);
+
+        //update the password
         user.password = hashedNewPassword;
 
+        //save the new user information in the database
         await user.save();
 
+        //return the success message
         return res
             .status(200)
             .json({ message: "Password updated successfully" });
     } catch (error) {
+        //log the error
         console.error("Error Resetting Password:", error);
+        //return the error message
         return res.status(500).json({ message: "Error Resetting Password" });
     }
 }
 
 //export controllers
-export { userLogin, userSignup, userResetPassword };
+export { userLogin, userResetPassword };

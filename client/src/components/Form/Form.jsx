@@ -65,7 +65,7 @@ function Form() {
         }
 
         // Validate file size (e.g., max 10MB)
-        const maxSize = 25 * 1024 * 1024; // 10MB
+        const maxSize = 25 * 1024 * 1024; // 25MB
         if (file.size > maxSize) {
             setMessage("File size must be less than 25MB");
             return;
