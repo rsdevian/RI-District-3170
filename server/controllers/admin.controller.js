@@ -841,6 +841,93 @@ async function deleteFilesByUserEmail(req, res) {
     }
 }
 
+const downloadFile = async (req, res) => {
+    try {
+        const { fileId } = req.params;
+
+        // Check if GridFS bucket is initialized
+        if (!bucket) {
+            bucket = initGridFS();
+            if (!bucket) {
+                return res.status(500).json({
+                    success: false,
+                    message: "Database connection not ready",
+                });
+            }
+        }
+
+        // Validate input
+        if (!fileId) {
+            return res.status(400).json({
+                success: false,
+                message: "File ID and User ID are required",
+            });
+        }
+
+        // Find the file in database
+        const file = await File.findOne({
+            _id: fileId,
+            isActive: true,
+        });
+
+        if (!file) {
+            return res.status(404).json({
+                success: false,
+                message:
+                    "File not found or you do not have permission to access it",
+            });
+        }
+
+        // Check if file exists in GridFS
+        const files = await bucket.find({ _id: file.gridfsFileId }).toArray();
+
+        if (files.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "File not found in database",
+            });
+        }
+
+        const gridfsFile = files[0];
+
+        // Set appropriate headers for PDF download
+        res.setHeader("Content-Type", "application/pdf");
+        res.setHeader(
+            "Content-Disposition",
+            `attachment; filename="${file.originalName}"`
+        );
+        res.setHeader("Content-Length", gridfsFile.length);
+
+        // Stream the file from GridFS
+        const downloadStream = bucket.openDownloadStream(file.gridfsFileId);
+
+        downloadStream.on("error", (error) => {
+            console.error("Error streaming file from GridFS:", error);
+            if (!res.headersSent) {
+                res.status(500).json({
+                    success: false,
+                    message: "Error streaming file",
+                });
+            }
+        });
+
+        // Pipe the stream to response
+        downloadStream.pipe(res);
+    } catch (error) {
+        console.error("Error downloading file:", error);
+        if (!res.headersSent) {
+            res.status(500).json({
+                success: false,
+                message: "Internal server error while downloading file",
+                error:
+                    process.env.NODE_ENV === "development"
+                        ? error.message
+                        : undefined,
+            });
+        }
+    }
+};
+
 export {
     adminStatusCheck,
     getAllUsers,
@@ -858,4 +945,5 @@ export {
     deleteAllFilesByAllUser,
     deleteFilesByUserEmail,
     deleteFilesByUserId,
+    downloadFile,
 };

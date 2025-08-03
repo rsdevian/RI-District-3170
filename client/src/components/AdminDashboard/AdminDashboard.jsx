@@ -51,6 +51,8 @@ function AdminDashboard() {
     const [selectedZone, setSelectedZone] = useState("");
     const [selectedClub, setSelectedClub] = useState("");
     const [reports, setReports] = useState([]);
+    const [downloading, setDownloading] = useState(false);
+    const [downloadingFileId, setDownloadingFileId] = useState(null);
 
     useEffect(() => {
         if (activeItem === "users") {
@@ -74,7 +76,6 @@ function AdminDashboard() {
     const fetchZones = async () => {
         try {
             const response = await axios.get(`${URL}/api/zones`);
-            console.log(response.data);
             setAllZones(response.data.zones);
         } catch (error) {
             console.log(error);
@@ -84,7 +85,6 @@ function AdminDashboard() {
     const fetchClubs = async () => {
         try {
             const response = await axios.get(`${URL}/api/clubs`);
-            console.log(response.data.clubs);
             setAllClubs(response.data.clubs);
         } catch (error) {
             console.log(error);
@@ -108,7 +108,6 @@ function AdminDashboard() {
         try {
             setLoading(true);
             const response = await axios.get(`${URL}/api/admin/files/getAll`);
-            console.log(response.data);
             setReports(response.data.files);
         } catch (error) {
             console.log(error);
@@ -142,6 +141,38 @@ function AdminDashboard() {
             istDate.getSeconds()
         )}`;
     }
+
+    const downloadFile = async (fileName, fileId) => {
+        try {
+            setDownloading(true);
+            setDownloadingFileId(fileId);
+            const response = await axios.get(
+                `${URL}/api/admin/files/downloadFile/${fileId}`,
+                { responseType: "blob" } // Important: tells axios to treat response as binary
+            );
+
+            // Create a URL for the blob object
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const a = document.createElement("a");
+            a.href = url;
+            // Attempt to get filename from Content-Disposition header
+            let filename = fileName; // default fallback
+            const disposition = response.headers["content-disposition"];
+            if (disposition) {
+                const filenameMatch = disposition.match(/filename="(.+)"/);
+                if (filenameMatch.length === 2) filename = filenameMatch[1];
+            }
+            a.download = filename;
+            document.body.appendChild(a); // Append to DOM for Firefox compatibility
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url); // Clean up
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setDownloading(false);
+        }
+    };
 
     const reportContents = () => {
         return (
@@ -205,7 +236,7 @@ function AdminDashboard() {
                                 style={{
                                     padding: "8px 16px",
                                     backgroundColor: "#007BFF",
-                                    color: "#fff",
+                                    color: downloading ? "#f3f3f3" : "#fff",
                                     border: "none",
                                     borderRadius: "4px",
                                     cursor: "pointer",
@@ -221,8 +252,17 @@ function AdminDashboard() {
                                     (e.currentTarget.style.backgroundColor =
                                         "#007BFF")
                                 }
+                                onClick={() =>
+                                    downloadFile(report.originalName, report.id)
+                                }
+                                disabled={downloading}
                             >
-                                Download
+                                {downloading &&
+                                downloadingFileId === report.id ? (
+                                    <CircularProgress size={20} color='white' />
+                                ) : (
+                                    "Download"
+                                )}
                             </button>
                             <DeleteIcon />
                         </div>

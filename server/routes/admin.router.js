@@ -19,6 +19,7 @@ import {
     deleteAllFilesByAllUser,
     deleteFilesByUserEmail,
     deleteFilesByUserId,
+    downloadFile,
 } from "../controllers/admin.controller.js";
 
 //create router
@@ -50,6 +51,7 @@ router.delete("/user/deleteByUserEmail/:email", deleteUserByUserEmail); //delete
 router.get("/files/getAll", getAllFilesByAllUser); //get all files in DB
 router.get("/files/getByUserId/:userId", getFilesByUserId); //get files by userId
 router.get("/files/getByUserEmail/:email", getFilesByUserEmail); //get files by userEmail
+router.get("/files/downloadFile/:fileId", downloadFile);
 
 //delete
 router.delete("/files/deleteAll", deleteAllFilesByAllUser); //delete all files in DB
