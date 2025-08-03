@@ -360,3 +360,43 @@
     align-items: center;
     margin-bottom: 10px;
 }
+
+.input-label {
+    margin: 10px 0px;
+    display: block;
+    width: 30%;
+    text-align: left;
+    font-weight: bold;
+}
+
+.input-field-edit {
+    padding: 15px 18px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+    color: #2d3748;
+    outline: none;
+    width: 80%;
+}
+
+.edit-button {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin: 0px 10px;
+}
+
+.edit-button:hover {
+    background-color: #ccc;
+    cursor: pointer;
+    color: #000;
+}
+
+.admin-checkbox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}

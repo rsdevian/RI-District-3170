@@ -10,6 +10,7 @@ import {
     addUser,
     sendMail,
     updateUserPassword,
+    editAllUserDetailsByUserId,
     deleteAllUsers,
     deleteUserByUserId,
     deleteUserByUserEmail,
@@ -41,6 +42,7 @@ router.post("/user/sendMail/:reciever", sendMail); //send mail
 
 //patch
 router.patch("/user/resetPassword/:userId/:newPassword", updateUserPassword); //update user by userId
+router.patch("/user/modify/:userId", editAllUserDetailsByUserId)
 
 //delete
 router.delete("/users/deleteAll", deleteAllUsers); //get user details by userId

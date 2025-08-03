@@ -287,6 +287,39 @@ async function updateUserPassword(req, res) {
     }
 }
 
+async function editAllUserDetailsByUserId(req, res) {
+    try {
+        requestLog(req);
+        const { userId } = req.params;
+
+        const { editUser } = req.body;
+        console.log(editUser);
+        let user = await userModel.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+        }
+
+        // Update user details
+        Object.assign(user, editUser);
+
+        await user.save();
+
+        return res
+            .status(200)
+            .json({ message: "User details updated successfully", user });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+        });
+    }
+}
+
 async function deleteAllUsers(req, res) {
     try {
         requestLog(req);
@@ -1015,6 +1048,7 @@ export {
     addUser,
     sendMail,
     updateUserPassword,
+    editAllUserDetailsByUserId,
     deleteAllUsers,
     deleteUserByUserId,
     deleteUserByUserEmail,

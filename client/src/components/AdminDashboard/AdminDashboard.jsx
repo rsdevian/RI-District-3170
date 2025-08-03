@@ -55,6 +55,11 @@ function AdminDashboard() {
     const [downloadingFileId, setDownloadingFileId] = useState(null);
     const [deleting, setDeleting] = useState(false);
     const [deletingFileId, setDeletingFileId] = useState(null);
+    const [editUserPopup, setEditUserPopup] = useState(false);
+    const [currentUser, setCurrentUser] = useState({});
+    const [editUser, setEditUser] = useState({});
+    const [fieldsToModifyPopup, setFieldToModifyPopup] = useState(false);
+    const [fieldsToModify, setFieldsToModify] = useState({});
 
     useEffect(() => {
         if (activeItem === "users") {
@@ -185,6 +190,32 @@ function AdminDashboard() {
             setDeleting(false);
             setDeletingFileId(null);
         }
+    };
+
+    const handleEdit = (user) => {
+        setEditUserPopup(true);
+        setEditUser(user);
+        setCurrentUser(user);
+    };
+
+    const handleEditUser = () => {
+        const fieldsToModify = {
+            name: false,
+            email: false,
+            phone: false,
+            zone: false,
+            club: false,
+            isAdmin: false,
+        };
+        if (currentUser.name !== editUser.name) fieldsToModify.name = true;
+        if (currentUser.phone !== editUser.phone) fieldsToModify.phone = true;
+        if (currentUser.email !== editUser.email) fieldsToModify.email = true;
+        if (currentUser.zone !== editUser.zone) fieldsToModify.zone = true;
+        if (currentUser.club !== editUser.club) fieldsToModify.club = true;
+        if (currentUser.isAdmin !== editUser.isAdmin)
+            fieldsToModify.isAdmin = true;
+        setFieldsToModify(fieldsToModify);
+        setFieldToModifyPopup(true);
     };
 
     const reportContents = () => {
@@ -427,6 +458,32 @@ function AdminDashboard() {
         }
     };
 
+    function toCapitalize(str) {
+        if (!str) return ""; // handle empty or null strings
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    const handleModifyInDatabase = async () => {
+        try {
+            await axios.patch(
+                `${URL}/api/admin/user/modify/${currentUser?._id}`,
+                {
+                    editUser,
+                }
+            );
+            setFieldToModifyPopup(false);
+            setEditUser({});
+            setEditUserPopup(false);
+            setCurrentUser({});
+            setFieldsToModify({});
+            alert(
+                "User updated successfully, Refresh the Users to see modifications"
+            );
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const usersContent = () => {
         return (
             <div className='users-content'>
@@ -597,6 +654,164 @@ function AdminDashboard() {
                     </DialogActions>
                 </Dialog>
                 <Dialog
+                    open={editUserPopup}
+                    fullWidth
+                    maxWidth='sm'
+                    BackdropProps={{
+                        style: { backgroundColor: "rgba(0,0,0,0)" },
+                    }}
+                >
+                    <DialogTitle>Edit User Details</DialogTitle>
+                    <DialogContent>
+                        <div>
+                            <div>
+                                <label className='input-label'>Name</label>
+                                <input
+                                    value={editUser?.name}
+                                    onChange={(e) => {
+                                        setEditUser({
+                                            ...editUser,
+                                            name: e.target.value,
+                                        });
+                                    }}
+                                    className='input-field-edit'
+                                />
+                            </div>
+                            <div>
+                                <label className='input-label'>Phone</label>
+                                <input
+                                    value={editUser?.phone}
+                                    onChange={(e) => {
+                                        setEditUser({
+                                            ...editUser,
+                                            phone: parseInt(e.target.value),
+                                        });
+                                    }}
+                                    className='input-field-edit'
+                                />
+                            </div>
+                            <div>
+                                <label className='input-label'>Club</label>
+                                <input
+                                    value={editUser?.club}
+                                    onChange={(e) => {
+                                        setEditUser({
+                                            ...editUser,
+                                            club: e.target.value,
+                                        });
+                                    }}
+                                    className='input-field-edit'
+                                />
+                            </div>
+                            <div>
+                                <label className='input-label'>Email</label>
+                                <input
+                                    value={editUser?.email}
+                                    onChange={(e) => {
+                                        setEditUser({
+                                            ...editUser,
+                                            email: e.target.value,
+                                        });
+                                    }}
+                                    className='input-field-edit'
+                                />
+                            </div>
+                            <div>
+                                <label className='input-label'>Zone</label>
+                                <input
+                                    value={editUser?.zone}
+                                    onChange={(e) => {
+                                        setEditUser({
+                                            ...editUser,
+                                            zone: e.target.value,
+                                        });
+                                    }}
+                                    className='input-field-edit'
+                                />
+                            </div>
+                            <div className='admin-checkbox'>
+                                <input
+                                    type='checkbox'
+                                    checked={editUser?.isAdmin}
+                                    onChange={() => {
+                                        setEditUser({
+                                            ...editUser,
+                                            isAdmin: !editUser?.isAdmin,
+                                        });
+                                    }}
+                                />
+                                <label className='input-label'>Admin</label>
+                            </div>
+                        </div>
+                    </DialogContent>
+                    <DialogActions>
+                        <button onClick={handleEditUser}>
+                            Check Modifications
+                        </button>
+                        <button
+                            onClick={() => {
+                                setEditUserPopup(false);
+                                setEditUser({});
+                                setCurrentUser({});
+                            }}
+                        >
+                            Cancel
+                        </button>
+                    </DialogActions>
+                </Dialog>
+
+                <Dialog
+                    open={fieldsToModifyPopup}
+                    fullWidth
+                    maxWidth='sm'
+                    onClose={() => {
+                        setFieldToModifyPopup(false);
+                    }}
+                    BackdropProps={{
+                        style: { backgroundColor: "rgba(0,0,0,0)" },
+                    }}
+                >
+                    <DialogTitle>Modified Data</DialogTitle>
+                    <DialogContent>
+                        <div>
+                            {Object.keys(fieldsToModify).map((field) => {
+                                if (fieldsToModify[field] === false) {
+                                    return null;
+                                }
+                                return (
+                                    <div>
+                                        <label className='input-label'>
+                                            {toCapitalize(field)}
+                                        </label>
+                                        <input
+                                            type='text'
+                                            value={editUser[field]}
+                                            onChange={(e) =>
+                                                setCurrentUser({
+                                                    ...currentUser,
+                                                    [field]: e.target.value,
+                                                })
+                                            }
+                                            className='input-field-edit'
+                                        />
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </DialogContent>
+                    <DialogActions>
+                        <button onClick={handleModifyInDatabase}>Change</button>
+                        <button
+                            onClick={() => {
+                                setFieldToModifyPopup(false);
+                            }}
+                        >
+                            Cancel
+                        </button>
+                    </DialogActions>
+                </Dialog>
+
+                <Dialog
                     open={addNewUserPopup}
                     onClose={() => setAddNewUserPopup(false)}
                     maxWidth='sm'
@@ -733,6 +948,7 @@ function AdminDashboard() {
                                 <th>Email</th>
                                 {/* <th>Position</th> */}
                                 <th>Zone</th>
+                                <th>Edit</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -751,17 +967,18 @@ function AdminDashboard() {
                                         return null;
                                     }
                                     return (
-                                        <tr key={user._id}>
-                                            <td>
-                                                {user.name}
-                                                {user._id ===
-                                                localStorage.getItem(
-                                                    "userId"
-                                                ) ? (
-                                                    <span>{" (You)"}</span>
-                                                ) : null}
-                                            </td>
-                                            {/* <td>
+                                        <>
+                                            <tr key={user._id}>
+                                                <td>
+                                                    {user.name}
+                                                    {user._id ===
+                                                    localStorage.getItem(
+                                                        "userId"
+                                                    ) ? (
+                                                        <span>{" (You)"}</span>
+                                                    ) : null}
+                                                </td>
+                                                {/* <td>
                                             {user.isAdmin ? (
                                                 <span className='badge admin'>
                                                     Yes
@@ -772,12 +989,25 @@ function AdminDashboard() {
                                                 </span>
                                             )}
                                         </td> */}
-                                            <td>{user.phone}</td>
-                                            <td>{user.club}</td>
-                                            <td>{user.email}</td>
-                                            {/* <td>{user.position}</td> */}
-                                            <td>{user.zone}</td>
-                                        </tr>
+                                                <td>{user.phone}</td>
+                                                <td>{user.club}</td>
+                                                <td>{user.email}</td>
+                                                {/* <td>{user.position}</td> */}
+                                                <td>{user.zone}</td>
+                                                <td>
+                                                    <EditIcon
+                                                        color='black'
+                                                        style={{
+                                                            margin: "0px 10px",
+                                                        }}
+                                                        className='edit-button'
+                                                        onClick={() => {
+                                                            handleEdit(user);
+                                                        }}
+                                                    />
+                                                </td>
+                                            </tr>
+                                        </>
                                     );
                                 })
                             ) : (
