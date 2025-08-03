@@ -266,7 +266,7 @@ async function updateUserPassword(req, res) {
         if (!admin) {
             return res.status(404).json({
                 success: false,
-                message: "Admin Not Found",
+                message: "Admin Not Found - 1",
             });
         }
 

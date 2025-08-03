@@ -65,7 +65,7 @@ function AdminDashboard() {
     const [newPassword, setNewPassword] = useState("");
     const [deleteConfirmationPopup, setDeleteConfirmationPopup] =
         useState(false);
-
+    const [resettingPassword, setResettingPassword] = useState(false);
     useEffect(() => {
         if (activeItem === "users") {
             fetchUsers();
@@ -470,14 +470,13 @@ function AdminDashboard() {
         return result;
     }
 
-    const sendMail = async (name, email, password) => {
+    const sendMail = async (email, password) => {
         try {
             setSendingMail(true);
             const receiver = email;
             const response = await axios.post(
                 `${URL}/api/admin/user/sendMail/${receiver}`,
                 {
-                    name,
                     email,
                     password,
                 }
@@ -500,6 +499,10 @@ function AdminDashboard() {
         } finally {
             setSendingMail(false);
             setPushMailPopup(false);
+            setNewPassword("");
+            setCurrentUser({});
+            setEditUser({});
+            setResettingPassword(false);
         }
     };
 
@@ -532,7 +535,11 @@ function AdminDashboard() {
     const handleResetPassword = async () => {
         try {
             const userId = currentUser?._id;
+            console.log(userId);
             const adminId = localStorage.getItem("userId");
+            console.log(adminId);
+            console.log(adminPassword);
+            console.log(newPassword);
             if (!adminId) {
                 alert(
                     "Admin Details are missing try logging out and logging in back"
@@ -550,17 +557,18 @@ function AdminDashboard() {
                     newPassword,
                 }
             );
-            setFieldToModifyPopup(false);
-            setEditUser({});
-            setEditUserPopup(false);
-            setCurrentUser({});
-            setFieldsToModify({});
-            setResetPasswordPopup(false);
-            setNewPassword("");
-            setAdminPassword("");
+
             alert(
                 "User password reset successfully, Refresh the Users to see modifications"
             );
+            setResettingPassword(true);
+            setPushMailPopup(true);
+            setFieldToModifyPopup(false);
+            setEditUser({});
+            setEditUserPopup(false);
+            setFieldsToModify({});
+            setResetPasswordPopup(false);
+            setAdminPassword("");
         } catch (error) {
             if (error.status === 400) {
                 alert("New password cannot be the same exisiting password");
@@ -576,11 +584,12 @@ function AdminDashboard() {
             }
             if (error.status === 404) {
                 alert("Either Admin details or user details are not found");
-                return;
+                // return;
             }
             console.log(error);
         }
     };
+
     const usersContent = () => {
         return (
             <div className='users-content'>
@@ -722,15 +731,39 @@ function AdminDashboard() {
                         </p>
                     </DialogContent>
                     <DialogActions>
-                        {!sendingMail && (
+                        {!sendingMail && !resettingPassword && (
                             <>
                                 {/* <input /> */}
                                 <button
                                     onClick={() => {
                                         sendMail(
-                                            details.name,
                                             details.email,
                                             details.password
+                                            // details.appPassword
+                                        );
+                                    }}
+                                >
+                                    Push Mail
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        setCurrentUser({});
+                                        setPushMailPopup(false);
+                                    }}
+                                >
+                                    No
+                                </button>
+                            </>
+                        )}
+                        {!sendingMail && resettingPassword && (
+                            <>
+                                {/* <input /> */}
+                                <button
+                                    onClick={() => {
+                                        console.log(currentUser, newPassword);
+                                        sendMail(
+                                            currentUser.email,
+                                            newPassword
                                             // details.appPassword
                                         );
                                     }}
