@@ -25,7 +25,7 @@ const sidebarItems = [
 
 function AdminDashboard() {
     const user = localStorage?.getItem("name");
-    const [activeItem, setActiveItem] = useState("users");
+    const [activeItem, setActiveItem] = useState("dashboard");
     const [loading, setLoading] = useState(false);
     const [users, setUsers] = useState([]);
     const [details, setDetails] = useState({
@@ -53,6 +53,8 @@ function AdminDashboard() {
     const [reports, setReports] = useState([]);
     const [downloading, setDownloading] = useState(false);
     const [downloadingFileId, setDownloadingFileId] = useState(null);
+    const [deleting, setDeleting] = useState(false);
+    const [deletingFileId, setDeletingFileId] = useState(null);
 
     useEffect(() => {
         if (activeItem === "users") {
@@ -171,6 +173,23 @@ function AdminDashboard() {
             console.error(error);
         } finally {
             setDownloading(false);
+            setDownloadingFileId(null);
+        }
+    };
+
+    const handleDeleteFile = async (fileId) => {
+        try {
+            setDeleting(true);
+            setDeletingFileId(fileId);
+            await axios.delete(
+                `${URL}/api/admin/files/deleteByFileId/${fileId}`
+            );
+            await fetchReports();
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setDeleting(false);
+            setDeletingFileId(null);
         }
     };
 
@@ -264,7 +283,16 @@ function AdminDashboard() {
                                     "Download"
                                 )}
                             </button>
-                            <DeleteIcon />
+                            <button
+                                onClick={() => handleDeleteFile(report.id)}
+                                style={{ padding: "5px 15px" }}
+                            >
+                                {deleting && deletingFileId === report.id ? (
+                                    <CircularProgress size={20} color='white' />
+                                ) : (
+                                    <DeleteIcon />
+                                )}
+                            </button>
                         </div>
                     </div>
                 ))}
@@ -324,7 +352,6 @@ function AdminDashboard() {
                 setAddUserLoading(false);
                 return;
             }
-            console.log(userDetails);
             await axios.post(`${URL}/api/admin/user/addUser`, userDetails);
 
             setOpenDialog(true);
@@ -427,7 +454,9 @@ function AdminDashboard() {
                         >
                             <option></option>
                             {allZones.map((zone) => (
-                                <option value={zone.zone}>{zone.zone}</option>
+                                <option key={zone._id} value={zone.zone}>
+                                    {zone.zone}
+                                </option>
                             ))}
                         </select>
                     )}
@@ -447,7 +476,9 @@ function AdminDashboard() {
                         >
                             <option></option>
                             {allClubs?.map((club) => (
-                                <option value={club.club}>{club.club}</option>
+                                <option key={club._id} value={club.club}>
+                                    {club.club}
+                                </option>
                             ))}
                         </select>
                     )}
@@ -714,7 +745,7 @@ function AdminDashboard() {
                                         return null;
                                     }
                                     return (
-                                        <tr key={user.id}>
+                                        <tr key={user._id}>
                                             <td>
                                                 {user.name}
                                                 {user._id ===

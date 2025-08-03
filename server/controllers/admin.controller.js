@@ -394,9 +394,10 @@ async function getAllFilesByAllUser(req, res) {
         const files = await File.find();
 
         if (files.length === 0) {
-            return res.status(404).json({
+            return res.status(200).json({
                 success: false,
                 message: "No files found in database",
+                files: [],
             });
         }
 
@@ -928,6 +929,84 @@ const downloadFile = async (req, res) => {
     }
 };
 
+const deletedByFileId = async (req, res) => {
+    try {
+        const { fileId } = req.params;
+
+        if (!fileId) {
+            return res.status(400).json({
+                success: false,
+                message: "File ID is required",
+            });
+        }
+
+        // Initialize GridFS bucket if not ready
+        if (!bucket) {
+            bucket = initGridFS();
+            if (!bucket) {
+                return res.status(500).json({
+                    success: false,
+                    message: "Database connection not ready",
+                });
+            }
+        }
+
+        // Find the file document
+        const file = await File.findById(fileId);
+
+        if (!file) {
+            return res.status(404).json({
+                success: false,
+                message: "File not found",
+            });
+        }
+
+        if (!file.isActive) {
+            return res.status(400).json({
+                success: false,
+                message: `File "${file.fileName}" is already inactive`,
+            });
+        }
+
+        // Delete from GridFS and mark the file inactive
+        try {
+            if (file.gridfsFileId) {
+                await bucket.delete(file.gridfsFileId);
+            }
+            file.isActive = false;
+            await file.save();
+        } catch (error) {
+            console.error(`Error deleting file: ${file.fileName}`, error);
+            return res.status(500).json({
+                success: false,
+                message: "Error deleting file from storage",
+                error:
+                    process.env.NODE_ENV === "development"
+                        ? error.message
+                        : undefined,
+            });
+        }
+
+        await File.deleteOne({ _id: fileId });
+
+        return res.status(200).json({
+            success: true,
+            message: `File "${file.fileName}" has been deleted (marked inactive).`,
+            fileId: fileId,
+        });
+    } catch (error) {
+        console.error("Error deleting file:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error while deleting file",
+            error:
+                process.env.NODE_ENV === "development"
+                    ? error.message
+                    : undefined,
+        });
+    }
+};
+
 export {
     adminStatusCheck,
     getAllUsers,
@@ -946,4 +1025,5 @@ export {
     deleteFilesByUserEmail,
     deleteFilesByUserId,
     downloadFile,
+    deletedByFileId,
 };
