@@ -31,7 +31,7 @@ app.use(
         origin: [
             allowedCorsOriginMain,
             allowedCorsOriginTest,
-            allowedCorsOriginLocalTest,
+            // allowedCorsOriginLocalTest,
         ], //set cors origin restriction
         credentials: true,
     })
