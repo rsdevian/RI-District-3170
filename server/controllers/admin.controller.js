@@ -377,6 +377,17 @@ async function deleteUserByUserEmail(req, res) {
     }
 }
 
+async function getZone(userId) {
+    try {
+        const user = await userModel.findById(userId);
+        if (!user) return null;
+        return user.zone || null;
+    } catch (error) {
+        console.error("Error fetching user zone:", error);
+        return null;
+    }
+}
+
 async function getAllFilesByAllUser(req, res) {
     try {
         requestLog(req);
@@ -420,13 +431,9 @@ async function getAllFilesByAllUser(req, res) {
             validFiles.push(...files);
         }
 
-        // Return files with metadata
-        return res.status(200).json({
-            success: true,
-            message: `Found ${validFiles.length} files (${missingFiles.length} files missing from GridFS)`,
-            count: validFiles.length,
-            missingCount: missingFiles.length,
-            files: validFiles.map((file) => ({
+        // Resolve async userZone fields
+        const filesWithUserZone = await Promise.all(
+            validFiles.reverse().map(async (file) => ({
                 id: file._id,
                 fileName: file.fileName,
                 originalName: file.originalName,
@@ -434,23 +441,34 @@ async function getAllFilesByAllUser(req, res) {
                 uploadDate: file.uploadDate,
                 status: file.status,
                 fileExists: true,
-                isActive: file._doc.isActive,
-                userEmail: file._doc.userEmail,
-                userName: file._doc.userName,
-                userId: file._doc._id,
+                isActive: file.isActive,
+                userEmail: file.userEmail,
+                userName: file.userName,
+                userId: file.userId,
+                userZone: await getZone(file.userId),
                 uploadDetails: file._doc,
-            })),
-            missingFiles: missingFiles.map((file) => ({
-                id: file._id,
-                fileName: file.fileName,
-                originalName: file.originalName,
-                fileExists: false,
-                userEmail: file._doc.userEmail,
-                userName: file._doc.userName,
-                userId: file._doc._id,
-                isActive: file._doc.isActive,
-                uploadDetails: file._doc,
-            })),
+            }))
+        );
+
+        const missingFilesData = missingFiles.map((file) => ({
+            id: file._id,
+            fileName: file.fileName,
+            originalName: file.originalName,
+            fileExists: false,
+            userEmail: file.userEmail,
+            userName: file.userName,
+            userId: file.userId,
+            isActive: file.isActive,
+            uploadDetails: file._doc,
+        }));
+
+        return res.status(200).json({
+            success: true,
+            message: `Found ${filesWithUserZone.length} files (${missingFilesData.length} files missing from GridFS)`,
+            count: filesWithUserZone.length,
+            missingCount: missingFilesData.length,
+            files: filesWithUserZone,
+            missingFiles: missingFilesData,
         });
     } catch (error) {
         console.error("Error fetching files:", error);

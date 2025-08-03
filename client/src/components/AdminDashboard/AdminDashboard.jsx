@@ -13,6 +13,7 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import EditIcon from "@mui/icons-material/Edit";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import { CircularProgress } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { URL } from "../../constants/url";
 
 const sidebarItems = [
@@ -49,10 +50,15 @@ function AdminDashboard() {
     const [allClubs, setAllClubs] = useState([]);
     const [selectedZone, setSelectedZone] = useState("");
     const [selectedClub, setSelectedClub] = useState("");
+    const [reports, setReports] = useState([]);
 
     useEffect(() => {
         if (activeItem === "users") {
             fetchUsers();
+        }
+
+        if (activeItem === "reports") {
+            fetchReports();
         }
     }, [activeItem]);
 
@@ -98,6 +104,19 @@ function AdminDashboard() {
         }
     };
 
+    const fetchReports = async () => {
+        try {
+            setLoading(true);
+            const response = await axios.get(`${URL}/api/admin/files/getAll`);
+            console.log(response.data);
+            setReports(response.data.files);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const renderContent = (active) => {
         switch (active) {
             case "dashboard":
@@ -113,10 +132,108 @@ function AdminDashboard() {
         }
     };
 
+    function convertUTCtoIST(utcDateString) {
+        const utcDate = new Date(utcDateString);
+        // Add 5 hours 30 minutes offset for IST
+        const istTime = new Date(utcDate.getTime() - (5 * 60 + 30) * 60000);
+
+        // Format as YYYY-MM-DD HH:mm:ss
+        const year = istTime.getFullYear();
+        const month = String(istTime.getMonth() + 1).padStart(2, "0");
+        const day = String(istTime.getDate()).padStart(2, "0");
+
+        const hours = String(istTime.getHours()).padStart(2, "0");
+        const minutes = String(istTime.getMinutes()).padStart(2, "0");
+        const seconds = String(istTime.getSeconds()).padStart(2, "0");
+
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    }
+
     const reportContents = () => {
         return (
             <div>
-                <p>Here are some reports</p>
+                <p
+                    style={{
+                        fontWeight: "bold",
+                        fontSize: "1.2em",
+                        marginBottom: "15px",
+                    }}
+                >
+                    Here are some reports
+                </p>
+                {reports.map((report, index) => (
+                    <div
+                        key={index}
+                        style={{
+                            border: "1px solid #333", // darker border for clarity
+                            borderRadius: "6px", // rounded corners
+                            padding: "15px",
+                            marginBottom: "15px", // space between reports
+                            backgroundColor: "#f0f0f0", // subtle light background
+                            color: "#000",
+                            boxShadow: "1px 1px 3px rgba(0,0,0,0.1)", // subtle shadow
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            fontFamily: "Arial, sans-serif",
+                        }}
+                    >
+                        <div
+                            style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "6px",
+                                alignItems: "flex-start",
+                            }}
+                        >
+                            <p style={{ margin: 0, fontWeight: "600" }}>
+                                {report.originalName}
+                            </p>
+                            <p style={{ margin: 0, fontWeight: "600" }}>
+                                {convertUTCtoIST(report.uploadDate).toString()}
+                            </p>
+                            <p style={{ margin: 0, color: "#555" }}>
+                                {report.userName}
+                            </p>
+                            <p style={{ margin: 0, color: "#555" }}>
+                                {report.userZone}
+                            </p>
+                        </div>
+                        <div
+                            style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                gap: "6px",
+                                alignItems: "center",
+                            }}
+                        >
+                            <button
+                                style={{
+                                    padding: "8px 16px",
+                                    backgroundColor: "#007BFF",
+                                    color: "#fff",
+                                    border: "none",
+                                    borderRadius: "4px",
+                                    cursor: "pointer",
+                                    fontWeight: "600",
+                                    fontSize: "0.9em",
+                                    transition: "background-color 0.3s ease",
+                                }}
+                                onMouseEnter={(e) =>
+                                    (e.currentTarget.style.backgroundColor =
+                                        "#0056b3")
+                                }
+                                onMouseLeave={(e) =>
+                                    (e.currentTarget.style.backgroundColor =
+                                        "#007BFF")
+                                }
+                            >
+                                Download
+                            </button>
+                            <DeleteIcon />
+                        </div>
+                    </div>
+                ))}
             </div>
         );
     };
