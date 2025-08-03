@@ -59,21 +59,14 @@ function AdminDashboard() {
     useEffect(() => {
         if (activeItem === "users") {
             fetchUsers();
+            fetchClubs();
+            fetchZones();
         }
 
         if (activeItem === "reports") {
             fetchReports();
         }
     }, [activeItem]);
-
-    useEffect(() => {
-        if (selectedSubNav === "zones") {
-            fetchZones();
-        }
-        if (selectedSubNav === "clubs") {
-            fetchClubs();
-        }
-    }, [selectedSubNav]);
 
     const fetchZones = async () => {
         try {
@@ -196,73 +189,35 @@ function AdminDashboard() {
     const reportContents = () => {
         return (
             <div>
-                <p
-                    style={{
-                        fontWeight: "bold",
-                        fontSize: "1.2em",
-                        marginBottom: "15px",
-                    }}
-                >
-                    Here are some reports
+                <p className='reports-content--title'>
+                    {reports.length > 0
+                        ? "Reports are sorted by most recent"
+                        : "No reports found"}
                 </p>
                 {reports.map((report, index) => (
-                    <div
-                        key={index}
-                        style={{
-                            border: "1px solid #333", // darker border for clarity
-                            borderRadius: "6px", // rounded corners
-                            padding: "15px",
-                            marginBottom: "15px", // space between reports
-                            backgroundColor: "#f0f0f0", // subtle light background
-                            color: "#000",
-                            boxShadow: "1px 1px 3px rgba(0,0,0,0.1)", // subtle shadow
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            fontFamily: "Arial, sans-serif",
-                        }}
-                    >
-                        <div
-                            style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                gap: "6px",
-                                alignItems: "flex-start",
-                            }}
-                        >
-                            <p style={{ margin: 0, fontWeight: "600" }}>
-                                {report.originalName}
+                    <div key={index} className='reports-container'>
+                        <div className='report-details'>
+                            <p>
+                                File Name: <i>{report.originalName}</i>
                             </p>
-                            <p style={{ margin: 0, fontWeight: "600" }}>
-                                {convertUTCtoIST(report.uploadDate).toString()}
+                            <p>
+                                Uploaded At:
+                                <i>
+                                    {convertUTCtoIST(
+                                        report.uploadDate
+                                    ).toString()}
+                                </i>
                             </p>
-                            <p style={{ margin: 0, color: "#555" }}>
-                                {report.userName}
+                            <p className='report-user'>
+                                Reporter Name: <i>{report.userName}</i>
                             </p>
-                            <p style={{ margin: 0, color: "#555" }}>
-                                {report.userZone}
+                            <p className='report-user'>
+                                Reporter Zone: <i>{report.userZone}</i>
                             </p>
                         </div>
-                        <div
-                            style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                gap: "6px",
-                                alignItems: "center",
-                            }}
-                        >
+                        <div className='report-action'>
                             <button
-                                style={{
-                                    padding: "8px 16px",
-                                    backgroundColor: "#007BFF",
-                                    color: downloading ? "#f3f3f3" : "#fff",
-                                    border: "none",
-                                    borderRadius: "4px",
-                                    cursor: "pointer",
-                                    fontWeight: "600",
-                                    fontSize: "0.9em",
-                                    transition: "background-color 0.3s ease",
-                                }}
+                                className='report-download--button'
                                 onMouseEnter={(e) =>
                                     (e.currentTarget.style.backgroundColor =
                                         "#0056b3")
@@ -285,7 +240,7 @@ function AdminDashboard() {
                             </button>
                             <button
                                 onClick={() => handleDeleteFile(report.id)}
-                                style={{ padding: "5px 15px" }}
+                                className='report-delete--button'
                             >
                                 {deleting && deletingFileId === report.id ? (
                                     <CircularProgress size={20} color='white' />
@@ -305,7 +260,6 @@ function AdminDashboard() {
             ...prev,
             [field]: e.target.value,
         }));
-        // Clear message on input change
     };
 
     const handleAddUser = async () => {
@@ -416,13 +370,7 @@ function AdminDashboard() {
         return (
             <div className='users-content'>
                 {/* Subnav / Action buttons */}
-                <div
-                    style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "flex-start",
-                    }}
-                >
+                <div className='user-content'>
                     <select
                         value={selectedSubNav}
                         onChange={(e) => {
@@ -430,12 +378,7 @@ function AdminDashboard() {
                             setSelectedClub("");
                             setSelectedZone("");
                         }}
-                        style={{
-                            padding: "10px",
-                            borderRadius: "5px",
-                            border: "1px solid #ccc",
-                            backgroundColor: "black",
-                        }}
+                        className='user-filter-select'
                     >
                         <option value='zones'>Zones</option>
                         <option value='clubs'>Clubs</option>
@@ -444,13 +387,7 @@ function AdminDashboard() {
                         <select
                             value={selectedZone}
                             onChange={(e) => setSelectedZone(e.target.value)}
-                            style={{
-                                padding: "10px",
-                                borderRadius: "5px",
-                                border: "1px solid #ccc",
-                                backgroundColor: "black",
-                                margin: "0px 20px",
-                            }}
+                            className='user-filter-select-zone'
                         >
                             <option></option>
                             {allZones.map((zone) => (
@@ -466,13 +403,7 @@ function AdminDashboard() {
                             onChange={(e) => {
                                 setSelectedClub(e.target.value);
                             }}
-                            style={{
-                                padding: "10px",
-                                borderRadius: "5px",
-                                border: "1px solid #ccc",
-                                backgroundColor: "black",
-                                margin: "0px 20px",
-                            }}
+                            className='user-filter-select-club'
                         >
                             <option></option>
                             {allClubs?.map((club) => (
@@ -487,7 +418,11 @@ function AdminDashboard() {
                     <button
                         className='icon-button'
                         title='Refresh'
-                        onClick={fetchUsers}
+                        onClick={() => {
+                            fetchUsers();
+                            fetchClubs();
+                            fetchZones();
+                        }}
                     >
                         <RefreshIcon />
                     </button>
@@ -636,7 +571,6 @@ function AdminDashboard() {
                             />
                             <select
                                 className='input-field'
-                                style={{ width: "97%" }}
                                 onChange={(e) => {
                                     setDetails({
                                         ...details,
@@ -650,7 +584,6 @@ function AdminDashboard() {
                             </select>
                             <select
                                 className='input-field'
-                                style={{ width: "97%" }}
                                 onChange={(e) => {
                                     setDetails({
                                         ...details,
@@ -660,11 +593,14 @@ function AdminDashboard() {
                                 placeholder='Zone'
                             >
                                 <option value=''>Select Zone</option>
-                                <option>Zone 1</option>
+                                {allZones.map((zone) => (
+                                    <option value={zone.zone} key={zone._id}>
+                                        {zone.zone}
+                                    </option>
+                                ))}
                             </select>
                             <select
                                 className='input-field'
-                                style={{ width: "97%" }}
                                 onChange={(e) => {
                                     setDetails({
                                         ...details,
@@ -674,7 +610,11 @@ function AdminDashboard() {
                                 placeholder='Club'
                             >
                                 <option value=''>Select Club</option>
-                                <option>Club 1</option>
+                                {allClubs.map((club) => (
+                                    <option value={club.club} key={club._id}>
+                                        {club.club}
+                                    </option>
+                                ))}
                             </select>
                             <div>
                                 <FormControlLabel
