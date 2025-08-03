@@ -132,21 +132,15 @@ function AdminDashboard() {
         }
     };
 
-    function convertUTCtoIST(utcDateString) {
-        const utcDate = new Date(utcDateString);
-        // Add 5 hours 30 minutes offset for IST
-        const istTime = new Date(utcDate.getTime() - (5 * 60 + 30) * 60000);
-
+    function convertUTCtoIST(dateInput) {
+        const istDate = new Date(dateInput);
         // Format as YYYY-MM-DD HH:mm:ss
-        const year = istTime.getFullYear();
-        const month = String(istTime.getMonth() + 1).padStart(2, "0");
-        const day = String(istTime.getDate()).padStart(2, "0");
-
-        const hours = String(istTime.getHours()).padStart(2, "0");
-        const minutes = String(istTime.getMinutes()).padStart(2, "0");
-        const seconds = String(istTime.getSeconds()).padStart(2, "0");
-
-        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        const pad = (n) => n.toString().padStart(2, "0");
+        return `${istDate.getFullYear()}-${pad(istDate.getMonth() + 1)}-${pad(
+            istDate.getDate()
+        )} ${pad(istDate.getHours())}:${pad(istDate.getMinutes())}:${pad(
+            istDate.getSeconds()
+        )}`;
     }
 
     const reportContents = () => {
