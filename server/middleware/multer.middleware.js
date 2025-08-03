@@ -41,7 +41,7 @@ function upload() {
         storage: storage(),
 
         //set file limit & filter
-        limite: { fileSize: 1024 * 1024 * 50 }, // 50mb
+        limite: { fileSize: 1024 * 1024 * 25 }, // 50mb
         fileFilter: (req, file, cb) => {
             //check file type
             if (file.mimetype === "application/pdf") {
