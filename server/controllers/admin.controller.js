@@ -1,5 +1,6 @@
 //import modules
 import mongoose from "mongoose";
+import archiver from "archiver";
 
 //import middlewares
 import { initGridFS } from "../middleware/file.middleware.js";
@@ -466,7 +467,8 @@ async function getZone(userId) {
 async function getAllFilesByAllUser(req, res) {
     try {
         requestLog(req);
-        const files = await File.find();
+        let files = await File.find();
+        files = files.filter((file) => file.isActive);
 
         if (files.length === 0) {
             return res.status(200).json({
@@ -714,6 +716,145 @@ async function getFilesByUserEmail(req, res) {
                     ? error.message
                     : undefined,
         });
+    }
+}
+
+async function downloadAllFiles(req, res) {
+    const startTime = Date.now();
+    let completedFiles = 0;
+
+    try {
+        // Fetch all files from database
+        let all_files = await File.find();
+        console.log(`\nFound ${all_files.length} file(s) in database`);
+
+        all_files = all_files.filter((file) => file.isActive);
+        console.log(`of which ${all_files.length} file(s) is/are active`);
+
+        if (!all_files || all_files.length === 0) {
+            console.log("\nNo files found in database");
+            return res.status(404).json({ message: "Files not found" });
+        }
+
+        const totalFiles = all_files.length;
+
+        // Check if GridFS bucket is initialized
+        if (!bucket) {
+            bucket = initGridFS();
+            if (!bucket) {
+                console.error("Failed to initialize GridFS bucket");
+                return res.status(500).json({
+                    success: false,
+                    message: "Database connection not ready",
+                });
+            }
+        }
+
+        // Create a zip file to contain all files
+        const archive = archiver("zip", {
+            zlib: { level: 9 },
+        });
+
+        // Set headers for zip download
+        res.setHeader("Content-Type", "application/zip");
+        res.setHeader(
+            "Content-Disposition",
+            `attachment; filename="All Report.zip"`
+        );
+
+        // Pipe archive to response
+        archive.pipe(res);
+
+        // Add progress tracking for each file
+        archive.on("entry", (entry) => {
+            completedFiles++;
+            const progress = Math.round((completedFiles / totalFiles) * 100);
+            console.log(
+                `\nAdded file ${completedFiles}/${totalFiles} (${progress}%): ${entry.name}`
+            );
+        });
+
+        // Add logging for when the archive is finalized
+        archive.on("finish", () => {
+            const duration = (Date.now() - startTime) / 1000;
+            console.log(
+                `\nArchive creation completed in ${duration} seconds with ${completedFiles} files out of ${totalFiles}`
+            );
+        });
+
+        // Handle errors
+        archive.on("error", (err) => {
+            console.error("\nArchive error:", err);
+            if (!res.headersSent) {
+                res.status(500).json({
+                    success: false,
+                    message: "Error creating archive",
+                });
+            }
+        });
+
+        // Log when the response is closed
+        res.on("close", () => {
+            const totalDuration = (Date.now() - startTime) / 1000;
+            console.log(
+                `\nArchive file closed and sent to client. Total files: ${completedFiles}/${totalFiles}. Total time: ${totalDuration} seconds\n`
+            );
+        });
+
+        // Add each file to the archive
+        for (const file of all_files) {
+            try {
+                // Check if file exists in GridFS
+                const files = await bucket
+                    .find({ _id: file.gridfsFileId })
+                    .toArray();
+
+                if (files.length === 0) {
+                    console.error(
+                        `File not found in GridFS: ${file.gridfsFileId} (${file.originalName})`
+                    );
+                    continue;
+                }
+
+                const gridfsFile = files[0];
+
+                // Get the correct content type
+                const contentType = file.mimeType || "application/octet-stream";
+
+                // Add file to archive
+                const fileStream = bucket.openDownloadStream(file.gridfsFileId);
+                archive.append(fileStream, {
+                    name: file.originalName,
+                    stats: { size: gridfsFile.length },
+                });
+            } catch (error) {
+                console.error(
+                    `Error processing file ${file._id} (${file.originalName}):`,
+                    error
+                );
+                continue;
+            }
+        }
+
+        console.log("\nAll files processed, finalizing archive");
+
+        // Finalize the archive
+        archive.finalize();
+
+        console.log("Archive finalize command sent, waiting for completion");
+    } catch (error) {
+        const totalDuration = (Date.now() - startTime) / 1000;
+        console.log(
+            `Error in downloadAllFiles after ${totalDuration} seconds:`,
+            error
+        );
+
+        if (!res.headersSent) {
+            return res.status(500).json({
+                message: "Error getting all Files",
+                error: error.message,
+            });
+        }
     }
 }
 
@@ -1097,6 +1238,7 @@ export {
     getAllFilesByAllUser,
     getFilesByUserId,
     getFilesByUserEmail,
+    downloadAllFiles,
     deleteAllFilesByAllUser,
     deleteFilesByUserEmail,
     deleteFilesByUserId,

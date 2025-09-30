@@ -15,6 +15,7 @@ import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import { CircularProgress } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { URL } from "../../constants/url";
+import DownloadIcon from "@mui/icons-material/Download";
 
 const sidebarItems = [
     { key: "dashboard", label: "Dashboard" },
@@ -119,6 +120,47 @@ function AdminDashboard() {
             console.log(error);
         } finally {
             setLoading(false);
+        }
+    };
+    const downloadAllFiles = async () => {
+        try {
+            const response = await axios.get(
+                `${URL}/api/admin/files/downloadAllFiles`,
+                {
+                    responseType: "blob", // Important for handling binary data like ZIP files
+                }
+            );
+
+            // Create a blob URL for the downloaded file
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+
+            // Create a temporary link element to trigger the download
+            const link = document.createElement("a");
+            link.href = url;
+
+            // Get the filename from the Content-Disposition header if available
+            const contentDisposition = response.headers["content-disposition"];
+            let filename = "All Reports.zip"; // Default filename
+
+            if (contentDisposition) {
+                const filenameMatch =
+                    contentDisposition.match(/filename="(.+)"/);
+                if (filenameMatch && filenameMatch[1]) {
+                    filename = filenameMatch[1];
+                }
+            }
+
+            link.setAttribute("download", filename);
+            document.body.appendChild(link);
+
+            // Trigger the download
+            link.click();
+
+            // Clean up
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error("Error downloading files:", error);
         }
     };
 
@@ -289,6 +331,13 @@ function AdminDashboard() {
                     <div className='sub-nav-buttons'>
                         <button
                             className='icon-button'
+                            title='Download All Files'
+                            onClick={downloadAllFiles}
+                        >
+                            <DownloadIcon />
+                        </button>
+                        <button
+                            className='icon-button'
                             title='Refresh'
                             onClick={() => {
                                 fetchZones();
@@ -308,6 +357,10 @@ function AdminDashboard() {
                     if (selectedZone && report.userZone !== selectedZone) {
                         return;
                     }
+                    if (!report.isActive) {
+                        return;
+                    }
+
                     return (
                         <div key={index} className='reports-container'>
                             <div className='report-details'>
@@ -362,7 +415,7 @@ function AdminDashboard() {
                                             color='white'
                                         />
                                     ) : (
-                                        "Download"
+                                        <DownloadIcon />
                                     )}
                                 </button>
                                 <button

@@ -17,6 +17,7 @@ import {
     getAllFilesByAllUser,
     getFilesByUserId,
     getFilesByUserEmail,
+    downloadAllFiles,
     deleteAllFilesByAllUser,
     deleteFilesByUserEmail,
     deleteFilesByUserId,
@@ -55,6 +56,7 @@ router.get("/files/getAll", getAllFilesByAllUser); //get all files in DB
 router.get("/files/getByUserId/:userId", getFilesByUserId); //get files by userId
 router.get("/files/getByUserEmail/:email", getFilesByUserEmail); //get files by userEmail
 router.get("/files/downloadFile/:fileId", downloadFile);
+router.get("/files/downloadAllFiles", downloadAllFiles);
 
 //delete
 router.delete("/files/deleteAll", deleteAllFilesByAllUser); //delete all files in DB
