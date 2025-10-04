@@ -1,8 +1,8 @@
 //import modules
-import { config } from "dotenv";
+import { configFn } from "../config/env.config.js";
 
-//config env variables
-config();
+//configure env variables
+configFn();
 
 const environment = process.env.NODE_ENV; //environment info from env variables
 

@@ -1,9 +1,9 @@
 //import modules
 import mongoose from "mongoose";
-import { config } from "dotenv";
+import { configFn } from "../config/env.config.js";
 
-//config env variables
-config();
+//configure env variables
+configFn();
 
 //connection to database
 async function connectDB() {

@@ -1,6 +1,5 @@
 //import modules
 import express from "express";
-import { config } from "dotenv";
 import cors from "cors";
 
 //import routers
@@ -12,27 +11,21 @@ import zoneRouter from "./routes/zones.router.js";
 import clubRouter from "./routes/club.router.js";
 import healthRouter from "./routes/health.router.js";
 
-//import db config
+//import configs
 import { connectDB } from "./config/database.config.js";
+import { configFn } from "./config/env.config.js";
 
-//config env variables
-config();
+configFn(); //configure env variables
 
 //app configuration
 const app = express();
 const port = process.env.PORT; //port info from env variables
-const allowedCorsOriginMain = process.env.CORS_ORIGIN_ALLOW_MAIN; //cors origin from env variables
-const allowedCorsOriginTest = process.env.CORS_ORIGIN_ALLOW_TEST; //cors origin from env variables
-const allowedCorsOriginLocalTest = process.env.CORS_ORIGIN_ALLOW_LOCAL_TEST; //cors origin from env variables
+const allowedOrigin = process.env.CORS_ORIGIN_ALLOWED; //cors origin from env variables
 
 //cors
 app.use(
     cors({
-        origin: [
-            allowedCorsOriginMain,
-            allowedCorsOriginTest,
-            allowedCorsOriginLocalTest,
-        ], //set cors origin restriction
+        origin: [allowedOrigin], //set cors origin restriction
         credentials: true,
     })
 );
