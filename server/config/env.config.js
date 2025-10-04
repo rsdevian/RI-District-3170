@@ -6,6 +6,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 //config env variables
-const configFn = () => config({ path: resolve(__dirname, "../local/.env") });
+const configFn = () => config({ path: resolve(__dirname, "../.env") });
 
 export { configFn };
