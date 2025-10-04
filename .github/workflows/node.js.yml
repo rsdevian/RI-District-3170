@@ -1,0 +1,59 @@
+name: Full Stack Node.js CI
+
+on:
+  push:
+    branches: ["actions"]
+  pull_request:
+    branches: ["actions"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: production
+    
+    env:
+      VITE_DEVELOPMENT_URL: ${{ vars.VITE_DEVELOPMENT_URL }}
+      VITE_NODE_ENV: ${{ vars.VITE_NODE_ENV }}
+      VITE_PORT: ${{ vars.VITE_PORT }}
+      VITE_PRODUCTION_URL: ${{ vars.VITE_PRODUCTION_URL }}
+      PORT: ${{ vars.PORT }}
+      NODE_ENV: ${{ vars.NODE_ENV }}
+      JWT_EXPIRES_IN: ${{ vars.JWT_EXPIRES_IN }}
+      CORS_ORIGIN_ALLOWED_PREVIEW: ${{ vars.CORS_ORIGIN_ALLOWED_PREVIEW }}
+      CORS_ORIGIN_ALLOWED: ${{ vars.CORS_ORIGIN_ALLOWED }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      MAIL_APP_PASSWORD: ${{ secrets.MAIL_APP_PASSWORD }}
+      MAIL_SENDER: ${{ secrets.MAIL_SENDER }}
+      MONGODB_URI: ${{ secrets.MONGODB_URI }}
+
+    strategy:
+      matrix:
+        node-version: [22.x]
+        folder: [client, server]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ matrix.folder }}/node_modules
+          key: ${{ matrix.folder }}-${{ runner.os }}-${{ hashFiles(format('{0}/package-lock.json', matrix.folder)) }}
+          restore-keys: |
+            ${{ matrix.folder }}-${{ runner.os }}-${{ hashFiles(format('{0}/package-lock.json', matrix.folder)) }}
+      - name: Install dependencies
+        working-directory: ${{ matrix.folder }}
+        run: npm ci
+
+      - name: Build Client
+        if: matrix.folder == 'client'
+        working-directory: ./client
+        run: npm run build
+
+      - name: Verify Success
+        run: echo "✅ ${{ matrix.folder }} completed successfully!"
