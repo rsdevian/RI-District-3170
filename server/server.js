@@ -21,11 +21,12 @@ configFn(); //configure env variables
 const app = express();
 const port = process.env.PORT; //port info from env variables
 const allowedOrigin = process.env.CORS_ORIGIN_ALLOWED; //cors origin from env variables
+const allowedOriginPreview = process.env.CORS_ORIGIN_ALLOWED_PREVIEW; //cors origin from env variables
 
 //cors
 app.use(
     cors({
-        origin: [allowedOrigin], //set cors origin restriction
+        origin: [allowedOrigin, allowedOriginPreview], //set cors origin restriction
         credentials: true,
     })
 );
